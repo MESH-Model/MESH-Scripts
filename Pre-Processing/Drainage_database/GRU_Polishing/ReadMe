@@ -1,0 +1,13 @@
+# GRU Polishing
+
+| | |
+|---  |---  |
+|**Author** | Amin Haghnegahdar |
+|**Date**   | April, 2017|
+|**Purpose**|This is a Matlab script for removing tiny GRU types from each grid cell in the MESH_drainage file to save on run time.|
+|**Language**|Matlab|
+|**External Link** |https://wiki.usask.ca/display/MESH/Scripts+and+Miscellaneous+Support|
+|**References**|Haghnegahdar, Amin & Tolson, Bryan & Craig, James & Paya, Karol. (2015). Assessing the performance of a semi-distributed hydrological model under various watershed discretization schemes: Assessing Watershed Discretization Schemes. Hydrological Processes. 29. 10.1002/hyp.10550. |
+
+## Instructions for use
+Sometimes (specially for very large basins with a very large number of grid cells) there are tiny fractions of GRU types in grid cells. Removing these tiny GRU fractions (polishing GRUs) can specially be very useful for calibration purposes and can potentially result in significant saving in the runtime while still generating similar results. Obviously, it is up to the user to test and decide what threshold is appropriate in this respect.
