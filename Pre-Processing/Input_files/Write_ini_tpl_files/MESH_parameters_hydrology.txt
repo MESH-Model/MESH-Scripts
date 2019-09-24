@@ -1,0 +1,17 @@
+2.0: MESH Hydrology parameters input file (Version 2.0)
+##### Option Flags #####
+----#
+    0 # Number of option flags
+##### Channel routing parameters #####
+-------#
+       1 # Number of channel routing parameters
+WF_R2   _WF-R2_
+##### GRU class independent hydrologic parameters #####
+-------#
+       0 # Number of GRU independent hydrologic parameters
+##### GRU class dependent hydrologic parameters #####
+-------#
+       _HydroParams_ #Number of GRU dependent hydrologic parameters
+ZSNL    _ZSNL-1_  _ZSNL-2_  _ZSNL-3_  _ZSNL-4_  _ZSNL-5_  _ZSNL-6_  _ZSNL-7_  _ZSNL-8_  _ZSNL-9_  _ZSNL-10_
+ZPLS    _ZPLS-1_  _ZPLS-2_  _ZPLS-3_  _ZPLS-4_  _ZPLS-5_  _ZPLS-6_  _ZPLS-7_  _ZPLS-8_  _ZPLS-9_  _ZPLS-10_
+ZPLG    _ZPLG-1_  _ZPLG-2_  _ZPLG-3_  _ZPLG-4_  _ZPLG-5_  _ZPLG-6_  _ZPLG-7_  _ZPLG-8_  _ZPLG-9_  _ZPLG-10_
