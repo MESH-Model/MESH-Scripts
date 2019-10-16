@@ -29,7 +29,7 @@ Use the above script: to interpolate the rain and snow components then write the
 This is the same script used to process data for a sub-basin as mentioned above for the NA version of the WFDEI data.
 
 ## WRF-CTL
-**Script:** See the scripts in the [WRF.zip folder](./WRF.zip)  
+**Script:** See the script multi_r2c_2_seq_SingleVAR.m and the scripts in the [WRF.zip folder](./WRF.zip)  
 **Instructions:**  
 To process WRF data for a particular basin, there are a few steps.
 
