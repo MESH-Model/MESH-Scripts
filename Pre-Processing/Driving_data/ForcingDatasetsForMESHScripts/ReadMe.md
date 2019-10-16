@@ -11,7 +11,7 @@ This is a top-level document; each dataset is further described in README files 
   - Another way would be to build a loop into those scripts to process all variables and use the MATLAB parallel pool.
 - The scripts print the input and output file names and the time stamps ... please take care that the time progresses in the manner expected, depending on the time step of the dataset (hourly, 3hourly, etc.) and time span.
 
-[This presentation](Docs/Bias Corrected Climate Forcing Datasets for Land Surface Modeling.pdf) sheds some light on the datasets and bias correction
+[This presentation](./Docs/Bias Corrected Climate Forcing Datasets for Land Surface Modeling.pdf) sheds some light on the datasets and bias correction
 
 The datasets can be accessed by one of the following methods:
 
