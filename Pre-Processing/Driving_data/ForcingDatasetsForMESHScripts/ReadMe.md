@@ -5,7 +5,7 @@ During the course of the [CCRN Project](http://www.ccrnetwork.ca/), the CCRN pro
 
 This is a top-level document; each dataset is further described in README files and papers in their storage locations mentioned on the Wiki page. **Disclaimer: It is the responsibility of the user to make sure that the data processing is correct and that the scripts work correctly for the basin provided.**
 
-- To run MESH, 7 variables are needed at sub-daily time step (see Meteorological Input).  
+- To run MESH, 7 variables are needed at sub-daily time step (see the [Meteorological Input page](https://wiki.usask.ca/display/MESH/Meteorological+Input)).  
 - Any bugs or questions can be directed to Mohamed Elshamy @mee067.
 - The scripts provided process one variable at a time.
   - One can easily parallelize by invoking several instances of MATLAB and changing the variable being processed.
