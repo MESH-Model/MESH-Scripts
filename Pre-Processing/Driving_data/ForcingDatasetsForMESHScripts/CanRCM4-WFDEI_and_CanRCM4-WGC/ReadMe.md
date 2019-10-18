@@ -1,4 +1,4 @@
-## CanRCM4-WFDEI-GEM-CaPA
+## CanRCM4-WFDEI-GEM-CaPA and CanRCM4-WFDEI
 **Script:** Read_BIAS_Corrected_CanRCM4_WFDEI_GEM_SingleVAR.m  
 **Instructions:**
 - You need to have the drainage database of the basin or at least the header and RANK field of it
