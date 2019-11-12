@@ -13,6 +13,7 @@ Key R-Language Packages:
   - [WISKIr](https://github.com/CentreForHydrology/WISKIr) - R package containing functions for retrieving data from a Wiski database
 - Canadian Society for Hydrological Scieces (CSHS) hydRology package [CSHShydRology](https://github.com/CSHS-CWRA/CSHShydRology) contains functions useful to Canadian hydrologists, such as statistical hydrology, data manipulation, visualization, spatial hydrology, and streamflow analysis.
 - [weathercan](https://github.com/ropensci/weathercan) R package for searching and downloading multiple months/years of historical weather data from Environment and Climate Change Canada's (ECCC) website.
+- [CRAN Task View for Hydrology](https://cran.r-project.org/web/views/Hydrology.html) Information about R packages broadly relevant to hydrology.
 
 Code in this repository is organized according to function, as listed below:
 
