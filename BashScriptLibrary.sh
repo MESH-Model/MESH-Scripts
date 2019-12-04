@@ -7,10 +7,10 @@
 
 # _____RSYNC____________________________________________________________________
 
-user=hbrauner
-path=projects/rpp-hwheater/hbrauner/MESH_Project_Baker_Creek
+user=username
+path=projects/rpp-hwheater/username/MESH_Project_Baker_Creek
 
-rsync -rultvzi <from path> <to path>
+# Form: rsync -rultvzi <from path> <to path>
 
 # Push Example:
   # Dry Run
