@@ -5,6 +5,9 @@
 
 # Almost any bash command can be put into a script for execution
 
+# _____STOP IF ERROR____________________________________________________________________
+set -e # Stops if non-zero status
+
 # _____RSYNC____________________________________________________________________
 
 user=username
@@ -115,8 +118,8 @@ CurrentFolder=$(printf '%s\n' "${PWD##*/}")
 echo $CurrentFolder
 
 # _____SYMBOLIC LINK________________________________________________________________
-ln -sf <file to link to> <name of link>
-ln -sf ../../../Data/Processed/Driving/Scenario1/basin_humidity.csv basin_humidity.csv
+ln -s <file to link to> <name of link>
+ln -s ../../../Data/Processed/Driving/Scenario1/basin_humidity.csv basin_humidity.csv
   # See "man ln" for more details on these flags and others
   # Note: the use / exclusion of "." and "/" are importannt, esp. for links in Windows folders
 
