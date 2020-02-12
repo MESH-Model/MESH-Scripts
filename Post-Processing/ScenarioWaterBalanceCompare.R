@@ -14,9 +14,8 @@ library("digest")
 rm(list=ls())
 
 # USER INPUTS
-# pathR <- "D:/runs/12_WS"
-pathR <- "C:/Users/hlb749/OneDrive - University of Saskatchewan/R/TestRogersScripts/BakerCreek"
-basinArea <- 155 # km2
+pathR <- "C:/Path/To/Parent/Folder/Housing/Subfolder/For/Each/Scenario"
+basinArea <- 1530 # km2
 
 #Load files
 filesBal <- list.files(pathR, pattern = "water_balance.csv",full.names = TRUE,recursive=TRUE)
