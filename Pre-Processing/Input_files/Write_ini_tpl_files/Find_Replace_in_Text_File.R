@@ -40,8 +40,8 @@ best_pars <- read_csv('ParamValues.csv', col_names=TRUE, skip_empty_rows = TRUE)
 best_pars <- filter(best_pars, is.na(Parameter)==FALSE)
 
 #Read the template files into R
-class_pars  <- readLines("MESH_parameters_CLASS.txt")
-hydro_pars <- readLines("MESH_parameters_hydrology.txt")
+class_pars  <- readLines("MESH_parameters_CLASS_template.txt")
+hydro_pars <- readLines("MESH_parameters_hydrology_template_base.txt")
 
 class_pars_ini <- class_pars
 hydro_pars_ini <- hydro_pars
