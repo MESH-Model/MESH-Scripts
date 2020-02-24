@@ -28,6 +28,15 @@ Calibration <- TRUE
 # TRUE for calibrating the model to only replace non-calibrated parameter values (where column 3=FALSE) and also generate .tpl files
 # FALSE to replace all parameters with the values and only generate .ini files
 
+Frozen <- TRUE
+# True to use the Frozen Soil infiltration algorithm (more details on the MESH wiki)
+# False to use the Class infiltration algorithm
+
+# Set the file names of the parameter files
+ParamFile = 'ParamValues.csv'
+ClassTemplate = 'MESH_parameters_CLASS_template.txt'
+HydroTemplate = ifelse(Frozen==TRUE,"MESH_parameters_hydrology_template_frozen.txt","MESH_parameters_hydrology_template_base.txt")
+
 #__________________________________________________________________________________________________________
 
 #Load libraries
@@ -36,12 +45,12 @@ library(dplyr)
 
 #Create a tibble of the parameter ranges
 
-best_pars <- read_csv('ParamValues.csv', col_names=TRUE, skip_empty_rows = TRUE) #header=c("Parameter", "Value", "GRU", "Calibrate"))
+best_pars <- read_csv(ParamFile, col_names=TRUE, skip_empty_rows = TRUE) #header=c("Parameter", "Value", "GRU", "Calibrate"))
 best_pars <- filter(best_pars, is.na(Parameter)==FALSE)
 
 #Read the template files into R
-class_pars  <- readLines("MESH_parameters_CLASS_template.txt")
-hydro_pars <- readLines("MESH_parameters_hydrology_template_base.txt")
+class_pars  <- readLines(ClassTemplate)
+hydro_pars <- readLines(HydroTemplate)
 
 class_pars_ini <- class_pars
 hydro_pars_ini <- hydro_pars
