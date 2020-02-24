@@ -1,0 +1,27 @@
+2.0: MESH Hydrology parameters input file (Version 2.0)
+!> Any line leading with '!' is ignored
+##### Option Flags #####
+----#
+    0 # Number of option flags
+##### Channel routing parameters #####
+-------#
+       0 # Number of channel routing parameters
+!> NRVR      ----- 1 ----- 2 ----- 3 ----- 4 ----- 5
+##### GRU-Independent Hydrologic Parameters #####
+-------#
+       5 # Number of GRU-independent hydrologic parameters
+SOIL_POR_MAX     _SOIL_POR_MAX_          # Maximum porosity of the soil
+SOIL_DEPTH       _SOIL_DEPTH_            # Maximum permeable depth of the soil (of the rooting zone)
+S0               _S0_                    # Maximum saturation of the soil during melt; from 0.75-1.0
+T_ICE_LENS        _T_ICE_LENS_           # Minimum temperature to allow formation of an ice sheet at the surface of the soil; from -50.0-0.0
+!> YEAR      -- 25 years
+t0_ACC       0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0 0      # Set to zero to allow the model to calculate
+##### GRU-Dependent Hydrologic Parameters #####
+-------#
+       4 # Number of GRU-Dependent Hydrologic Parameters
+!> GRU     ------- 1 ------- 2 ------- 3 ------- 4
+!		  --GRU1---#---GRU2--#---GRU3--#---GRU4--#---GRU5--#---GRU6--#---GRU7--#---GRU8--#---GRU9--#---GRU10--#
+ZSNL	_ZSNL-1_	_ZSNL-2_	_ZSNL-3_	_ZSNL-4_	_ZSNL-5_	_ZSNL-6_	_ZSNL-7_	_ZSNL-8_	_ZSNL-9_	_ZSNL-10_	# Limiting	snow	depth	below	which	coverage	is	<	100%
+ZPLS	_ZPLS-1_	_ZPLS-2_	_ZPLS-3_	_ZPLS-4_	_ZPLS-5_	_ZPLS-6_	_ZPLS-7_	_ZPLS-8_	_ZPLS-9_	_ZPLS-10_	# Maximum	water	ponding	depth	for	snow-covered	areas
+ZPLG	_ZPLG-1_	_ZPLG-2_	_ZPLG-3_	_ZPLG-4_	_ZPLG-5_	_ZPLG-6_	_ZPLG-7_	_ZPLG-8_	_ZPLG-9_	_ZPLG-10_	# Maximum	water	ponding	depth	for	snow-free	areas
+FRZC	_FRZC-1_	_FRZC-2_	_FRZC-3_	_FRZC-4_	_FRZC-5_	_FRZC-6_	_FRZC-7_	_FRZC-8_	_FRZC-9_	_FRZC-10_	# Coefficient of the equation for the infiltration of meltwater into frozen or freezing soils; from 1-3; See From	Gray	et	al	2001

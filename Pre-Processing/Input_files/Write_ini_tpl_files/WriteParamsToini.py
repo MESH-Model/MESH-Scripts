@@ -42,7 +42,7 @@ print('Calibration = ', Calibration)
 # True for calibrating the model to only replace non-calibrated parameter values (where column 3=FALSE) and also generate .tpl files
 # False to replace all parameters with the values and only generate .ini files
 
-Frozen = False
+Frozen = True
 print('Frozen = ', Frozen)
 # True to use the Frozen Soil infiltration algorithm (more details on the MESH wiki)
 # False to use the Class infiltration algorithm
@@ -54,6 +54,7 @@ import pandas as pd
 
 # READ IN THE PARAMETER VALUES FROM CSV FILE
 pars_read = pd.read_csv(ParamPath, usecols = [0,1,2,3])
+pars_read = pars_read.dropna(how='all')
 
 # WRITE THE TEMPLATE TO THE .INI FILE
 
