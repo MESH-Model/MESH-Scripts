@@ -14,7 +14,8 @@ Key R-Language Packages:
 - Canadian Society for Hydrological Scieces (CSHS) hydRology package [CSHShydRology](https://github.com/CSHS-CWRA/CSHShydRology) contains functions useful to Canadian hydrologists, such as statistical hydrology, data manipulation, visualization, spatial hydrology, and streamflow analysis.
 - [weathercan](https://github.com/ropensci/weathercan) R package for searching and downloading multiple months/years of historical weather data from Environment and Climate Change Canada's (ECCC) website.
 - [CRAN Task View for Hydrology](https://cran.r-project.org/web/views/Hydrology.html) Information about R packages broadly relevant to hydrology.
-- The [humidity](https://cran.r-project.org/web/packages/humidity/index.html) package for R (CRAN) which contains useful functions for converting relative humidity and water vapour pressure to specific humidity (ie. see functions SVP.Murray, WVP2, and SH, as well as C2K).
+- The [Photobiology](https://www.rdocumentation.org/packages/photobiology/versions/0.9.28) package which contains the function **water_vp_sat** to calculate saturation vapour pressure using either the Tetens, Magnus, Wexler, or Goff-Gratch approximations.
+- The [humidity](https://cran.r-project.org/web/packages/humidity/index.html) package for R (CRAN) which contains useful functions for calculating water vapour pressure (ea) and specific humidity (ie. see functions WVP2, and SH, as well as C2K or K2C for temperature conversions).
 
 Code in this repository is organized according to function, as listed below:
 
