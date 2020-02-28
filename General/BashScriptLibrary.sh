@@ -9,7 +9,7 @@
 set -e # Stops if non-zero status
 
 # _____RSYNC____________________________________________________________________
-test
+TEST
 user=username
 path=projects/rpp-hwheater/username/MESH_Project_Baker_Creek
 
