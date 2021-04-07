@@ -32,24 +32,10 @@ isrsb_black = "#071E22"
 
 # set up ------------------------------------------------------------------
 
-# working directory - program looks in folders stored in this directory
-# just leaving this code because the goal is to eventually use the script location to access the supplemental files
-dir <- "C:/Users/riisn/Documents/GitHub/MESH_Souris_River/Code/Postprocessing/"
-setwd( dir )
-setwd( "../supplemental_files_for_scripts/" )
-supp_dir <- "C:/Users/riisn/Documents/GitHub/MESH_Souris_River/Code/supplemental_files_for_scripts/"
-setwd( supp_dir )
-
-# reads in specified inputs from general input file
-plot_inputs <- read.table( "plot_inputs.txt" )
-row.names(plot_inputs) <- plot_inputs$V1
-plot_inputs$V1 <- NULL
-plot_inputs <- t(plot_inputs)
-
 # input directory holds required input files
-input_dir <- plot_inputs[,"input_dir"]
+input_dir <- "C:\Users\riisn\Documents\Climate_Change\"
 # output directory is where all output files will be written to
-output_dir <- plot_inputs[,"output_dir"]
+output_dir <- "C:\Users\riisn\Documents\Climate_Change\out\"
 
 timezone <- plot_inputs[,"timezone"]
 
