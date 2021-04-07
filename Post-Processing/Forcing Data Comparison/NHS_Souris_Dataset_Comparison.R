@@ -32,24 +32,10 @@ isrsb_black = "#071E22"
 
 # set up ------------------------------------------------------------------
 
-# working directory - program looks in folders stored in this directory
-# just leaving this code because the goal is to eventually use the script location to access the supplemental files
-dir <- "C:/Users/riisn/Documents/GitHub/MESH_Souris_River/Code/Postprocessing/"
-setwd( dir )
-setwd( "../supplemental_files_for_scripts/" )
-supp_dir <- "C:/Users/riisn/Documents/GitHub/MESH_Souris_River/Code/supplemental_files_for_scripts/"
-setwd( supp_dir )
-
-# reads in specified inputs from general input file
-plot_inputs <- read.table( "plot_inputs.txt" )
-row.names(plot_inputs) <- plot_inputs$V1
-plot_inputs$V1 <- NULL
-plot_inputs <- t(plot_inputs)
-
 # input directory holds required input files
-input_dir <- plot_inputs[,"input_dir"]
+input_dir <- "C:\Users\riisn\Documents\Climate_Change\"
 # output directory is where all output files will be written to
-output_dir <- plot_inputs[,"output_dir"]
+output_dir <- "C:\Users\riisn\Documents\Climate_Change\out\"
 
 timezone <- plot_inputs[,"timezone"]
 
@@ -343,7 +329,6 @@ comparison <- rbind(subset(seasonal,select=c(SET,RUN,SEASON,variable,HIST_COMPAR
 # plotting boxplot data of variables, mean difference between CanRCM4-WFDEI-GEM-CaPA and WFDEI-GEM-CaPA
 
 for (var in c("FSIN", "FLIN", "TA", "QA", "UV", "PRES", "PREACC")){
-# for (var in c("FSIN", "FLIN", "TA", "QA", "UV", "PRES", "PRE", "PREACC")){
     if (var == "TA"){
         # ylabel <- "(°C)"
         ylabel <- "(K)"
@@ -406,30 +391,6 @@ for (var in c("FSIN", "FLIN", "TA", "QA", "UV", "PRES", "PREACC")){
         
         ggsave(paste0(output_dir,filename,".png"), width = 5, height = 4)
     }
-    
-    # if (var!="PREACC"){ plot_data <- subset(comparison,variable==var) }
-    # else { plot_data <- subset(comparison, (variable==var & SEASON=="Annual")
-    #                            | (variable=="S_PREACC" & SEASON!="Annual") ) }
-    # 
-    # filename <- paste0("NHS_Souris_1979-2008_CanRCMvsWGC_",var,"_by_season")
-    # ycalc <- paste0(plot_label," Difference ",ylabel)
-    # 
-    # # separates each season's data to be plotted in the correct order
-    # plot_data$SEASON <- factor(plot_data$SEASON, levels=c("Winter","Spring","Summer","Fall","Annual"))
-    # 
-    # set_labels <- c("CanRCM4 vs WFDEI-GEM-CaPA", "CanRCM4-WFDEI-GEM-CaPA vs WFDEI-GEM-CaPA")
-    # names(set_labels) <- c("CanRCM4", "CanRCM4-WFDEI-GEM-CaPA")
-    # 
-    # ggplot(plot_data) + geom_boxplot(aes(SEASON,HIST_COMPARISON,fill=SEASON)) +
-    #     scale_y_continuous(name = ycalc, label=scales::comma,
-    #                        sec.axis = sec_axis(~ . , name = ycalc, label=scales::comma)) +
-    #     scale_x_discrete(name = NULL) +
-    #     facet_wrap(~SET, labeller = labeller(SET = set_labels)) +
-    #     scale_fill_manual(values=c("Winter" = isrsb_blue, "Spring" = isrsb_green,
-    #                                "Summer" = isrsb_red, "Fall" = isrsb_yellow, "Annual" = isrsb_orange)) +
-    #     theme_bw() + theme(legend.position = "bottom", legend.title = element_blank())
-    # 
-    # ggsave(paste0(output_dir,filename,".png"), width = 10, height = 4)
     
     
     filename <- paste0("Souris_1979-2008_",var,"_Monthly")
@@ -571,65 +532,3 @@ ggplot(tavspre,aes(HIST_COMPARISON,HIST_PCT_DIFF)) + geom_point(aes(shape = RUN,
     theme(legend.position = "bottom", legend.title = element_blank())
 
 ggsave(paste0(output_dir,filename,".png"), width = 10, height = 8)
-
-
-# filename <- "Souris_PREACC_annual"
-# plotname <- "Total Annual Precipitation (1979-2016)"
-# # plotname <- "Souris Basin, RCP 8.5 Downscaled and Bias Corrected CanRCM4\nand WFDEI-GEM-CaPA (1979-2016)"
-# 
-# plotting_data <- unique(subset(all_sets,variable=="PREACC" & (SET=="WFDEI" | SET=="GEM-CaPA" | SET=="WFDEI-GEM-CaPA"),
-#                                select=c(SET,RUN,YEAR,ANNUAL_AVG)))
-# plotting_data$DATE <- as.Date(paste0(plotting_data$YEAR,"-01-01"))
-# ggplot(plotting_data,aes(DATE,ANNUAL_AVG)) + geom_line(aes(colour=SET),size=1) +
-#     scale_x_date(name = "Date", date_labels = "%Y",date_breaks = "1 year", expand = c(0,0)) +
-#     scale_y_continuous(name = "Mean Annual Precipitation (mm/yr)", expand = c(0,0)) +
-#     coord_cartesian(ylim=c(0,800)) +
-#     labs(title = plotname) +
-#     scale_colour_manual(values=c("WFDEI" = isrsb_green, "WFDEI-GEM-CaPA" = isrsb_blue, "GEM-CaPA" = isrsb_grey)) +
-#     theme_bw() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
-#                        legend.position = "bottom", legend.title = element_blank(),
-#                        plot.title = element_text(hjust = 0.5))
-# 
-# ggsave(paste0(output_dir,filename,".png"), width = 7, height = 5)
-# 
-# 
-# filename <- "Souris_PREACC_monthly"
-# plotname <- "Mean Monthly Total Precipitation (2005-2016)"
-# # plotname <- "Souris Basin, RCP 8.5 Downscaled and Bias Corrected CanRCM4\nand WFDEI-GEM-CaPA (2005-2016)"
-# 
-# plotting_data <- unique(subset(monthly_avgs,variable=="M_PREACC" & (SET=="WFDEI" | SET=="GEM-CaPA" | SET=="WFDEI-GEM-CaPA"),
-#                                select=c(SET,RUN,MONTH,HIST_MONTHLY_AVG)))
-# plotting_data$DATE <- as.Date(paste0("2006-",plotting_data$MONTH,"-1"))
-# ggplot(plotting_data,aes(DATE,HIST_MONTHLY_AVG)) + geom_line(aes(colour=SET),size=1) +
-#     scale_x_date(name = "Date", date_labels = "%b",date_breaks = "1 month", expand = expansion(c(0,0.01),c(1,1))) +
-#     scale_y_continuous(name = "Mean Monthly Precipitation\n(mm/month)", expand = c(0,0)) +
-#     coord_cartesian(ylim=c(0,100)) +
-#     labs(title = plotname) +
-#     scale_colour_manual(values=c("WFDEI" = isrsb_green, "WFDEI-GEM-CaPA" = isrsb_blue, "GEM-CaPA" = isrsb_grey)) +
-#     theme_bw() + theme(legend.position = "bottom", legend.title = element_blank(),
-#                        plot.title = element_text(hjust = 0.5))
-# 
-# ggsave(paste0(output_dir,filename,".png"), width = 5, height = 4)
-# 
-# 
-# filename <- "Souris_Climate_Signal"
-# plotname <- "Climate Change Signal"
-# # plotname <- "Souris Basin, RCP 8.5 Downscaled and Bias Corrected CanRCM4\nand CanRCM4-WFDEI-GEM-CaPA"
-# 
-# plotting_data <- cc_signal
-# plotting_data$DATE <- as.Date(paste0("2006-",plotting_data$MONTH,"-1"))
-# ggplot(plotting_data,aes(DATE,CC_SIGNAL)) + geom_line(aes(colour=SET),size=1) +
-#     scale_x_date(name = "Date", date_labels = "%b",date_breaks = "1 month", expand = expansion(c(0,0.02),c(1,1))) +
-#     scale_y_continuous(name = "Temperature Difference (K)", breaks = seq(0,9,by=1), expand = c(0,0)) +
-#     coord_cartesian(ylim=c(0,9)) +
-#     labs(title = plotname) +
-#     scale_colour_manual(values=c("CanRCM4" = isrsb_orange, "CanRCM4-WFDEI-GEM-CaPA" = isrsb_red)) +
-#     theme_bw() + theme(legend.position = "bottom", legend.title = element_blank())
-# 
-# ggsave(paste0(output_dir,filename,".png"), width = 5, height = 4)
-
-
-# # q-q plot
-# plotting_data <- subset(all_sets,)
-# 
-# ggplot(plotting_data, aes(station,M_PREACC,sample=mpg))+stat_qq()
