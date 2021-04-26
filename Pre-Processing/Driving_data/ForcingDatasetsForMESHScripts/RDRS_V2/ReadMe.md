@@ -2,7 +2,7 @@
 This shell script is written by Mohamed Elshmay in order to extract MESH input forcing variables required for the MESH model. It has three major parts as the following:
 
 1.	Separates each variable in a file (excluding wind direction – required optionally for MMESH only – adjust the script if that’s needed)
-2.	Adjust Units and attributes (e.g., pressure from mb to Pa
+2.	Adjust Units and attributes (e.g., pressure from mb to Pa)
 3.	Clip and interpolate for a desired basin of study.
  
 
