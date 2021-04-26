@@ -17,6 +17,14 @@ infolder=/project/6008034/Model_Output/105_RDRS_v2_10km/01_Macknezie
 outfile=$basin'_RDRS_v2_2000-2017'
 echo $outfile
 
+# merge along the time axis - results in a large file
+# merging was already done for all basins
+# cdo -v -z zip mergetime $infolder/*.nc $outfile.nc
+
+# Exclude non-essential variables
+#vars='RDRS_v2_P_HR_09944,RDRS_v2_P_PR0_SFC,RDRS_v2_P_TT_1.5m,RDRS_v2_P_UU_09944,RDRS_v2_P_UU_10m,RDRS_v2_P_UUC_10m,RDRS_v2_P_UVC_10m,RDRS_v2_P_VVC_10m,RDRS_v2_P_UUC_09944,RDRS_v2_P_VVC_09944,RDRS_v2_P_WDC_10m'
+#cdo -v -z zip delname,$vars $outfile.nc $outfile'_MESH.nc'
+
 #seperate variables
 for var in RDRS_v2_P_HU_09944 RDRS_v2_A_PR0_SFC RDRS_v2_P_P0_SFC RDRS_v2_P_FB_SFC RDRS_v2_P_FI_SFC RDRS_v2_P_TT_09944 RDRS_v2_P_UVC_09944
 	do
