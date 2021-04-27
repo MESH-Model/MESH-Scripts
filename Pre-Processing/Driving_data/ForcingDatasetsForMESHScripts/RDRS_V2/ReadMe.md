@@ -1,7 +1,7 @@
 # Purpose
 This shell script is written by Mohamed Elshmay in order to extract MESH input forcing variables required for the MESH model. It has four major steps as the following:
 
-1. Merge climate forcing variables over time period. If forcing varibales have already been merged, skip this step and comment line 21. 
+1. Merge climate forcing variables over time period. If forcing variables have already been merged, skip this step and comment line 21. 
 2.	Separates each variable in a file (excluding wind direction – required optionally for MMESH only – adjust the script if that’s needed)
 3.	Adjust Units and attributes (e.g., pressure from mb to Pa)
 4.	Clip and interpolate for a desired basin of study.
