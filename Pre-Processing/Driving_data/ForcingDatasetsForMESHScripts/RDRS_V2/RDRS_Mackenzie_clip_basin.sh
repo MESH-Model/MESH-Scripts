@@ -17,21 +17,16 @@ infolder=/project/6008034/Model_Output/105_RDRS_v2_10km/01_Macknezie
 outfile=$basin'_RDRS_v2_2000-2017'
 echo $outfile
 
-# merge along the time axis - results in a large file
-# merging was already done for all basins
-# cdo -v -z zip mergetime $infolder/*.nc $outfile.nc
+# Step 1): merge along the time axis - results in a large file
+cdo -v -z zip mergetime $infolder/*.nc $outfile.nc
 
-# Exclude non-essential variables
-#vars='RDRS_v2_P_HR_09944,RDRS_v2_P_PR0_SFC,RDRS_v2_P_TT_1.5m,RDRS_v2_P_UU_09944,RDRS_v2_P_UU_10m,RDRS_v2_P_UUC_10m,RDRS_v2_P_UVC_10m,RDRS_v2_P_VVC_10m,RDRS_v2_P_UUC_09944,RDRS_v2_P_VVC_09944,RDRS_v2_P_WDC_10m'
-#cdo -v -z zip delname,$vars $outfile.nc $outfile'_MESH.nc'
-
-#seperate variables
+# Step 2): seperate variables
 for var in RDRS_v2_P_HU_09944 RDRS_v2_A_PR0_SFC RDRS_v2_P_P0_SFC RDRS_v2_P_FB_SFC RDRS_v2_P_FI_SFC RDRS_v2_P_TT_09944 RDRS_v2_P_UVC_09944
 	do
 		cdo selname,$var $outfile'_MESH'.nc $basin"_"$var"_2000-2017".nc		
 	done
 	
-# Adjust units
+# Step 3): Adjust units
 # Pressure from "mb" to "Pa"
 cdo mulc,100 $basin'_RDRS_v2_P_P0_SFC_2000-2017'.nc tmp.nc
 cdo setattribute,RDRS_v2_P_P0_SFC@units=Pa tmp.nc $basin'_RDRS_v2_P_P0_SFC_2000-2017'.nc
@@ -52,7 +47,7 @@ cdo divc,3.6 $basin'_RDRS_v2_A_PR0_SFC_2000-2017'.nc tmp.nc
 cdo setattribute,RDRS_v2_A_PR0_SFC@units="mm s-1" tmp.nc $basin'_RDRS_v2_A_PR0_SFC_2000-2017'.nc
 rm tmp.nc
 
-# Clip and Interpplate for the basin grid
+# Step 4): Clip and Interpplate for the basin grid
 for var in RDRS_v2_P_HU_09944 RDRS_v2_A_PR0_SFC RDRS_v2_P_P0_SFC RDRS_v2_P_FB_SFC RDRS_v2_P_FI_SFC RDRS_v2_P_TT_09944 RDRS_v2_P_UVC_09944
 	do
 	cdo -z zip -b F32 remapbil,$basin.grd $basin"_"$var"_2000-2017".nc $basin"_"$var"_2000-2017_MESH".nc
