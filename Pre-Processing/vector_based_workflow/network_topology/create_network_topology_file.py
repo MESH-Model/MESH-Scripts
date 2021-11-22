@@ -1,12 +1,4 @@
-"""
-@ Author : Summaworkflow_public
-Reference : https://github.com/CH-Earth/summaWorkflow_public/tree/master/5_model_input/mizuRoute/1b_network_topology_file
- 
-Note : In program we see in some section commments like # added by MESH workflow and #finished edit by MESH workflow
-These are the edits applied by the MESH workflow. 
- 
-"""
-#%% modules
+# modules
 import os
 import pandas as pd
 import netCDF4 as nc4
@@ -16,15 +8,16 @@ import xarray as xs
 from pathlib import Path
 from shutil import copyfile
 from datetime import datetime
+import warnings
  
-#%% Control file handling
+#Control file handling
 # Easy access to control file folder
-controlFolder = Path('../../summa_network_topology/0_control_files')
+controlFolder = Path('0_control_files')
  
 # Store the name of the 'active' file in a variable
-controlFile = 'control_active.txt'
+controlFile = 'control_BowAtBanff.txt'
  
-#%% Function to extract a given setting from the control file
+#Function to extract a given setting from the control file
 def read_from_control( file, setting ):
      
     # Open 'control_active.txt' and ...
@@ -43,7 +36,7 @@ def read_from_control( file, setting ):
     # Return this value   
     return substring
  
-#%% Function to specify a default path
+#Function to specify a default path
 def make_default_path(suffix):
      
     # Get the root path
@@ -58,55 +51,55 @@ def make_default_path(suffix):
      
     return defaultPath
  
-#%% Find location of river network shapefile
+# Find location of river network shapefile
 # River network shapefile path & name
 river_network_path = read_from_control(controlFolder/controlFile,'river_network_shp_path')
 river_network_name = read_from_control(controlFolder/controlFile,'river_network_shp_name')
  
-#%% Specify default path if needed
+# Specify default path if needed
 if river_network_path == 'default':
     river_network_path = make_default_path('shapefiles/river_network') # outputs a Path()
 else:
     river_network_path = Path(river_network_path) # make sure a user-specified path is a Path()
      
-#%% Find the field names we're after
+#Find the field names we're after
 river_seg_id      = read_from_control(controlFolder/controlFile,'river_network_shp_segid')
 river_down_seg_id = read_from_control(controlFolder/controlFile,'river_network_shp_downsegid')
 river_slope       = read_from_control(controlFolder/controlFile,'river_network_shp_slope')
 river_length      = read_from_control(controlFolder/controlFile,'river_network_shp_length')
 river_outlet_id   = float( read_from_control(controlFolder/controlFile,'river_network_shp_outlet_id') )
  
-#%% Find location of river basin shapefile (routing catchments)
+#Find location of river basin shapefile (routing catchments)
 # River network shapefile path & name
 river_basin_path = read_from_control(controlFolder/controlFile,'river_basin_shp_path')
 river_basin_name = read_from_control(controlFolder/controlFile,'river_basin_shp_name')
  
-#%% Specify default path if needed
+#Specify default path if needed
 if river_basin_path == 'default':
     river_basin_path = make_default_path('shapefiles/river_basins') # outputs a Path()
 else:
     river_basin_path = Path(river_basin_path) # make sure a user-specified path is a Path()
  
-#%% Find the field names we're after
+#Find the field names we're after
 basin_hru_id     = read_from_control(controlFolder/controlFile,'river_basin_shp_rm_hruid')
 basin_hru_area   = read_from_control(controlFolder/controlFile,'river_basin_shp_area')
 basin_hru_to_seg = read_from_control(controlFolder/controlFile,'river_basin_shp_hru_to_seg')
  
-#%% Find where the topology file needs to go
+#Find where the topology file needs to go
 # Topology .nc path and name
 topology_path = read_from_control(controlFolder/controlFile,'settings_routing_path')
 topology_name = read_from_control(controlFolder/controlFile,'settings_routing_topology')
  
-#%% Specify default path if needed
+#Specify default path if needed
 if topology_path == 'default':
     topology_path = make_default_path('settings/routing') # outputs a Path()
 else:
     topology_path = Path(topology_path) # make sure a user-specified path is a Path()
  
-#%% Make the folder if it doesn't exist
+#Make the folder if it doesn't exist
 topology_path.mkdir(parents=True, exist_ok=True)
  
-#%% Make the river network topology file
+# Make the river network topology file
 # Open the shapefile
 shp_river = gpd.read_file(river_network_path/river_network_name)
 shp_basin = gpd.read_file(river_basin_path/river_basin_name)
@@ -116,15 +109,19 @@ shp_basin = gpd.read_file(river_basin_path/river_basin_name)
 shp_basin = shp_basin.sort_values(by=basin_hru_id)
  
 # convert area to m^2
+# Note: if area unit is already based on m**2, it is not requried to covert m**2
 shp_basin[basin_hru_area].values[:] = shp_basin[basin_hru_area].values[:]*10**6
  
 # covert river_length to m
+# Note: if length unit is already based on m, it is not requried to covert m 
 shp_river[river_length].values[:]   = shp_river[river_length].values[:]*1000
  
 # adding centroid of each subbasin.
 # Note: the more accurate should be done in equal area projection
+warnings.simplefilter('ignore') # silent the warning
 shp_basin['lon'] = shp_basin.centroid.x
 shp_basin['lat'] = shp_basin.centroid.y
+warnings.simplefilter('default') # back to normal
  
 # specifying other variables
 # Note: the river width and manning is optional. The manning coefficient is specified in the MESH
@@ -134,15 +131,15 @@ shp_river['manning'] = 0.03
  
 # finished edit by MESH workflow
  
-#%% Find the number of segments and subbasins
+# Find the number of segments and subbasins
 num_seg = len(shp_river)
 num_hru = len(shp_basin)
  
-#%% Ensure that the most downstream segment in the river network has a downstream_ID of 0
+# Ensure that the most downstream segment in the river network has a downstream_ID of 0
 # This indicates to routing that this segment has no downstream segment attached to it
 shp_river.loc[shp_river[river_seg_id] == river_outlet_id, river_down_seg_id] = 0
  
-#%% Function to create new nc variables
+# Function to create new nc variables
 def create_and_fill_nc_var(ncid, var_name, var_type, dim, fill_val, fill_data, long_name, units):
      
     # Make the variable
@@ -157,12 +154,12 @@ def create_and_fill_nc_var(ncid, var_name, var_type, dim, fill_val, fill_data, l
      
     return
  
-#%% Make the netcdf file
+# Make the netcdf file
 with nc4.Dataset(topology_path/topology_name, 'w', format='NETCDF4') as ncid:
      
     # Set general attributes
     now = datetime.now()
-    ncid.setncattr('Author', "Created by SUMMA workflow scripts")
+    ncid.setncattr('Author', "Created by MESH vector-based workflow scripts")
     ncid.setncattr('History','Created ' + now.strftime('%Y/%m/%d %H:%M:%S'))
     ncid.setncattr('Purpose','Create a river network .nc file for WATROUTE routing')
      
@@ -214,7 +211,7 @@ with nc4.Dataset(topology_path/topology_name, 'w', format='NETCDF4') as ncid:
    # finished edit by MESH workflow
  
  
-#%% --- Code provenance
+# --- Code provenance
 # Generates a basic log file in the domain folder and copies the control file and itself there.
  
 # Set the log path and file name
@@ -226,7 +223,7 @@ logFolder = '_workflow_log'
 Path( logPath / logFolder ).mkdir(parents=True, exist_ok=True)
  
 # Copy this script
-thisFile = '1_create_network_topology_file.py'
+thisFile = 'create_network_topology_file.py'
 copyfile(thisFile, logPath / logFolder / thisFile);
  
 # Get current date and time
