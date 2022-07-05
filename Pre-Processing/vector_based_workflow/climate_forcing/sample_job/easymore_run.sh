@@ -10,18 +10,23 @@
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
-# load module 
-module load python/3.8
+# load modules for easymore dependencies
+module load StdEnv/2020 gcc/9.3.0 openmpi/4.0.3
+module load gdal/3.4.1 libspatialindex/1.8.5
+module load python/3.8.10 scipy-stack/2022a mpi4py/3.0.3
 
 # virtual environemnt 
-virtualenv --no-download $SLURM_TMPDIR/env
-source $SLURM_TMPDIR/env/bin/activate
+# remove the virtual environment
+rm -rf $HOME/easymore-env
+# create the virtual env for the job
+virtualenv --no-download $HOME/easymore-env 
+# activate the virtual env
+source $HOME/easymore-env/bin/activate 
 
+# upgrade pip, install easymore and another dependency
 pip install --no-index --upgrade pip
-module load gdal/3.0.4 python/3.8 gcc/9.3.0 qgis/3.10.6 proj/7.0.1 geos/3.8.1 libspatialindex/1.8.5 mpi4py 
-
-pip install --no-index Rtree
 pip install --no-index easymore
+pip install --no-index Rtree
 
 # calling one sample of easymore program 
 python call_easymore.py 
