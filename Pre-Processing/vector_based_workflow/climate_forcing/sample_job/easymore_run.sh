@@ -12,7 +12,7 @@
 
 # load modules for easymore dependencies
 module load StdEnv/2020 gcc/9.3.0 openmpi/4.0.3
-module load gdal/3.4.3 libspatialindex/1.8.5
+module load gdal/3.5.1 libspatialindex/1.8.5
 module load python/3.8.10 scipy-stack/2022a mpi4py/3.0.3
 
 # virtual environemnt 
@@ -25,8 +25,7 @@ source $HOME/easymore-env/bin/activate
 
 # upgrade pip, install easymore and another dependency
 pip install --no-index --upgrade pip
-pip install --no-index easymore
-pip install --no-index Rtree
+pip install --no-index easymore[complete]
 
 # calling one sample of easymore program 
 python call_easymore.py 
