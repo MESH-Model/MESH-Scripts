@@ -67,7 +67,13 @@ river_seg_id      = read_from_control(controlFolder/controlFile,'river_network_s
 river_down_seg_id = read_from_control(controlFolder/controlFile,'river_network_shp_downsegid')
 river_slope       = read_from_control(controlFolder/controlFile,'river_network_shp_slope')
 river_length      = read_from_control(controlFolder/controlFile,'river_network_shp_length')
-river_outlet_id   = float( read_from_control(controlFolder/controlFile,'river_network_shp_outlet_id') )
+
+# Added by MESH workflow
+try:
+    river_outlet_id   = float(read_from_control(controlFolder/controlFile,'river_network_shp_outlet_id'))
+except ValueError:
+    print ('The ID of the most downstream segment was not found')
+    river_outlet_id = []
  
 #Find location of river basin shapefile (routing catchments)
 # River network shapefile path & name
@@ -137,7 +143,9 @@ num_hru = len(shp_basin)
  
 # Ensure that the most downstream segment in the river network has a downstream_ID of 0
 # This indicates to routing that this segment has no downstream segment attached to it
-shp_river.loc[shp_river[river_seg_id] == river_outlet_id, river_down_seg_id] = 0
+# Modified by MESH workflow 
+if (np.size(river_outlet_id)!= 0):
+    shp_river.loc[shp_river[river_seg_id] == river_outlet_id, river_down_seg_id] = 0
  
 # Function to create new nc variables
 def create_and_fill_nc_var(ncid, var_name, var_type, dim, fill_val, fill_data, long_name, units):
@@ -165,19 +173,30 @@ with nc4.Dataset(topology_path/topology_name, 'w', format='NETCDF4') as ncid:
      
     # Define the seg and hru dimensions
     # it can be renamed to 'subbasin'
-    # Added by MESH workflow
+    # Modified by MESH workflow
     ncid.createDimension('n', num_seg)
     # ncid.createDimension('hru', num_hru)
     # finished edit by MESH workflow
  
     # --- Variables
     # renaming variable and adding lat, lon, manning and width
+    # create_and_fill_nc_var(ncid, 'seg_id', 'int', 'n', False, \
+                           # shp_river[river_seg_id].values.astype(int), \
+                           # 'Unique ID of each stream segment', '-')
+    # Modified by MESH workflow                       
     create_and_fill_nc_var(ncid, 'seg_id', 'int', 'n', False, \
-                           shp_river[river_seg_id].values.astype(int), \
-                           'Unique ID of each stream segment', '-')
+                           np.ndarray.round(shp_river[river_seg_id].values).astype(int), \
+                           'Unique ID of each stream segment', '-')                       
+                           
+    # create_and_fill_nc_var(ncid, 'tosegment', 'int', 'n', False, \
+                           # shp_river[river_down_seg_id].values.astype(int), \
+                           # 'ID of the downstream segment', '-')
+    
+    # Modified by MESH workflow 
     create_and_fill_nc_var(ncid, 'tosegment', 'int', 'n', False, \
-                           shp_river[river_down_seg_id].values.astype(int), \
+                           np.ndarray.round(shp_river[river_down_seg_id].values).astype(int), \
                            'ID of the downstream segment', '-')
+    
     create_and_fill_nc_var(ncid, 'slope', 'f8', 'n', False, \
                            shp_river[river_slope].values.astype(float), \
                            'Segment slope', '-')   
