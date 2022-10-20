@@ -9,206 +9,252 @@ they are appended to the driange database.
  
 # %% importing modules
 import geopandas as gpd
-import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xs
+import pandas as pd
 from   datetime import date
+import time 
  
 # %% directory of input files
-in_lc       = '../../domain_name_intersect_NGRU.shp'
-input_ddb   = '../../Input/network_topology.nc'
-out_lc      = '../../MESH_LC_FRAC.nc'
-output_ddb  = '../../MESH_drainage_database.nc'
+start_time = time.time() 
+input_lc_zh              = '../landcover_extract/Output/NALCMS2010_BowBanff_zonalhist.shp'
+input_topology           = '../network_topology/domain_BowAtBanff/settings/routing/network_topology_BowBanff.nc' 
+domain_name              = 'BowBanff'
+outdir                   = 'Output/'
+lc_type_prefix           = 'NALCMS_' 
+Merit_catchment_shape    = '../network_topology/domain_BowAtBanff/shapefiles/river_basins/bow_distributed.shp' 
  
- 
-#%% Function reindex to extract drainage database variables
-def new_rank_extract(in_ddb):
-        #% reading the input DDB
-        drainage_db = xs.open_dataset(in_ddb)
+#%% Function reindex to extract drainage database variables 
+def new_rank_extract(input_topology): 
+        #% Reading topology file and finding outlets
+        drainage_db = xs.open_dataset(input_topology)
         drainage_db.close()
-         
+
+        segid = drainage_db['seg_id'].values
+        tosegment = drainage_db['tosegment'].values
+
         # Count the number of outlets
-        outlets = np.where(drainage_db['tosegment'].values == 0)[0]
-         
-        # %  Re-indexing seg_id and tosegment
-        # Get the segment ID associated with the outlet.
-        first_index = drainage_db['seg_id'].values[outlets[0]]
-          
-        # Create a copy of the 'tosegment' field.
-        old_next = drainage_db['tosegment'].values.copy()
-          
-        ## Set the current 'Next' and 'Rank' values.
-        # total number of values
-        current_next = len(drainage_db['seg_id'])
-        # total number of values less number of outlets
-        current_rank = current_next - len(outlets)
-          
-        ## Create dummy arrays for new values.
-        # size of 'seg_id'
-        new_next = [0]*len(drainage_db['seg_id'])
-        # empty list (to push values to)
-        next_rank = []
-        # list to append positions of new 'rank', first element is position of outlet
-        new_rank = [outlets[0]]
-         
-        # % Reorder seg_id and tosegment
-        while (first_index != -1):
-            for i in range(len(old_next)):
-                if (old_next[i] == first_index):
-                    # save rank of current 'next'
-                    next_rank.append(drainage_db['seg_id'].values[i])
-                    # assign next using new ranking
-                    new_next[i] = current_next
-                    # save the current position corresponding to the new 'rank'
-                    new_rank.append(i)
-                    current_rank -= 1
-                    # override input value to mark as completed
-                    old_next[i] = 0
+        outlets = np.where(tosegment == 0)[0]
+
+        #% Search over to extract the subbasins drain into each outlet
+        rank_id_domain = np.array([]).astype(int)   
+        outlet_number = np.array([]).astype(int) 
+        for k in range(len(outlets)):
+            # initial step 
+            #segid_target = drainage_db['seg_id'].values[outlets[k]]
+            segid_target = segid[outlets[k]]
+            # set the rank of the outlet 
+            rank_id = outlets[k]
+            
+            # find upstream segids drains into downstream
+            while(np.size(segid_target) >= 1): 
+                if (np.size(segid_target) == 1):
+                    r = np.where(tosegment == segid_target)[0]
+                else:
+                    r = np.where(tosegment == segid_target[0])[0]    
+                # updated the target segid 
+                segid_target = np.append(segid_target, segid[r])
+                # remove the first searched target
+                segid_target = np.delete(segid_target,0,0)
+                if (len(segid_target) == 0):
                     break
-            if (len(next_rank) == 0):
-                    # no more IDs to process
-                    first_index = -1
-            elif (not np.any(old_next == first_index)):
-                # take next rank by 'next' order
-                first_index = next_rank[0]
-                # drop that element from the list
-                del next_rank[0]
-                # deincrement the 'next' rank
-                current_next -= 1
- 
-        new_rank = np.flip(new_rank)
-         
-        # % reordering
-        for m in ['basin_area', 'length', 'slope', 'lon', 'lat', 'hruid',
+                # update the rank_id
+                rank_id = np.append(rank_id,r)
+            rank_id = np.flip(rank_id) 
+            if (np.size(rank_id) > 1):
+                outlet_number = np.append(outlet_number, (k)*np.ones((len(rank_id),1)).astype(int))
+            else:
+                outlet_number = np.append(outlet_number, (k))
+            rank_id_domain = np.append(rank_id_domain, rank_id)
+            rank_id = []
+        #% reorder segid and tosegment 
+        segid = segid[rank_id_domain]
+        tosegment = tosegment[rank_id_domain]         
+              
+        # rearrange outlets to be consistent with MESH outlet structure
+        # NB: In MESH outlets should be placed at the end of NEXT variable 
+        NA = len(rank_id_domain)
+        fid1 = np.where(tosegment != 0)[0]
+        fid2 = np.where(tosegment == 0)[0]
+        fid =  np.append(fid1,fid2)
+        
+        rank_id_domain = rank_id_domain[fid]
+        segid =segid[fid]
+        tosegment = tosegment[fid]
+        outlet_number = outlet_number[fid]
+        
+        #% construct Rank and Next variables 
+        Next = np.zeros(NA).astype(np.int32)
+        
+        for k in range(NA):
+            if (tosegment[k] != 0):
+                r = np.where(tosegment[k] == segid)[0] + 1 
+                Next[k] = r
+            else:
+                Next[k] = 0
+                
+        # Construct Rank from 1:NA
+        Rank = np.arange(1,NA+1).astype(np.int32)
+        
+        #% save subbasins reordered metadata 
+        dt = {'Merit_reorderd_ID':rank_id_domain, 'Outlet_Number':outlet_number, 
+              'Rank':Rank,'Next':Next,'Segid':segid,'tosegment':tosegment}
+        df = pd.DataFrame(data=dt, dtype = np.int64)
+        df.to_csv(outdir+domain_name+'_Rank_ID'+'.csv', index=False)
+        
+        # % reordering network topology variables based on Rank 1:NA
+        for m in ['basin_area', 'length', 'slope', 'lon', 'lat', 'hruid', 
                   'seg_id', 'seg_hr_id', 'tosegment', 'width', 'manning']:
-            drainage_db[m].values = drainage_db[m].values[new_rank]
-  
-        # Reorder the new 'Next'.
-        new_next = np.array(new_next)[new_rank]
-         
-        # % check if channel slope values match the minimum threshold
+            drainage_db[m].values = drainage_db[m].values[rank_id_domain]
+            
+        # % check if channel slope values match the minimum threshold 
         min_slope = 0.000001
         drainage_db['slope'].values[drainage_db['slope'].values < min_slope] = min_slope
-         
-        # % Adding the updated Rank and Next variables to the file
-        drainage_db['Rank'] = (['n'], np.array(range(1, len(new_rank) + 1),
-                              dtype = 'int32')) # ordered list from 1:NA
-        drainage_db['Rank'].attrs.update(standard_name = 'Rank',
+        
+        # % Adding Rank and Next variables to the file
+        drainage_db['Rank'] = (['n'], Rank) 
+        drainage_db['Rank'].attrs.update(standard_name = 'Rank', 
                             long_name = 'Element ID', units = '1', _FillValue = -1)
-         
-        drainage_db['Next'] = (['n'], new_next.astype('int32')) # reordered 'new_next'
-        drainage_db['Next'].attrs.update(standard_name = 'Next',
+        
+        drainage_db['Next'] = (['n'], Next) 
+        drainage_db['Next'].attrs.update(standard_name = 'Next', 
                            long_name = 'Receiving ID', units = '1', _FillValue = -1)
- 
+
         # % Adding missing attributes and renaming variables
         # Add 'axis' and missing attributes for the 'lat' variable.
         drainage_db['lat'].attrs['standard_name'] = 'latitude'
         drainage_db['lat'].attrs['units'] = 'degrees_north'
         drainage_db['lat'].attrs['axis'] = 'Y'
-          
+         
         # Add 'axis' and missing attributes for the 'lon' variable.
         drainage_db['lon'].attrs['standard_name'] = 'longitude'
         drainage_db['lon'].attrs['units'] = 'degrees_east'
         drainage_db['lon'].attrs['axis'] = 'X'
-          
+         
         # Add or overwrite 'grid_mapping' for each variable (except axes).
         for v in drainage_db.variables:
             if (drainage_db[v].attrs.get('axis') is None):
                 drainage_db[v].attrs['grid_mapping'] = 'crs'
-          
+         
         # Add the 'crs' itself (if none found).
         if (drainage_db.variables.get('crs') is None):
             drainage_db['crs'] = ([], np.int32(1))
             drainage_db['crs'].attrs.update(grid_mapping_name = 'latitude_longitude', longitude_of_prime_meridian = 0.0, semi_major_axis = 6378137.0, inverse_flattening = 298.257223563)
-          
+         
         # Rename variables.
         for old, new in zip(['basin_area', 'length', 'slope', 'manning'], ['GridArea', 'ChnlLength', 'ChnlSlope', 'R2N']):
             drainage_db = drainage_db.rename({old: new})
-          
+         
         # Rename the 'subbasin' dimension (from 'n').
         drainage_db = drainage_db.rename({'n': 'subbasin'})
-         
+        
         # % Specifying the NetCDF "featureType"
         # Add a 'time' axis with static values set to today (in this case, time is not actually treated as a dimension).
-        drainage_db['time'] = (['subbasin'], np.zeros(len(new_rank)))
+        drainage_db['time'] = (['subbasin'], np.zeros(len(rank_id_domain)))
         drainage_db['time'].attrs.update(standard_name = 'time', units = ('days since %s 00:00:00' % date.today().strftime('%Y-%m-%d')), axis = 'T')
-          
+         
         # Set the 'coords' of the dataset to the new axes.
         drainage_db = drainage_db.set_coords(['time', 'lon', 'lat'])
-          
+         
         # Add (or overwrite) the 'featureType' to identify the 'point' dataset.
         drainage_db.attrs['featureType'] = 'point'
-         
-        return new_rank, drainage_db
- 
+        
+        return rank_id_domain, drainage_db, outlet_number
+
 # %% calling the new_rank_extract
-new_rank, drainage_db = new_rank_extract(input_ddb)
- 
-# %% reading the input landcover
-lc = gpd.read_file(in_lc)
- 
-# showing the lc
-fig, ax1 = plt.subplots(1,1, figsize = (10, 10))
-lc.plot(ax = ax1, facecolor = 'None', edgecolor = 'red')
- 
-# %% land class types
- 
-# N-GRU
-# Note : this section is hard-coded and it should be modified based on land cover types for a region of interest
-lc_type = ['needleleaf-forest','broadleaf-forest','Mixed-forest','shrubland','grassland','Lichen-moss',
-           'Wetland','Cropland','Barrenland','Urban','Water','SnowIce']
+rank_id_domain, drainage_db, outlet_number = new_rank_extract(input_topology)
+
+# %% reading the input zonal histogram of landcover and reindex it
+lc_zonal_hist = gpd.read_file(input_lc_zh)
+lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID']) 
+lc_zonal_hist.reset_index(drop=True, inplace=True)
+lc_zonal_hist = lc_zonal_hist.iloc[rank_id_domain , :]
+
+#%% reading source MeritHydro catchment file and visualize and save subbasin selection
+## NB: this section can be uncommented if a user want to do a sanity check of the subbasin selection 
+## list of major segid_target outlet ids per each PFAF
+## {78011862 (Fraser), 78017388(columbia), 82000048(MRB), 
+## 83012503, 71004266 (Hudson), 72039675 (St.Laurent), 
+## Mississipi (74072586), 73017442, 81018374 (Yukon), 77032206,
+## 75022612, 75038087 (Hondo River), 75038096 (Usumacinta)}
+
+# shape_catchment = gpd.read_file(Merit_catchment_shape)
+# shape_catchment = shape_catchment.sort_values(by=['COMID'])
+# shape_catchment.reset_index(drop=True, inplace=True)
+
+# segid = drainage_db['seg_id'].values
+# segid_target = 75038096 
+# r = np.where(segid == segid_target)[0] 
+# r2 = np.where(outlet_number == outlet_number[r])[0]
+# rank_id = rank_id_domain[r2]
+
+# shape_catchment.loc[rank_id].plot(color='white', edgecolor='black')
+# shape_catchment.loc[rank_id].to_file(outdir+'PFAF_subselect_'+'%d'%segid_target+'.shp')
+
+# %% land class types 
+# NB: the NOD here represent the No-data. The NALCMS data has no-data category which its values is zero 
+lc_type = np.array(['Temperate/sub-polar needleleaf forest','Sub-polar taiga needleleaf forest','Tropical/sub-tropical broadleaf evergreen forest','Tropical/sub-tropical broadleaf deciduous forest',
+           'Temperate/sub-polar broadleaf deciduous forest','Mixed Forest','Tropical/sub-tropical shrubland', 'Temperate/sub-polar shrubland',
+           'Tropical/sub-tropical grassland','Temperate/sub-polar grassland','Sub-polar/polar shrubland-lichen-moss','Sub-polar/polar grassland-lichen-moss',
+           'Sub-polar/polar barren-lichen-moss','Wetland','Cropland','Barren Lands',
+           'Urban-Built-up','Water','Snow-Ice','No-data'])
  
 # %% verify list of lc types
 m = len(lc_type) + 1
 st = [];
 p  = [];
 for i in (range(1,m)):
-    st1 =   'NALCMS'+'_'+ str(i)
+    if (i < m-1):
+        st1 =   lc_type_prefix+ str(i)
+    else:
+        st1 =   lc_type_prefix+ 'NOD' 
+    
     st = np.append(st, st1)
-    fid = np.where(lc.columns == st1)[0]
+    fid = np.where(lc_zonal_hist.columns == st1)[0]
     if (fid.size == 0):
-        print ('land cover %s is not the list of extracted histogram' % lc_type[i-1])
-        # this should be modified if mutiple lc types are not in the list
-        p = i-1
-         
-# adding lancover dump
-st1 =   'NALCMS'+'_'+ 'Dump'
-st = np.append(st, st1)
- 
+        print ('land cover %s is not presented in the list of NALCMS land cover for this PFAF' % lc_type[i-1])
+        p = np.int32(np.append(p, i-1))
+        
+# add dummy land cover type required by MESH 
+lc_type = np.append(lc_type, 'Dump')    
+
+# remove missing land cover types from  the list 
 if (len(p) != 0) :
-    del lc_type[p]
- 
-lc_type = np.append(lc_type, 'Dump') 
- 
-# %% extract indices of lc based on the drainage database
-n = len(drainage_db.hruid)
-ind = []
-hruid =  drainage_db.variables['hruid']
- 
-for i in range(n):
-    fid = np.where(np.int32(lc['COMID'].values) == hruid[i].values)[0]
-    ind = np.append(ind, fid)
- 
-ind = np.int32(ind)  
- 
-#%% calculate fractions
-# note: the column 2 to 2+m-1 is hard-coded. Users should check before calculation
-lc_frac = lc.values[ind , 2 : 2+m-1]
- 
-lc_frac = np.append(lc_frac, np.zeros((n , 1)) , axis = 1)
- 
-lc_sum = np.sum(lc_frac, axis = 1)
-lc_sum = np.transpose(np.tile(lc_sum, (m,1)))
-lc_frac = np.divide(lc_frac, lc_sum)
- 
+    lc_type = np.delete(lc_type, p)
+
+#%% calculate land cover fraction 
+# extract land cover zonal hist 
+lc_frac = lc_zonal_hist.filter(like=lc_type_prefix, axis = 1)
+
+# NB: Based on NALCMS LANDSAT data, the open water data are classified as No-DATA. 
+# NB: So, if the catchments have some no-data, users should verify if it falls inside the open-water 
+# NB: that later be added to t he 'Water' land cover class. 
+
+# here the it is required to add NALCMS-NOD to land class type of Water if No-data is included in lc_type
+fid = np.where(lc_type == 'No-data')[0]
+if (fid.size != 0):
+    r1 = np.where(lc_type == 'Water')[0]
+    r2 = np.where(lc_type == 'No-data')[0]  
+    
+    # adding the nodata values to the water land cover type and drop it and remove from lc_type 
+    lc_frac.values[:,r1] = lc_frac.values[:,r1] + lc_frac.values[:,r2]
+    lc_frac = lc_frac.drop(lc_frac.columns[r2], axis=1)
+    lc_type = np.delete(lc_type, r2)
+
+# add Dump layer for MESH application
+lc_frac['Dump'] = 0
+
+# calculating land cover percentage 
+lc_frac = lc_frac.apply(lambda x: round(x/x.sum(),2), axis=1)
+
 # %% convert the lc_frac as a dataset and save it as netcdf
 lon = drainage_db['lon'].values
 lat = drainage_db['lat'].values
 tt = drainage_db['time'].values
- 
+
 lc_ds =  xs.Dataset(
     {
-        "GRU": (["subbasin", "gru"], lc_frac),
+        "GRU": (["subbasin", "gru"], lc_frac.values),
         "LandUse": (["gru"], lc_type),
     },
     coords={
@@ -217,45 +263,49 @@ lc_ds =  xs.Dataset(
         "time": tt,
     },
 )
- 
-# meta data attributes
+
+# meta data attributes 
 lc_ds.attrs['Conventions'] = 'CF-1.6'
 lc_ds.attrs['License']     = 'The data were written by Ala Bahrami'
 lc_ds.attrs['history']     = 'Created on April 23, 2021'
-lc_ds.attrs['featureType'] = 'point'         
- 
+lc_ds.attrs['featureType'] = 'point'          
+
 # editing lat attribute
 lc_ds['lat'].attrs['standard_name'] = 'latitude'
 lc_ds['lat'].attrs['units'] = 'degrees_north'
 lc_ds['lat'].attrs['axis'] = 'Y'
-  
+ 
 # editing lon attribute
 lc_ds['lon'].attrs['standard_name'] = 'longitude'
 lc_ds['lon'].attrs['units'] = 'degrees_east'
 lc_ds['lon'].attrs['axis'] = 'X'
- 
+
 # editing time attribute
-lc_ds['time'].attrs.update(standard_name = 'time',
-                                 units = ('days since %s 00:00:00' % date.today().strftime('%Y-%m-%d')),
+lc_ds['time'].attrs.update(standard_name = 'time', 
+                                 units = ('days since %s 00:00:00' % date.today().strftime('%Y-%m-%d')), 
                                  axis = 'T')
- 
+
 # coordinate system
 lc_ds['crs'] = drainage_db['crs'].copy()
- 
-# %% Append land cover information to existing drainage database
-drainage_db["GRU"] = (["subbasin", "gru"], lc_frac)
+
+## made changes here 
+#lc_ds['GRU'].values = lc_ds['GRU'].values[reorder,:]
+
+# %% Append land cover information to existing drainage database 
+drainage_db["GRU"] = (["subbasin", "gru"], lc_frac.values)
 drainage_db['GRU'].attrs['standard_name'] = 'GRU'
 drainage_db['GRU'].attrs['long_name'] = 'Group Response Unit'
 drainage_db['GRU'].attrs['units'] = '-'
 drainage_db['GRU'].attrs['_FillValue'] = -1
- 
+
 drainage_db["LandUse"] = (["gru"], lc_type)
- 
+
 # Set the 'coords' of the dataset to the new axes.
 drainage_db = drainage_db.set_coords(['time', 'lon', 'lat'])
- 
+
 # saved the drainage_database
-drainage_db.to_netcdf(output_ddb)
+drainage_db.to_netcdf(outdir+domain_name+'_MESH_drainage_database.nc')
  
 # %% Save land cover fraction (this is optional)
-lc_ds.to_netcdf(out_lc)
+lc_ds.to_netcdf(outdir+domain_name+'_MESH_LC_FRAC.nc')
+print('--%s seconds--' %(time.time() - start_time))
