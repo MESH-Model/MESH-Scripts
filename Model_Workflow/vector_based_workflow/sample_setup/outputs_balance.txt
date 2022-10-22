@@ -1,0 +1,14 @@
+LQWSCAN M D Y nc 
+FZWSCAN M D Y nc 
+SNO     M D Y nc
+LQWSSNO M D Y nc
+LQWSPND M D Y nc
+LQWSSOL M D Y nc
+FZWSSOL M D Y nc
+STGGW   M D Y nc
+STGW	M D Y nc
+RFF     M D Y nc
+!QO 	H 	csv
+!QI 	H 	csv
+!RFF H 	csv
+!RFF H   csv  basin_acc
