@@ -1,0 +1,10 @@
+!> TXT (free-format) MESH configuration file.
+!>
+!> See important notes below to use this file for basin configuration (e.g., to run point mode).
+!>  When running in distributed mode, 'npoints' should correspond to the number of GRUs
+!>  determined from the distributed database (LSS or drainage database, depending on operating mode).
+!>  When running in point mode, 'npoints' defines the number of subbasins/simulation points.
+!> See details on this file format here: [LINK]
+
+! RTE time-step [s].
+DTMINUSR 300.0
