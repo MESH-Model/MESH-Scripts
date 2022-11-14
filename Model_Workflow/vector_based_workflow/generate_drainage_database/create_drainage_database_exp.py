@@ -47,13 +47,13 @@ import time
 # %% directory of input files
 # Enter path to a zonal histogram file in either .csv format from GIS tool or in .shp format from QGIS
 start_time = time.time() 
-input_lc_zh              = './shape_file/zonal_hist/landsat_78_stats_NA_NALCMS_2010_v2_land_cover_30m.csv'     #input GIS tool .csv zonal histogram instead of QGIS .shp zonal histogram
+input_lc_zh              = '/mnt/e/GWF_data/shapefiles/zonal_hist/NALCMS2010_PFAF78_zonalhist.shp'     #input GIS tool .csv zonal histogram instead of QGIS .shp zonal histogram
 #input_lc_zh             = './shape_file/zonal_hist/NALCMS2010_PFAF78_zonalhist.shp'                                #input QGIS .shp zonal histogram instead of GIS tool .csv zonal histogram
-input_topology           = './vector_based_routing/network_topology/domain_PFAF78/settings/routing/network_topology_PFAF78.nc' 
+input_topology           = '/mnt/c/Users/5600x/Desktop/GWF/gistool_compat/vector_based_routing/network_topology/domain_PFAF78/settings/routing/network_topology_PFAF78.nc' 
 domain_name              = 'PFAF78'
-outdir                   = './vector_based_routing/Output/NA/DDB_calbano/'
-lc_type_prefix           = 'frac_'
-Merit_catchment_shape    = './shape_file/catchment/cat_pfaf_78_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
+outdir                   = '/mnt/c/Users/5600x/Desktop/GWF/gistool_compat/vector_based_routing/Output/NA/DDB_calbano'
+lc_type_prefix           = 'NALCMS_'
+Merit_catchment_shape    = '/mnt/e/GWF_data/shapefiles/catchment/cat_pfaf_78_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
 
 #%% Function reindex to extract drainage database variables 
 def new_rank_extract(input_topology): 
@@ -197,8 +197,8 @@ rank_id_domain, drainage_db, outlet_number = new_rank_extract(input_topology)
 
 # %% reading the input zonal histogram of landcover and reindex it. 
 if input_lc_zh.endswith('.shp'):
-    lc_zonal_hist = gpd.read_file(input_lc_zhq)                        # read QGIS .shp zonal histogram
-    lc_zonal_hist = lc_zonal_histq.sort_values(by=['COMID'])           # sort by COMID for QGIS zonal histogram
+    lc_zonal_hist = gpd.read_file(input_lc_zh)                        # read QGIS .shp zonal histogram
+    lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID'])           # sort by COMID for QGIS zonal histogram
 elif input_lc_zh.endswith('.csv'):
     lc_zonal_hist = pd.read_csv(input_lc_zh)                           # read GIS tool .csv zonal histogram
     lc_zonal_hist = lc_zonal_hist.sort_values(by=['p[[1]]'])           # sort by p[[1]] for GIS tool zonal histogram
