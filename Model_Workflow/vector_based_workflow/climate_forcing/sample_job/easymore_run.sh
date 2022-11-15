@@ -28,7 +28,7 @@ pip install --no-index --upgrade pip
 pip install --no-index easymore[complete]
 
 # calling one sample of easymore program 
-python call_easymore.py 
+python call_easymore.py
 # or calling it directly ./call_easymore.py. 
 
 echo "finished"
