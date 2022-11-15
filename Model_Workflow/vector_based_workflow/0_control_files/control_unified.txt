@@ -1,0 +1,76 @@
+# MESH vector-based workflow setting file.
+# Characters '|' and '#' are used as separators to find the actual setting values. Any text behind '|' is assumed to be part of the setting value, unless preceded by '#'.
+ 
+# Note on path specification
+# If deviating from default paths, a full path must be specified. E.g. '/home/user/non-default/path'
+ 
+
+# Modeling domain settings
+root_path                   | C:/Users/5600x/Desktop/GWF/vector_based_workflow_CWARHM/workflow_data                                    # Root folder where data will be stored.
+domain_name                 | souris                                 # Used as part of the root folder name for the prepared data.
+
+#                                                ////  Network Topology Settings \\\\ 
+# Shapefile settings - river network file
+river_network_shp_path      | default                                     # If 'default', uses 'root_path/domain_[name]/shapefiles/river_network'.
+river_network_shp_name      | output05NG001_riv.shp                      # Name of the river network shapefile. Requires extension '.shp'.
+river_network_shp_segid     | COMID                                       # Name of the segment ID column.
+river_network_shp_downsegid | NextDownID                                  # Name of the downstream segment ID column.
+river_network_shp_slope     | slope                                       # Name of the slope column. Slope must be in in units [length/length].
+river_network_shp_length    | lengthkm                                    # Name of the segment length column. Length must be in units [m].
+river_network_shp_outlet_id | 71039391                                    # ID of the most downstream segment in the river network (river network shapefile). Note that this specifies a single segment ID value. It is not a column in the shapefile.
+ 
+ 
+# Shapefile settings - catchment file
+river_basin_shp_path        | default                                     # If 'default', uses 'root_path/domain_[name]/shapefiles/river_basins'.
+river_basin_shp_name        | output05NG001_cat.shp                      # Name of the routing subbasins shapefile needed for remapping. Requires extension '.shp'.
+river_basin_shp_rm_hruid    | COMID                                       # Name of the routing basin ID column.
+river_basin_shp_area        | unitarea                                    # Name of the catchment area column. Area must be in units [m^2]
+river_basin_shp_hru_to_seg  | COMID                                       # Name of the column that shows which river segment each HRU connects to.
+
+# Experiment settings - routing
+settings_routing_path          | default                                  # If 'default', uses 'root_path/domain_[name]/settings/routing'.
+settings_routing_topology      | network_topology_domain_souris.nc        # Name of the river network topology file.
+
+#                                                ////  Subbasin Selection Settings \\\\
+
+input_basin_path           | default                                      # If 'default', uses 'root_path/domain_[name]/subbasin/catchment
+input_basin_name           | cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp
+input_river_path           | default                                      # If 'default', uses 'root_path/domain_[name]/subbasin/river
+input_river_name           | riv_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp
+subset_basin_outdir        | default                                      # If 'default', uses 'root_path/domain_[name]/subbasin/output
+subset_river_outdir        | default                                      # If 'default', uses 'root_path/domain_[name]/subbasin/output
+target_seg_id              | 05NG001
+
+#                                                ////  Drainage Database Settings \\\\
+
+input_lc_zh_path		      | default                                     		      # If 'default', uses 'root_path/domain_[name]/zonalhist/
+input_lc_zh_name		      | Souris_intersect_NGRU.shp
+input_topology_path		   | deafult                                     		      # If 'default', uses 'root_path/domain_[name]/topology/
+Input_topology_name		   | network_topology_domain_souris.nc
+DDB_output_dir			      | deafult                                     		      # If 'default', uses 'root_path/domain_[name]/drainagedatabase/
+lc_type_prefix			      | frac_ 										  			            # Typically, use frac_ when using zonal statistics generated with GIS Tool (.csv). use NALCMS_ for QGIS zonal histogram (.shp) 
+merit_catchment_path	      | default                                     		      # If 'default', uses 'root_path/domain_[name]/subbasin/catchment/
+merit_catchment_name	      | cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp 	   # The parent shapefile used in subbasin selection (irrelevant if subbasin selection is not used)
+
+
+# Default folder structure
+# Example of the resulting folder structure in "root_path".
+# New domains will go into their own folder.
+ 
+- MESHWorkflow_data
+   |
+   |_ domain_[name]
+   |   |
+   |   |_ settings
+   |   |   |_ routing
+   |   |   |
+   |   |
+   |   |_ shapefiles
+   |   |   |_
+   |   |   |_ river_basins
+   |   |   |_ river_network   
+   |   |   |  
+   |   |     
+   |_ 0_control_files
+   |   |
+   |   |_ control_domain_[name]

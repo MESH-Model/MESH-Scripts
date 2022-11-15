@@ -4,8 +4,10 @@ import geopandas as gpd
 
 startyear = 1980
 endyear   = 2018
-src_nc    = 'rdrsv2*.nc'
-nc_path   = '/home/calbano/scratch/rdrs_output/'
+#src_nc    = 'rdrsv2.1_.nc'
+src_nc_prefix    = 'rdrsv2.1_'
+nc_path   = '/project/6008034/Model_Output/MESH/NA_workflow/forcing/'
+
 
 # initializing EASYMORE object
 esmr = easymore()
@@ -48,38 +50,40 @@ esmr.fill_value_list          = ['-9999.00']
 # if uncommented EASYMORE will use this and skip GIS tasks
 #esmr.remap_csv                = 'temporary78/subbasin_select/RDRS_78_remapping.csv' # RDRS_81_remapping.csv
 
-def call_easymore(year):
-    # name of netCDF file(s); multiple files can be specified with *
-    esmr.source_nc                = nc_path+year+'/'+src_nc
-    print('Calling EASYMORE for year: ', year)
-    print('netCDF source : ', nc_path+year+'/')
-    # # create source shapefile 
-    esmr.NetCDF_SHP_lat_lon()
-    # create the source shapefile for case 1 and 2 if shapefile is not provided
-    if (esmr.case == 1 or esmr.case == 2)  and (esmr.source_shp == ''):
-        if esmr.case == 1:
-            if hasattr(esmr, 'lat_expanded') and hasattr(esmr, 'lon_expanded'):
-                esmr.lat_lon_SHP(esmr.lat_expanded, esmr.lon_expanded,\
-                    esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
-            else:
-                esmr.lat_lon_SHP(esmr.lat, esmr.lon,\
-                    esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
+# # create source shapefile 
+esmr.NetCDF_SHP_lat_lon()
+# create the source shapefile for case 1 and 2 if shapefile is not provided
+if (esmr.case == 1 or esmr.case == 2)  and (esmr.source_shp == ''):
+    if esmr.case == 1:
+        if hasattr(esmr, 'lat_expanded') and hasattr(esmr, 'lon_expanded'):
+            esmr.lat_lon_SHP(esmr.lat_expanded, esmr.lon_expanded,\
+                esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
         else:
             esmr.lat_lon_SHP(esmr.lat, esmr.lon,\
                 esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
-        print('EASYMORE is creating the shapefile from the netCDF file and saving it here:')
-        print(esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
+    else:
+        esmr.lat_lon_SHP(esmr.lat, esmr.lon,\
+            esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
+    print('EASYMORE is creating the shapefile from the netCDF file and saving it here:')
+    print(esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
 
-    shp = gpd.read_file(esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
-    print(shp)
-    shp = shp [shp['lon_s']>-179]
-    shp.to_file(esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
+shp = gpd.read_file(esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
+print(shp)
+shp = shp [shp['lon_s']>-179]
+shp.to_file(esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
 
-    # add the source shapefile 
-    esmr.source_shp                =   esmr.temp_dir+esmr.case_name+'_source_shapefile.shp'
-    esmr.source_shp_lat            =  'lat_s' # name of column latitude in the source shapefile
-    esmr.source_shp_lon            =  'lon_s' # name of column longitude in the source shapefile
-    esmr.source_shp_ID             =  'ID_s' # name of column ID in the source shapefile
+# add the source shapefile 
+esmr.source_shp                =   esmr.temp_dir+esmr.case_name+'_source_shapefile.shp'
+esmr.source_shp_lat            =  'lat_s' # name of column latitude in the source shapefile
+esmr.source_shp_lon            =  'lon_s' # name of column longitude in the source shapefile
+esmr.source_shp_ID             =  'ID_s' # name of column ID in the source shapefile
+
+def call_easymore(year):
+    # name of netCDF file(s); multiple files can be specified with *
+    esmr.source_nc                = nc_path+src_nc_prefix+year+'.nc'
+    #esmr.source_nc                = nc_path+year+'/'+src_nc
+    print('Calling EASYMORE for year: ', year)
+    print('netCDF source : ', nc_path+src_nc_prefix+year+'.nc')
 
     # execute EASYMORE
     return esmr.nc_remapper()
