@@ -3,10 +3,10 @@
 
 Extensive online documentation is available at the MESH wiki page project web pages:
 
-Project description
+Project description:
 [https://wiki.usask.ca/display/MESH/Vector-based+routing+in+MESH]( https://wiki.usask.ca/display/MESH/Vector-based+routing+in+MESH)
 
-MESH Wiki workflow 
+MESH Wiki workflow:
 [https://wiki.usask.ca/display/MESH/MESH+vector-based+workflow]( https://wiki.usask.ca/display/MESH/MESH+vector-based+workflow)
 
 
