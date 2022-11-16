@@ -1,0 +1,327 @@
+Problem tolerance is set to 0.01
+81 problems found: 
+
+COMID: 78001449
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.012857388975710538
+
+COMID: 78003126
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.01976630362597409
+
+COMID: 78007331
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.015254894892374637
+
+COMID: 78010655
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.04276096820831299
+
+COMID: 78020330
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.03150021130183933
+
+COMID: 78008792
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.05053756237029994
+
+COMID: 78018034
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.1279265710285733
+
+COMID: 78014038
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.012737055619557291
+
+COMID: 78017970
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.013163526155795635
+
+COMID: 78017789
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.011677936005265677
+
+COMID: 78006898
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.010895405824367932
+
+COMID: 78005467
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.011245458214371146
+
+COMID: 78004098
+Land Cover Class: 1
+Difference (QGIS - GIS Tool): 0.03784435465931891
+
+COMID: 78020544
+Land Cover Class: 10
+Difference (QGIS - GIS Tool): 0.04149142049607785
+
+COMID: 78020311
+Land Cover Class: 10
+Difference (QGIS - GIS Tool): 0.017935699886746148
+
+COMID: 78022574
+Land Cover Class: 10
+Difference (QGIS - GIS Tool): 0.016196597899709425
+
+COMID: 78026665
+Land Cover Class: 10
+Difference (QGIS - GIS Tool): 0.01553362446862333
+
+COMID: 78014405
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.021872647106647006
+
+COMID: 78016103
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.02305506012941666
+
+COMID: 78020467
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.020512229058800763
+
+COMID: 78000413
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.0383428017795086
+
+COMID: 78015917
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.010380181106361075
+
+COMID: 78018076
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.012770392867021724
+
+COMID: 78025050
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.03215500116348302
+
+COMID: 78025048
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.012503824784205197
+
+COMID: 78022531
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.02619401386805953
+
+COMID: 78019845
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.01037722826003995
+
+COMID: 78017490
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.019933429029252436
+
+COMID: 78022407
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.09912854433059698
+
+COMID: 78021905
+Land Cover Class: 14
+Difference (QGIS - GIS Tool): 0.032951031412397414
+
+COMID: 78020311
+Land Cover Class: 15
+Difference (QGIS - GIS Tool): 0.0327250195874112
+
+COMID: 78022574
+Land Cover Class: 15
+Difference (QGIS - GIS Tool): 0.03492379188537598
+
+COMID: 78024577
+Land Cover Class: 15
+Difference (QGIS - GIS Tool): 0.02706225855009914
+
+COMID: 78014405
+Land Cover Class: 17
+Difference (QGIS - GIS Tool): 0.01561404267946867
+
+COMID: 78016150
+Land Cover Class: 17
+Difference (QGIS - GIS Tool): 0.011818617582321195
+
+COMID: 78016103
+Land Cover Class: 17
+Difference (QGIS - GIS Tool): 0.014627350004095485
+
+COMID: 78005839
+Land Cover Class: 17
+Difference (QGIS - GIS Tool): 0.029364109039307
+
+COMID: 78010606
+Land Cover Class: 17
+Difference (QGIS - GIS Tool): 0.014099241871583346
+
+COMID: 78020130
+Land Cover Class: 17
+Difference (QGIS - GIS Tool): 0.01306573966498012
+
+COMID: 78010308
+Land Cover Class: 17
+Difference (QGIS - GIS Tool): 0.058315919091304125
+
+COMID: 78015618
+Land Cover Class: 17
+Difference (QGIS - GIS Tool): 0.011814730132327367
+
+COMID: 78006750
+Land Cover Class: 17
+Difference (QGIS - GIS Tool): 0.015483537545570858
+
+COMID: 78002336
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.010464069247246022
+
+COMID: 78001464
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.012543921390276602
+
+COMID: 78003096
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.01567408359713021
+
+COMID: 78004469
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.13472574949264499
+
+COMID: 78000415
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.03646315485239031
+
+COMID: 78012037
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.016403721693235063
+
+COMID: 78019857
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.013048912088076653
+
+COMID: 78006861
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.02545886238416034
+
+COMID: 78008474
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.010429554515414885
+
+COMID: 78019826
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.031889526889874786
+
+COMID: 78024855
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.012914268740198825
+
+COMID: 78024036
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.015217357873917037
+
+COMID: 78024028
+Land Cover Class: 18
+Difference (QGIS - GIS Tool): 0.029797928673880703
+
+COMID: 78010826
+Land Cover Class: 5
+Difference (QGIS - GIS Tool): 0.010134736970067
+
+COMID: 78013993
+Land Cover Class: 5
+Difference (QGIS - GIS Tool): 0.017638689334239677
+
+COMID: 78005855
+Land Cover Class: 6
+Difference (QGIS - GIS Tool): 0.013997530085699914
+
+COMID: 78005732
+Land Cover Class: 6
+Difference (QGIS - GIS Tool): 0.014374131486363295
+
+COMID: 78010446
+Land Cover Class: 6
+Difference (QGIS - GIS Tool): 0.01931285948464373
+
+COMID: 78022531
+Land Cover Class: 6
+Difference (QGIS - GIS Tool): 0.013035516227994426
+
+COMID: 78005445
+Land Cover Class: 6
+Difference (QGIS - GIS Tool): 0.021862918138503995
+
+COMID: 78002483
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.0568157268895042
+
+COMID: 78020700
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.08379628658294702
+
+COMID: 78010826
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.010655900835990911
+
+COMID: 78025210
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.020046343703469915
+
+COMID: 78022715
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.011319530732703753
+
+COMID: 78020020
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.011858682932816444
+
+COMID: 78019992
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.01002722649380186
+
+COMID: 78010281
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.018926220280783723
+
+COMID: 78012042
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.011302671314757456
+
+COMID: 78015522
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.016746520996093972
+
+COMID: 78015497
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.018845136349018077
+
+COMID: 78006894
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.01358165607807485
+
+COMID: 78005467
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.021502667762063134
+
+COMID: 78024894
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.010784515675077988
+
+COMID: 78005445
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.014033301174640703
+
+COMID: 78019826
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.03774835513188268
+
+COMID: 78019816
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.01597518665772501
+
+COMID: 78026977
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.010219758897093811
+
+COMID: 78026680
+Land Cover Class: 8
+Difference (QGIS - GIS Tool): 0.01014524469008854
+
