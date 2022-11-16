@@ -48,7 +48,7 @@ import time
 
 #Control file handling
 # Easy access to control file folder
-controlFolder = Path('/mnt/c/Users/5600x/Desktop/GWF/vector_based_workflow_CWARHM/0_control_files')
+controlFolder = Path('../0_control_files')
  
 # Store the name of the 'active' file in a variable
 controlFile = 'control_active.txt'
