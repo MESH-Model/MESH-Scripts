@@ -1,29 +1,61 @@
+# -*- coding: utf-8 -*-
 """
-The purpose of this script is to calculate land cover fractions for each
-subbasin of interest. Then the landcover fractions are converted the (subbasin*lc_types) and
-they are appended to the driange database.
- 
-@ Author : MESHworkflow
- 
+Name
+    create_MESH_drainage_database. previously called lc_vectorbased
+Purpose
+    The purpose of this script is to calculate land cover fractions for each 
+    subbasin of interest. Then the landcover is converted the (subbasin*lc_types)
+    it is adhered to the driange database.  
+Programmer(s)
+    Ala Bahrami
+    Cooper Albano
+Revision History
+    20210422 -- Initial version created  
+    20210504 -- 1) changed dimension name from 'lc_type' to 'ngru' and variable 
+    name from 'lc_frac' to 'GRU'. 2) Added LandUse variable
+    20210505 -- append the LandUse information to drainage_ddb 
+    20210506 -- changed 'ngru' dimension to 'gru' to be consistent with MESH code 
+    20210604 -- modified I/O and variables for Fraser application 
+    20210704 -- modified to the new_rank_extract function 
+    20220623 -- 1) Modified based on the new_rank_modi2 which is adaptable for  
+                multi-outlet
+                2) Consider the entire 19 land cover classes instead of regrouping
+                3) save subbasin reordered metadata
+                4) visualize and save subbasin selection for any outlet (optional) 
+    20220626 -- 1) modified the way of reindexing the zonal histogram 
+    20220825 -- 1) modify code to adapt NEXT variable having multiple outlets 
+    20221101 -- 1) added a line to accept GIS tool .csv zonal hist as pandas dataframe
+             -- 2) added a line to rename prefix_0 to prefix_NOD for the GIS tool .csv zonal hist
+             -- 3) removed landcover fraction calculation for GIS tool .csv file
+    20221116 -- 1) removed .csv column reordering. No longer necessary due to gistool bug fix
+See also 
+    
+Reference 
+
+Todo:
+    1) The lc_types is based on NALCMS 2010. The name list is hard-coded   
+    2) Introduce compatibility for GIS tool zonal histogram. Lc_types are out of order for gistool zh
 """
- 
-# %% importing modules
+
+# %% importing modules 
 import geopandas as gpd
 import numpy as np
 import xarray as xs
 import pandas as pd
 from   datetime import date
 import time 
- 
+
 # %% directory of input files
+# Enter path to a zonal histogram file in either .csv format from GIS tool or in .shp format from QGIS
 start_time = time.time() 
-input_lc_zh              = '../landcover_extract/Output/NALCMS2010_BowBanff_zonalhist.shp'
-input_topology           = '../network_topology/domain_BowAtBanff/settings/routing/network_topology_BowBanff.nc' 
-domain_name              = 'BowBanff'
-outdir                   = 'Output/'
-lc_type_prefix           = 'NALCMS_' 
-Merit_catchment_shape    = '../network_topology/domain_BowAtBanff/shapefiles/river_basins/bow_distributed.shp' 
- 
+input_lc_zh              = '/scratch/calbano/landsat-71/landsat_71_stats_NA_NALCMS_2010_v2_land_cover_30m.csv'     #input GIS tool .csv zonal histogram instead of QGIS .shp zonal histogram
+#input_lc_zh             = './shape_file/zonal_hist/NALCMS2010_PFAF78_zonalhist.shp'                                #input QGIS .shp zonal histogram instead of GIS tool .csv zonal histogram
+input_topology           = '/project/6008034/Model_Output/MESH/NA_workflow/vector_based_routing/network_topology/domain_PFAF71/settings/routing/network_topology_PFAF71.nc' 
+domain_name              = 'PFAF71'
+outdir                   = '../Output/NA/DDB/'
+lc_type_prefix           = 'frac_'
+Merit_catchment_shape    = '/project/6008034/Model_Output/MESH/NA_workflow/shape_file/catchment/cat_pfaf_78_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
+
 #%% Function reindex to extract drainage database variables 
 def new_rank_extract(input_topology): 
         #% Reading topology file and finding outlets
@@ -160,15 +192,37 @@ def new_rank_extract(input_topology):
         drainage_db.attrs['featureType'] = 'point'
         
         return rank_id_domain, drainage_db, outlet_number
-
+    
 # %% calling the new_rank_extract
 rank_id_domain, drainage_db, outlet_number = new_rank_extract(input_topology)
 
-# %% reading the input zonal histogram of landcover and reindex it
-lc_zonal_hist = gpd.read_file(input_lc_zh)
-lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID']) 
-lc_zonal_hist.reset_index(drop=True, inplace=True)
-lc_zonal_hist = lc_zonal_hist.iloc[rank_id_domain , :]
+# %% reading the input zonal histogram of landcover and reindex it. 
+if input_lc_zh.endswith('.shp'):
+    lc_zonal_hist = gpd.read_file(input_lc_zh)                        # read QGIS .shp zonal histogram
+    lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID'])           # sort by COMID for QGIS zonal histogram
+elif input_lc_zh.endswith('.csv'):
+    lc_zonal_hist = pd.read_csv(input_lc_zh)                           # read GIS tool .csv zonal histogram
+    lc_zonal_hist = lc_zonal_hist.sort_values(by=['p[[1]]'])           # sort by p[[1]] for GIS tool zonal histogram
+else:
+    print('Zonal histogram not recognized.')
+    exit()
+
+# reorder 'frac_' columns so that they are in numerical order
+if input_lc_zh.endswith('.csv'):
+
+    lc_zonal_hist = lc_zonal_hist.rename(columns={lc_type_prefix+'0':lc_type_prefix+'NOD'}) #rename frac_0 to frac_NOD for compatibility with verify lc_types. Not necessary for QGIS version.
+
+    cols = lc_zonal_hist.columns.tolist()
+
+    for i in cols:
+        if lc_type_prefix in i:
+            if 'NOD' in i:
+                nod=i
+                cols.remove(i)
+
+    cols.append(nod)
+
+    lc_zonal_hist = lc_zonal_hist[cols]
 
 #%% reading source MeritHydro catchment file and visualize and save subbasin selection
 ## NB: this section can be uncommented if a user want to do a sanity check of the subbasin selection 
@@ -221,9 +275,9 @@ lc_type = np.append(lc_type, 'Dump')
 # remove missing land cover types from  the list 
 if (len(p) != 0) :
     lc_type = np.delete(lc_type, p)
-
+    
 #%% calculate land cover fraction 
-# extract land cover zonal hist 
+# extract land cover zonal hist
 lc_frac = lc_zonal_hist.filter(like=lc_type_prefix, axis = 1)
 
 # NB: Based on NALCMS LANDSAT data, the open water data are classified as No-DATA. 
@@ -235,7 +289,7 @@ fid = np.where(lc_type == 'No-data')[0]
 if (fid.size != 0):
     r1 = np.where(lc_type == 'Water')[0]
     r2 = np.where(lc_type == 'No-data')[0]  
-    
+    print(r1,r2)
     # adding the nodata values to the water land cover type and drop it and remove from lc_type 
     lc_frac.values[:,r1] = lc_frac.values[:,r1] + lc_frac.values[:,r2]
     lc_frac = lc_frac.drop(lc_frac.columns[r2], axis=1)
@@ -244,8 +298,9 @@ if (fid.size != 0):
 # add Dump layer for MESH application
 lc_frac['Dump'] = 0
 
-# calculating land cover percentage 
-lc_frac = lc_frac.apply(lambda x: round(x/x.sum(),2), axis=1)
+# calculating land cover percentage. Only calculate if input zonal histogram is a shapefile
+if input_lc_zh.endswith('.shp'):
+    lc_frac = lc_frac.apply(lambda x: round(x/x.sum(),2), axis=1)
 
 # %% convert the lc_frac as a dataset and save it as netcdf
 lon = drainage_db['lon'].values
