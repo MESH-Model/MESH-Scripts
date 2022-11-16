@@ -1,6 +1,6 @@
 # MESH Scripts Repository
 
-The purpose of this repository is to provide a place for sharing and improving scripts for pre- and post-processing data, as well as running, the MESH Hydrology Land-Surface model.
+The purpose of this repository is to provide a place for sharing and improving scripts for pre- and post-processing data, MESH vector-based workflow, as well as running, the MESH Hydrology Land-Surface model.
 
 R is the primary language of development for MESH pre- and post-processing scripts, and some useful tools (listed below) have already been developed. However, scripts and functions in any programming language are welcome on this repository.
 
