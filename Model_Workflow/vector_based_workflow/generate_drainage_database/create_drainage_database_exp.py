@@ -27,13 +27,14 @@ Revision History
     20221101 -- 1) added a line to accept GIS tool .csv zonal hist as pandas dataframe
              -- 2) added a line to rename prefix_0 to prefix_NOD for the GIS tool .csv zonal hist
              -- 3) removed landcover fraction calculation for GIS tool .csv file
+    20221116 -- 1) removed .csv column reordering. No longer necessary due to gistool bug fix
 See also 
     
 Reference 
 
 Todo:
     1) The lc_types is based on NALCMS 2010. The name list is hard-coded   
-    2) Introduce compatibility for GIS tool zonal histogram
+    2) Introduce compatibility for GIS tool zonal histogram. Lc_types are out of order for gistool zh
 """
 
 # %% importing modules 
@@ -47,13 +48,13 @@ import time
 # %% directory of input files
 # Enter path to a zonal histogram file in either .csv format from GIS tool or in .shp format from QGIS
 start_time = time.time() 
-input_lc_zh              = '/mnt/e/GWF_data/shapefiles/zonal_hist/NALCMS2010_PFAF78_zonalhist.shp'     #input GIS tool .csv zonal histogram instead of QGIS .shp zonal histogram
+input_lc_zh              = '/scratch/calbano/landsat-71/landsat_71_stats_NA_NALCMS_2010_v2_land_cover_30m.csv'     #input GIS tool .csv zonal histogram instead of QGIS .shp zonal histogram
 #input_lc_zh             = './shape_file/zonal_hist/NALCMS2010_PFAF78_zonalhist.shp'                                #input QGIS .shp zonal histogram instead of GIS tool .csv zonal histogram
-input_topology           = '/mnt/c/Users/5600x/Desktop/GWF/gistool_compat/vector_based_routing/network_topology/domain_PFAF78/settings/routing/network_topology_PFAF78.nc' 
-domain_name              = 'PFAF78'
-outdir                   = '/mnt/c/Users/5600x/Desktop/GWF/gistool_compat/vector_based_routing/Output/NA/DDB_calbano'
-lc_type_prefix           = 'NALCMS_'
-Merit_catchment_shape    = '/mnt/e/GWF_data/shapefiles/catchment/cat_pfaf_78_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
+input_topology           = '/project/6008034/Model_Output/MESH/NA_workflow/vector_based_routing/network_topology/domain_PFAF71/settings/routing/network_topology_PFAF71.nc' 
+domain_name              = 'PFAF71'
+outdir                   = '../Output/NA/DDB/'
+lc_type_prefix           = 'frac_'
+Merit_catchment_shape    = '/project/6008034/Model_Output/MESH/NA_workflow/shape_file/catchment/cat_pfaf_78_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
 
 #%% Function reindex to extract drainage database variables 
 def new_rank_extract(input_topology): 
@@ -205,10 +206,23 @@ elif input_lc_zh.endswith('.csv'):
 else:
     print('Zonal histogram not recognized.')
     exit()
-    
-lc_zonal_hist.reset_index(drop=True, inplace=True)
-lc_zonal_hist = lc_zonal_hist.iloc[rank_id_domain , :]
-lc_zonal_hist = lc_zonal_hist.rename(columns={lc_type_prefix+'0':lc_type_prefix+'NOD'}) #rename frac_0 to frac_NOD for compatibility with verify lc_types. Not necessary for QGIS version.
+
+# reorder 'frac_' columns so that they are in numerical order
+if input_lc_zh.endswith('.csv'):
+
+    lc_zonal_hist = lc_zonal_hist.rename(columns={lc_type_prefix+'0':lc_type_prefix+'NOD'}) #rename frac_0 to frac_NOD for compatibility with verify lc_types. Not necessary for QGIS version.
+
+    cols = lc_zonal_hist.columns.tolist()
+
+    for i in cols:
+        if lc_type_prefix in i:
+            if 'NOD' in i:
+                nod=i
+                cols.remove(i)
+
+    cols.append(nod)
+
+    lc_zonal_hist = lc_zonal_hist[cols]
 
 #%% reading source MeritHydro catchment file and visualize and save subbasin selection
 ## NB: this section can be uncommented if a user want to do a sanity check of the subbasin selection 
