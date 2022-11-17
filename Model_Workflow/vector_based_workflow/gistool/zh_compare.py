@@ -7,14 +7,14 @@ import warnings
 warnings.filterwarnings("ignore")
 
 ## Setting Inputs
-qgis_zh = '/mnt/e/GWF_data/shapefiles/zonal_hist/NALCMS2010_PFAF78_zonalhist.shp'       # Import the QGIS zonal histogram shapefile
-gistool_zh = './landsat_test_stats_NA_NALCMS_2010_v2_land_cover_30m.csv'              # Import the GIS Tool zonal statistics .csv file
-tolerance = abs(0.01)                               # set the level of acceptable difference between QGIS and GIS Tool fraction values
+qgis_zh = '../landcover_extract/Output/NALCMS2010_BowBanff_zonalhist.shp'       # Import the QGIS zonal histogram shapefile
+gistool_zh = './Output/landsat_bow_stats_NA_NALCMS_2010_v2_land_cover_30m.csv'         # Import the GIS Tool zonal statistics .csv file
+tolerance = abs(0.01)                                                           # set the level of acceptable difference between QGIS and GIS Tool fraction values
                              
 ##Reading inputs to DataFrames
-gdf = gpd.read_file(qgis_zh)                        # Read QGIS .shp to GeoDataFrame then convert to Pandas DataFrame
-qgis = pd.DataFrame(gdf)
-gtool = pd.read_csv(gistool_zh)                     # Read GIS Tool .csv into Pandas DataFrame
+gdf = gpd.read_file(qgis_zh)                        # Read QGIS .shp to GeoDataFrame, 
+qgis = pd.DataFrame(gdf)                            # then convert to Pandas DataFrame.
+gtool = pd.read_csv(gistool_zh)                     # Read GIS Tool .csv into Pandas DataFrame.
 
 # Remove unnecessary columns from QGIS DataFrame
 cols=[]
@@ -56,11 +56,21 @@ for i in gtool.columns:
         cols.append(i)
 gfrac = gtool[cols]
 
+# rename frac_0 to frac_NOD.
+gfrac = gfrac.rename(columns={"frac_0":"frac_NOD"})
+
 #Calculate the difference between QGIS and GIS Tool fraction values (QGIS value - GIS Tool value)
 diff = frac.subtract(gfrac)
 
 # Add COMID column to the Difference DataFrame
 diff['COMID'] = qgis['COMID']
+
+# Create a new DataFrame for problem basins
+problem_basins = pd.DataFrame(columns=diff.columns)
+problem_basins = problem_basins.set_index('COMID')
+
+# Set diff index to COMID
+diff = diff.set_index('COMID')
 
 ## Identify problems
 problems = []
@@ -70,13 +80,23 @@ for i in diff.columns:
             if j > tolerance:   # Set the acceptable level of difference between QGIS and GIS Tool values
                 problems.append([i,j])
 
-# find the COMID of the problem cell
+# Add the problem basins to a new DataFrame
 problemindex = 0
-
 for i in problems:
-    problemindex = diff[diff[i[0]]==i[1]].index.values
-    i.append(diff['COMID'].loc[problemindex])
+    problem_basins = problem_basins.append(diff.loc[diff.index.values[diff[i[0]]==i[1]][0]])
 
+# Sum the differences across all columns for each subbasin. 
+# If sum = 0, then the problem should be due to differences between QGIS and GIS TOOL in land cover class allocation to that subbasin
+# sum column is rounded to 4 decimals. There may be very small differences due to rounding. 
+diff_sum = round(problem_basins.sum(axis=1),4)
+problem_basins['sum'] = diff_sum
+
+problem_basins.to_csv('./Output/differences.csv')
+
+exit()
+
+
+## OPTIONAL: save list of problem basins to text file
 # Print Problems to console
 print("Input QGIS shapefile: {}".format(qgis_zh))
 print("Input GIS Tool .csv: {}".format(gistool_zh))
