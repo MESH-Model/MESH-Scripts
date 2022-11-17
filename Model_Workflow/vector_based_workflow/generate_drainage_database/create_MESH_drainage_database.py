@@ -28,6 +28,8 @@ Revision History
              -- 2) added a line to rename prefix_0 to prefix_NOD for the GIS tool .csv zonal hist
              -- 3) removed landcover fraction calculation for GIS tool .csv file
     20221116 -- 1) removed .csv column reordering. No longer necessary due to gistool bug fix
+    20221117 -- 1) added funtionality to accept I/O from unified control file.
+
 See also 
     
 Reference 
@@ -42,18 +44,91 @@ import numpy as np
 import xarray as xs
 import pandas as pd
 from   datetime import date
+from   pathlib import Path
 import time 
 
+##Control file handling
+# Easy access to control file folder
+controlFolder = Path('../0_control_files')
+ 
+# Store the name of the 'active' file in a variable
+controlFile = 'control_active.txt'
+ 
+#Function to extract a given setting from the control file
+def read_from_control( file, setting ):
+     
+    # Open 'control_active.txt' and ...
+    with open(file) as contents:
+        for line in contents:
+             
+            # ... find the line with the requested setting
+            if setting in line and not line.startswith('#'):
+                break
+     
+    # Extract the setting's value
+    substring = line.split('|',1)[1]      # Remove the setting's name (split into 2 based on '|', keep only 2nd part)
+    substring = substring.split('#',1)[0] # Remove comments, does nothing if no '#' is found
+    substring = substring.strip()         # Remove leading and trailing whitespace, tabs, newlines
+        
+    # Return this value   
+    return substring
+ 
+#Function to specify a default path
+def make_default_path(suffix):
+     
+    # Get the root path
+    rootPath = Path( read_from_control(controlFolder/controlFile,'root_path') )
+     
+    # Get the domain folder
+    domainName = read_from_control(controlFolder/controlFile,'domain_name')
+    domainFolder = 'domain_' + domainName
+     
+    # Specify the forcing path
+    defaultPath = rootPath / domainFolder / suffix
+     
+    return defaultPath
+
+#%% assigning input files
+# Note : this is an example for the Fraser setup
+input_lc_zh_path     = read_from_control(controlFolder/controlFile,'input_lc_zh_path')
+input_lc_zh_name     = read_from_control(controlFolder/controlFile,'input_lc_zh_name')
+
+input_topo_path      = read_from_control(controlFolder/controlFile,'input_topo_path')
+input_topo_name      = read_from_control(controlFolder/controlFile,'input_topo_name')
+ 
+outdir               = read_from_control(controlFolder/controlFile,'subset_basin_outdir')
+lc_type_prefix       = read_from_control(controlFolder/controlFile,'lc_type_prefix')
+merit_catchment_path = read_from_control(controlFolder/controlFile,'merit_catchment_path')
+merit_catchment_name = read_from_control(controlFolder/controlFile,'merit_catchment_name')
+
+# Specify default path if needed
+if input_lc_zh_path == 'default':
+    input_lc_zh_path = make_default_path('zonalhist/') # outputs a Path()
+else:
+    input_lc_zh_path = Path(input_lc_zh_path) # make sure a user-specified path is a Path()
+
+if input_topo_path == 'default':
+    input_topo_path = make_default_path('topology/') # outputs a Path()
+else:
+    input_topo_path = Path(input_topo_path) # make sure a user-specified path is a Path()
+ 
+if outdir == 'default':
+    outdir = make_default_path('drainagedatabase/') # outputs a Path()
+else:
+    outdir = Path(outdir) # make sure a user-specified path is a Path()
+
+if merit_catchment_path == 'default':
+    merit_catchment_path = make_default_path('subbasin/catchment/') # outputs a Path()
+else:
+    merit_catchment_path = Path(merit_catchment_path) # make sure a user-specified path is a Path()
+
 # %% directory of input files
-# Enter path to a zonal histogram file in either .csv format from GIS tool or in .shp format from QGIS
 start_time = time.time() 
-input_lc_zh              = '../gistool/Output/landsat_bow_stats_NA_NALCMS_2010_v2_land_cover_30m.csv'     #input a zonal statistics file from either QGIS (.shp) or GIS Tool (.csv)
-#input_lc_zh              = '../landcover_extract/Output/NALCMS2010_BowBanff_zonalhist.shp'
-input_topology           = '../network_topology/domain_BowAtBanff/settings/routing/network_topology_BowBanff.nc' 
-domain_name              = 'BowAtBanff'
-outdir                   = './Output/'
-lc_type_prefix           = 'frac_'              #Typically use 'frac_' for GIS Tool zonal stats files, use 'NACMS_' for QGIS files.
-Merit_catchment_shape    = '../network_topology/domain_BowAtBanff/shapefiles/river_basins/bow_distributed.shp'
+input_lc_zh              = input_lc_zh_path/input_lc_zh_name                            
+input_topology           = input_topo_path/input_topo_name 
+domain_name              = read_from_control(controlFolder/controlFile,'domainName')
+Merit_catchment          = merit_catchment_path/merit_catchment_name
+
 
 #%% Function reindex to extract drainage database variables 
 def new_rank_extract(input_topology): 
