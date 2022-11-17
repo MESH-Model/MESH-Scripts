@@ -34,7 +34,6 @@ Reference
 
 Todo:
     1) The lc_types is based on NALCMS 2010. The name list is hard-coded   
-    2) Introduce compatibility for GIS tool zonal histogram. Lc_types are out of order for gistool zh
 """
 
 # %% importing modules 
@@ -207,21 +206,16 @@ else:
     print('Zonal histogram not recognized.')
     exit()
 
-# reorder 'frac_' columns so that they are in numerical order
+# rename frac_0 to frac_NOD for compatibility with verify lc_types. Not necessary for QGIS version.
 if input_lc_zh.endswith('.csv'):
-
-    lc_zonal_hist = lc_zonal_hist.rename(columns={lc_type_prefix+'0':lc_type_prefix+'NOD'}) #rename frac_0 to frac_NOD for compatibility with verify lc_types. Not necessary for QGIS version.
-
+    lc_zonal_hist = lc_zonal_hist.rename(columns={lc_type_prefix+'0':lc_type_prefix+'NOD'})
     cols = lc_zonal_hist.columns.tolist()
-
     for i in cols:
         if lc_type_prefix in i:
             if 'NOD' in i:
                 nod=i
                 cols.remove(i)
-
     cols.append(nod)
-
     lc_zonal_hist = lc_zonal_hist[cols]
 
 #%% reading source MeritHydro catchment file and visualize and save subbasin selection
@@ -298,7 +292,7 @@ if (fid.size != 0):
 # add Dump layer for MESH application
 lc_frac['Dump'] = 0
 
-# calculating land cover percentage. Only calculate if input zonal histogram is a shapefile
+# calculating land cover percentage. Only calculate if input zonal histogram is a shapefile (i.e. QGIS version)
 if input_lc_zh.endswith('.shp'):
     lc_frac = lc_frac.apply(lambda x: round(x/x.sum(),2), axis=1)
 
