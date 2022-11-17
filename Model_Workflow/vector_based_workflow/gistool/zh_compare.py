@@ -78,6 +78,8 @@ for i in problems:
     i.append(diff['COMID'].loc[problemindex])
 
 # Print Problems to console
+print("Input QGIS shapefile: {}".format(qgis_zh))
+print("Input GIS Tool .csv: {}".format(gistool_zh))
 print("Problem tolerance is set to {}".format(tolerance))
 print("{} problems found: ".format(len(problems)),'\n')
 for i in problems:
@@ -87,6 +89,10 @@ for i in problems:
 
 # Save problems as 'difference.txt'
 with open('differences.txt', 'w') as f:
+    f.write("Input QGIS shapefile: {}".format(qgis_zh))
+    f.write('\n')
+    f.write("Input GIS Tool .csv: {}".format(gistool_zh))
+    f.write('\n')
     f.write("Problem tolerance is set to {}".format(tolerance))
     f.write('\n')
     f.write("{} problems found: ".format(len(problems)))
