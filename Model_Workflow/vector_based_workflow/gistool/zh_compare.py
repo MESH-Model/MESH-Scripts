@@ -6,34 +6,33 @@ import pandas as pd
 import warnings
 warnings.filterwarnings("ignore")
 
-## Setting Input files
-# Import the QGIS zonal histogram shapefile
-input_zh = './NALCMS2010_PFAF71_zonalhist.shp'
-# Import the GIS Tool zonal statistics .csv file
-in_zhg = './zh_gistool_PFAF71.csv'
-# set the level of acceptable difference between QGIS and GIS Tool fraction values
-tolerance = abs(0.01)
-# Read QGIS .shp to GeoDataFrame then convert to Pandas DataFrame
-gdf = gpd.read_file(input_zh)
-lc_zonal_hist = pd.DataFrame(gdf)
-# Read GIS Tool .csv into Pandas DataFrame
-gtool = pd.read_csv(in_zhg)
+## Setting Inputs
+qgis_zh = './NALCMS2010_PFAF71_zonalhist.shp'       # Import the QGIS zonal histogram shapefile
+gistool_zh = './zh_gistool_PFAF71.csv'              # Import the GIS Tool zonal statistics .csv file
+tolerance = abs(0.01)                               # set the level of acceptable difference between QGIS and GIS Tool fraction values
+                             
+##Reading inputs to DataFrames
+gdf = gpd.read_file(qgis_zh)                        # Read QGIS .shp to GeoDataFrame then convert to Pandas DataFrame
+qgis = pd.DataFrame(gdf)
+gtool = pd.read_csv(gistool_zh)                     # Read GIS Tool .csv into Pandas DataFrame
 
 # Remove unnecessary columns from QGIS DataFrame
 cols=[]
-for i in lc_zonal_hist.columns:
+for i in qgis.columns:
     if "NALCMS" in i:
         cols.append(i)
-lc_zh = lc_zonal_hist[cols]
+lc_zh = qgis[cols]
 
 ## Calculating landcover fraction for QGIS DataFrame
 # Add a sum column for QGIS DataFrame
 lc_sum = lc_zh.sum(axis=1)
 lc_zh['sum'] = lc_sum
-# Calcullate the fraction for each land cover
+
+# Calculate the fraction for each land cover. Replaces 'NALCMS' with 'frac'.
 for i in lc_zh:
     lc_zh['frac_{}'.format(i.replace('NALCMS_',''))] = lc_zh[i]/lc_zh['sum']
-# Remove the original NALCMS_ columns containing counts and the sum column
+
+# Remove the sum column and original NALCMS_ columns containing counts 
 cols=[]
 for i in lc_zh.columns:
     if "frac" in i:
@@ -59,8 +58,9 @@ gfrac = gtool[cols]
 
 #Calculate the difference between QGIS and GIS Tool fraction values (QGIS value - GIS Tool value)
 diff = frac.subtract(gfrac)
+
 # Add COMID column to the Difference DataFrame
-diff['COMID'] = lc_zonal_hist['COMID']
+diff['COMID'] = qgis['COMID']
 
 ## Identify problems
 problems = []
@@ -77,6 +77,7 @@ for i in problems:
     problemindex = int(diff[diff[i[0]]==i[1]].index.values)
     i.append(diff['COMID'].loc[problemindex])
 
+# Print Problems to console
 print("Problem tolerance is set to {}".format(tolerance))
 print("{} problems found: ".format(len(problems)),'\n')
 for i in problems:
@@ -84,6 +85,7 @@ for i in problems:
     print("Land Cover Class: {}".format(i[0].strip("frac_")))
     print("Difference (QGIS - GIS Tool): {}".format(i[1]),"\n")
 
+# Save problems as 'difference.txt'
 with open('differences.txt', 'w') as f:
     f.write("Problem tolerance is set to {}".format(tolerance))
     f.write('\n')
