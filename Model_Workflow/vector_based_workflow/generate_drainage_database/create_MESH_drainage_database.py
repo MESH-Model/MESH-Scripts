@@ -47,13 +47,13 @@ import time
 # %% directory of input files
 # Enter path to a zonal histogram file in either .csv format from GIS tool or in .shp format from QGIS
 start_time = time.time() 
-input_lc_zh              = '/scratch/calbano/landsat-71/landsat_71_stats_NA_NALCMS_2010_v2_land_cover_30m.csv'     #input GIS tool .csv zonal histogram instead of QGIS .shp zonal histogram
-#input_lc_zh             = './shape_file/zonal_hist/NALCMS2010_PFAF78_zonalhist.shp'                                #input QGIS .shp zonal histogram instead of GIS tool .csv zonal histogram
-input_topology           = '/project/6008034/Model_Output/MESH/NA_workflow/vector_based_routing/network_topology/domain_PFAF71/settings/routing/network_topology_PFAF71.nc' 
-domain_name              = 'PFAF71'
-outdir                   = '../Output/NA/DDB/'
-lc_type_prefix           = 'frac_'
-Merit_catchment_shape    = '/project/6008034/Model_Output/MESH/NA_workflow/shape_file/catchment/cat_pfaf_78_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
+input_lc_zh              = '../gistool/Output/landsat_bow_stats_NA_NALCMS_2010_v2_land_cover_30m.csv'     #input a zonal statistics file from either QGIS (.shp) or GIS Tool (.csv)
+#input_lc_zh              = '../landcover_extract/Output/NALCMS2010_BowBanff_zonalhist.shp'
+input_topology           = '../network_topology/domain_BowAtBanff/settings/routing/network_topology_BowBanff.nc' 
+domain_name              = 'BowAtBanff'
+outdir                   = './Output/'
+lc_type_prefix           = 'frac_'              #Typically use 'frac_' for GIS Tool zonal stats files, use 'NACMS_' for QGIS files.
+Merit_catchment_shape    = '../network_topology/domain_BowAtBanff/shapefiles/river_basins/bow_distributed.shp'
 
 #%% Function reindex to extract drainage database variables 
 def new_rank_extract(input_topology): 
@@ -208,6 +208,7 @@ else:
 
 # rename frac_0 to frac_NOD for compatibility with verify lc_types. Not necessary for QGIS version.
 if input_lc_zh.endswith('.csv'):
+    print(lc_zonal_hist)
     lc_zonal_hist = lc_zonal_hist.rename(columns={lc_type_prefix+'0':lc_type_prefix+'NOD'})
     cols = lc_zonal_hist.columns.tolist()
     for i in cols:
@@ -215,7 +216,7 @@ if input_lc_zh.endswith('.csv'):
             if 'NOD' in i:
                 nod=i
                 cols.remove(i)
-    cols.append(nod)
+                cols.append(nod)
     lc_zonal_hist = lc_zonal_hist[cols]
 
 #%% reading source MeritHydro catchment file and visualize and save subbasin selection
