@@ -7,8 +7,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 ## Setting Inputs
-qgis_zh = './NALCMS2010_PFAF71_zonalhist.shp'       # Import the QGIS zonal histogram shapefile
-gistool_zh = './zh_gistool_PFAF71.csv'              # Import the GIS Tool zonal statistics .csv file
+qgis_zh = '/mnt/e/GWF_data/shapefiles/zonal_hist/NALCMS2010_PFAF78_zonalhist.shp'       # Import the QGIS zonal histogram shapefile
+gistool_zh = './landsat_test_stats_NA_NALCMS_2010_v2_land_cover_30m.csv'              # Import the GIS Tool zonal statistics .csv file
 tolerance = abs(0.01)                               # set the level of acceptable difference between QGIS and GIS Tool fraction values
                              
 ##Reading inputs to DataFrames
@@ -74,7 +74,7 @@ for i in diff.columns:
 problemindex = 0
 
 for i in problems:
-    problemindex = int(diff[diff[i[0]]==i[1]].index.values)
+    problemindex = diff[diff[i[0]]==i[1]].index.values
     i.append(diff['COMID'].loc[problemindex])
 
 # Print Problems to console
