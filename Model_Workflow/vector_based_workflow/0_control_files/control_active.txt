@@ -11,7 +11,7 @@ domain_name                 | BowAtBanff                           	  # Used as 
  
 # Shapefile settings - river network file
 river_network_shp_path      | default                                     # If 'default', uses 'root_path/domain_[name]/shapefiles/river_network'.
-river_network_shp_name      | FRASER_08MH126_riv.shp                      # Name of the river network shapefile. Requires extension '.shp'.
+river_network_shp_name      | bow_river_network_from_merit_hydro.shp                      # Name of the river network shapefile. Requires extension '.shp'.
 river_network_shp_segid     | COMID                                       # Name of the segment ID column.
 river_network_shp_downsegid | NextDownID                                  # Name of the downstream segment ID column.
 river_network_shp_slope     | slope                                       # Name of the slope column. Slope must be in in units [length/length].
@@ -21,14 +21,14 @@ river_network_shp_outlet_id | 78011863                                    # ID o
  
 # Shapefile settings - catchment file
 river_basin_shp_path        | default                                     # If 'default', uses 'root_path/domain_[name]/shapefiles/river_basins'.
-river_basin_shp_name        | FRASER_08MH126_cat.shp                      # Name of the routing subbasins shapefile needed for remapping. Requires extension '.shp'.
+river_basin_shp_name        | bow_distributed.shp                      # Name of the routing subbasins shapefile needed for remapping. Requires extension '.shp'.
 river_basin_shp_rm_hruid    | COMID                                       # Name of the routing basin ID column.
 river_basin_shp_area        | unitarea                                    # Name of the catchment area column. Area must be in units [m^2]
 river_basin_shp_hru_to_seg  | COMID                                       # Name of the column that shows which river segment each HRU connects to.
  
 # Experiment settings - routing
 settings_routing_path          | default                                     # If 'default', uses 'root_path/domain_[name]/settings/routing'.
-settings_routing_topology      | network_topology_domain_[name].nc           # Name of the river network topology file.
+settings_routing_topology      | network_topology_BowAtBanff.nc           # Name of the river network topology file.
  
 # Default folder structure
 # Example of the resulting folder structure in "root_path".
