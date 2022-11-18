@@ -14,9 +14,11 @@ MESH Wiki workflow:
 Vector-based routing in MESH
 
 ## Team
-  **MESH support:** Daniel Princz (ECCC) 
-** CWARHM support:** Wouter Knoben (USASK) and Shervan Gharari(USASK)
-  **Advisors:** Bruce Davison (ECCC), Alain Pietroniro (UofC), and Martyn Clark (USASK) 
+  - MESH workflow development: Ala Bahrami (USASK) and Cooper Albano (USASK)  
+  - MESH code support: Daniel Princz (ECCC) 
+  - Geospatial support : Shervan Gharari(USASK) and Kasra Keshavarz (USASK)
+  - CWARHM workflow: Wouter Knoben (USASK) 
+  - Advisors: Bruce Davison (ECCC), Alain Pietroniro (UofC), and Martyn Clark (USASK) 
 
 ## Date
 The project has been started in November 2020. 
