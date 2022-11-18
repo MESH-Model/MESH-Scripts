@@ -6,7 +6,7 @@
  
 
 # Modeling domain settings
-root_path                   | /mnt/c/Users/5600x/Desktop/GWF/MESH-Scripts/Model_Workflow/vector_based_workflow/workflow_data/domain_BowAtBanff/river_network                                    # Root folder where data will be stored.
+root_path                   | /mnt/c/Users/5600x/Desktop/GWF/MESH-Scripts/Model_Workflow/vector_based_workflow/workflow_data/                                    # Root folder where data will be stored.
 domain_name                 | BowAtBanff                                 # Used as part of the root folder name for the prepared data.
 
 
@@ -44,33 +44,35 @@ target_seg_id              | 05NG001
 
 ## Drainage Database Settings
 input_lc_zh_path		      | default                                     		      # If 'default', uses 'root_path/domain_[name]/zonalhist/
-input_lc_zh_name		      | NALCMS_BowAtBanff_zonalhist.shp
-input_topo_path		      | deafult                                     		      # If 'default', uses 'root_path/domain_[name]/topology/
-Input_topo_name		      | network_topology_BowBanff.nc
-DDB_output_dir			      | deafult                                     		      # If 'default', uses 'root_path/domain_[name]/drainagedatabase/
-lc_type_prefix			      | frac_ 										  			            # Typically, use frac_ when using zonal statistics generated with GIS Tool (.csv). use NALCMS_ for QGIS zonal histogram (.shp) 
-merit_catchment_path	      | default                                     		      # If 'default', uses 'root_path/domain_[name]/subbasin/catchment/
-merit_catchment_name	      | bow_distributed.shp 	   # The parent shapefile used in subbasin selection (irrelevant if subbasin selection is not used)
+input_lc_zh_name		      | NALCMS2010_BowBanff_zonalhist.shp
+input_topo_path		      | default                                     		      # If 'default', uses 'root_path/domain_[name]/topology/
+input_topo_name            | network_topology_BowBanff.nc
+DDB_output_dir			      | default                                     		      # If 'default', uses 'root_path/domain_[name]/drainagedatabase/
+lc_type_prefix			      | NALCMS_ 										  			         # Typically, use frac_ when using zonal statistics generated with GIS Tool (.csv). use NALCMS_ for QGIS zonal histogram (.shp) 
+merit_basin_path	         | default                                     		      # If 'default', uses 'root_path/domain_[name]/subbasin/catchment/
+merit_basin_name	         | bow_distributed.shp 	                                 # The parent shapefile used in subbasin selection (irrelevant if subbasin selection is not used)
 
 
 # Default folder structure
 # Example of the resulting folder structure in "root_path".
 # New domains will go into their own folder.
  
-- MESHWorkflow_data
+- workflow_data
    |
    |_ domain_[name]
    |   |
-   |   |_ settings
-   |   |   |_ routing
+   |   |_ drainagedatabase
    |   |   |
    |   |
-   |   |_ shapefiles
-   |   |   |_
-   |   |   |_ river_basins
-   |   |   |_ river_network   
+   |   |_ river_network
+   |   |   |
+   |   |
+   |   |_ subbasin   
    |   |   |  
    |   |     
-   |_ 0_control_files
+   |   |_ topology
+   |   |   |
    |   |
-   |   |_ control_domain_[name]
+   |   |_ zonalhist
+   |   |   |
+   |   |

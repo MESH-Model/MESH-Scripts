@@ -28,8 +28,6 @@ Revision History
              -- 2) added a line to rename prefix_0 to prefix_NOD for the GIS tool .csv zonal hist
              -- 3) removed landcover fraction calculation for GIS tool .csv file
     20221116 -- 1) removed .csv column reordering. No longer necessary due to gistool bug fix
-    20221117 -- 1) added funtionality to accept I/O from unified control file.
-
 See also 
     
 Reference 
@@ -44,16 +42,17 @@ import numpy as np
 import xarray as xs
 import pandas as pd
 from   datetime import date
-from   pathlib import Path
+from pathlib import Path
+from shutil import copyfile
 import time 
 
-##Control file handling
+#Control file handling
 # Easy access to control file folder
 controlFolder = Path('../0_control_files')
- 
+
 # Store the name of the 'active' file in a variable
-controlFile = 'control_active.txt'
- 
+controlFile = 'control_unified.txt'
+
 #Function to extract a given setting from the control file
 def read_from_control( file, setting ):
      
@@ -72,7 +71,7 @@ def read_from_control( file, setting ):
         
     # Return this value   
     return substring
- 
+
 #Function to specify a default path
 def make_default_path(suffix):
      
@@ -88,47 +87,57 @@ def make_default_path(suffix):
      
     return defaultPath
 
-#%% assigning input files
-# Note : this is an example for the Fraser setup
-input_lc_zh_path     = read_from_control(controlFolder/controlFile,'input_lc_zh_path')
-input_lc_zh_name     = read_from_control(controlFolder/controlFile,'input_lc_zh_name')
-
-input_topo_path      = read_from_control(controlFolder/controlFile,'input_topo_path')
-input_topo_name      = read_from_control(controlFolder/controlFile,'input_topo_name')
- 
-outdir               = read_from_control(controlFolder/controlFile,'subset_basin_outdir')
-lc_type_prefix       = read_from_control(controlFolder/controlFile,'lc_type_prefix')
-merit_catchment_path = read_from_control(controlFolder/controlFile,'merit_catchment_path')
-merit_catchment_name = read_from_control(controlFolder/controlFile,'merit_catchment_name')
+## Find location of zonal statistics file
+# Zonal statistics file path & name
+lc_zh_path = read_from_control(controlFolder/controlFile,'input_lc_zh_path')
+lc_zh_name = read_from_control(controlFolder/controlFile,'input_lc_zh_name')
 
 # Specify default path if needed
-if input_lc_zh_path == 'default':
-    input_lc_zh_path = make_default_path('zonalhist/') # outputs a Path()
+if lc_zh_path == 'default':
+    lc_zh_path = make_default_path('zonalhist/') # outputs a Path()
 else:
-    input_lc_zh_path = Path(input_lc_zh_path) # make sure a user-specified path is a Path()
+    lc_zh_path = Path(lc_zh_path) # make sure a user-specified path is a Path()
 
-if input_topo_path == 'default':
-    input_topo_path = make_default_path('topology/') # outputs a Path()
+## Find location of network topology file
+# Network topology file path & name
+topo_path = read_from_control(controlFolder/controlFile,'input_topo_path')
+topo_name = read_from_control(controlFolder/controlFile,'input_topo_name')
+
+# Specify default path if needed
+if topo_path == 'default':
+    topo_path = make_default_path('topology/') # outputs a Path()
 else:
-    input_topo_path = Path(input_topo_path) # make sure a user-specified path is a Path()
- 
+    topo_path = Path(topo_path) # make sure a user-specified path is a Path()
+
+## Find location of MERIT Basin shapefile
+# MERIT Bassin shapefile path & name
+merit_path = read_from_control(controlFolder/controlFile,'merit_basin_path')
+merit_name = read_from_control(controlFolder/controlFile,'merit_basin_name')
+
+# Specify default path if needed
+if merit_path == 'default':
+    merit_path = make_default_path('subbasin/') # outputs a Path()
+else:
+    merit_path = Path(merit_path) # make sure a user-specified path is a Path()
+
+## Find location of output directory
+# output directory path
+outdir = read_from_control(controlFolder/controlFile,'DDB_output_dir')
+
+# Specify default path if needed
 if outdir == 'default':
     outdir = make_default_path('drainagedatabase/') # outputs a Path()
 else:
     outdir = Path(outdir) # make sure a user-specified path is a Path()
 
-if merit_catchment_path == 'default':
-    merit_catchment_path = make_default_path('subbasin/catchment/') # outputs a Path()
-else:
-    merit_catchment_path = Path(merit_catchment_path) # make sure a user-specified path is a Path()
-
 # %% directory of input files
+# Enter path to a zonal histogram file in either .csv format from GIS tool or in .shp format from QGIS
 start_time = time.time() 
-input_lc_zh              = input_lc_zh_path/input_lc_zh_name                            
-input_topology           = input_topo_path/input_topo_name 
-domain_name              = read_from_control(controlFolder/controlFile,'domainName')
-Merit_catchment          = merit_catchment_path/merit_catchment_name
-
+input_lc_zh              = lc_zh_path/lc_zh_name     
+input_topology           = topo_path/topo_name
+Merit_catchment_shape    = merit_path/merit_name
+domain_name              = read_from_control(controlFolder/controlFile,'domain_name')
+lc_type_prefix           = read_from_control(controlFolder/controlFile,'lc_type_prefix')
 
 #%% Function reindex to extract drainage database variables 
 def new_rank_extract(input_topology): 
@@ -206,7 +215,8 @@ def new_rank_extract(input_topology):
         dt = {'Merit_reorderd_ID':rank_id_domain, 'Outlet_Number':outlet_number, 
               'Rank':Rank,'Next':Next,'Segid':segid,'tosegment':tosegment}
         df = pd.DataFrame(data=dt, dtype = np.int64)
-        df.to_csv(outdir+domain_name+'_Rank_ID'+'.csv', index=False)
+        outrank = domain_name+'_Rank_ID'+'.csv'
+        df.to_csv(outdir/outrank, index=False)
         
         # % reordering network topology variables based on Rank 1:NA
         for m in ['basin_area', 'length', 'slope', 'lon', 'lat', 'hruid', 
@@ -271,10 +281,10 @@ def new_rank_extract(input_topology):
 rank_id_domain, drainage_db, outlet_number = new_rank_extract(input_topology)
 
 # %% reading the input zonal histogram of landcover and reindex it. 
-if input_lc_zh.endswith('.shp'):
+if str(input_lc_zh).endswith('.shp'):
     lc_zonal_hist = gpd.read_file(input_lc_zh)                        # read QGIS .shp zonal histogram
     lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID'])           # sort by COMID for QGIS zonal histogram
-elif input_lc_zh.endswith('.csv'):
+elif str(input_lc_zh).endswith('.csv'):
     lc_zonal_hist = pd.read_csv(input_lc_zh)                           # read GIS tool .csv zonal histogram
     lc_zonal_hist = lc_zonal_hist.sort_values(by=['p[[1]]'])           # sort by p[[1]] for GIS tool zonal histogram
 else:
@@ -282,8 +292,7 @@ else:
     exit()
 
 # rename frac_0 to frac_NOD for compatibility with verify lc_types. Not necessary for QGIS version.
-if input_lc_zh.endswith('.csv'):
-    print(lc_zonal_hist)
+if str(input_lc_zh).endswith('.csv'):
     lc_zonal_hist = lc_zonal_hist.rename(columns={lc_type_prefix+'0':lc_type_prefix+'NOD'})
     cols = lc_zonal_hist.columns.tolist()
     for i in cols:
@@ -369,7 +378,7 @@ if (fid.size != 0):
 lc_frac['Dump'] = 0
 
 # calculating land cover percentage. Only calculate if input zonal histogram is a shapefile (i.e. QGIS version)
-if input_lc_zh.endswith('.shp'):
+if str(input_lc_zh).endswith('.shp'):
     lc_frac = lc_frac.apply(lambda x: round(x/x.sum(),2), axis=1)
 
 # %% convert the lc_frac as a dataset and save it as netcdf
@@ -429,8 +438,10 @@ drainage_db["LandUse"] = (["gru"], lc_type)
 drainage_db = drainage_db.set_coords(['time', 'lon', 'lat'])
 
 # saved the drainage_database
-drainage_db.to_netcdf(outdir+domain_name+'_MESH_drainage_database.nc')
+outDDB = domain_name+'_MESH_drainage_database.nc'
+drainage_db.to_netcdf(outdir/outDDB)
  
 # %% Save land cover fraction (this is optional)
-lc_ds.to_netcdf(outdir+domain_name+'_MESH_LC_FRAC.nc')
+outFRAC = domain_name+'_MESH_LC_FRAC.nc'
+lc_ds.to_netcdf(outdir/outFRAC)
 print('--%s seconds--' %(time.time() - start_time))
