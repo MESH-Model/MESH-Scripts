@@ -13,9 +13,9 @@ import warnings
 #Control file handling
 # Easy access to control file folder
 controlFolder = Path('../0_control_files')
- 
+print(controlFolder)
 # Store the name of the 'active' file in a variable
-controlFile = 'control_active.txt'
+controlFile = 'control_unified.txt'
  
 #Function to extract a given setting from the control file
 def read_from_control( file, setting ):
@@ -43,18 +43,14 @@ def make_default_path(suffix):
     rootPath = Path( read_from_control(controlFolder/controlFile,'root_path') )
      
     # Get the domain folder
-    #domainName = read_from_control(controlFolder/controlFile,'domain_name')
-    #domainFolder = 'domain_' + domainName
+    domainName = read_from_control(controlFolder/controlFile,'domain_name')
+    domainFolder = 'domain_' + domainName
      
     # Specify the forcing path
-    #defaultPath = rootPath / domainFolder / suffix
-    defaultPath = rootPath / suffix 
+    defaultPath = rootPath / domainFolder / suffix
+     
     return defaultPath
-
-
-domain_name = read_from_control(controlFolder/controlFile,'domain_name')
-domainFolder = 'domain_' + domain_name 
-
+ 
 # Find location of river network shapefile
 # River network shapefile path & name
 river_network_path = read_from_control(controlFolder/controlFile,'river_network_shp_path')
@@ -62,7 +58,7 @@ river_network_name = read_from_control(controlFolder/controlFile,'river_network_
  
 # Specify default path if needed
 if river_network_path == 'default':
-    river_network_path = make_default_path('network_topology/'+domainFolder+'/shapefiles/river_network/') # outputs a Path()
+    river_network_path = make_default_path('river_network/') # outputs a Path()
 else:
     river_network_path = Path(river_network_path) # make sure a user-specified path is a Path()
      
@@ -86,7 +82,7 @@ river_basin_name = read_from_control(controlFolder/controlFile,'river_basin_shp_
  
 #Specify default path if needed
 if river_basin_path == 'default':
-    river_basin_path = make_default_path('network_topology/'+domainFolder+'/shapefiles/river_basins') # outputs a Path()
+    river_basin_path = make_default_path('subbasin/') # outputs a Path()
 else:
     river_basin_path = Path(river_basin_path) # make sure a user-specified path is a Path()
  
@@ -102,7 +98,7 @@ topology_name = read_from_control(controlFolder/controlFile,'settings_routing_to
  
 #Specify default path if needed
 if topology_path == 'default':
-    topology_path = make_default_path('network_topology/'+domainFolder+'/settings/routing') # outputs a Path()
+    topology_path = make_default_path('topology/') # outputs a Path()
 else:
     topology_path = Path(topology_path) # make sure a user-specified path is a Path()
  

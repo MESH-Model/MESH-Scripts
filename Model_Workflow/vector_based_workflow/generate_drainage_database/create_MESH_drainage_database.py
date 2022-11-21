@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Name
     create_MESH_drainage_database. previously called lc_vectorbased
@@ -50,7 +51,7 @@ import time
 controlFolder = Path('../0_control_files')
 
 # Store the name of the 'active' file in a variable
-controlFile = 'control_active.txt'
+controlFile = 'control_unified.txt'
 
 #Function to extract a given setting from the control file
 def read_from_control( file, setting ):
@@ -78,38 +79,33 @@ def make_default_path(suffix):
     rootPath = Path( read_from_control(controlFolder/controlFile,'root_path') )
      
     # Get the domain folder
-    #domainName = read_from_control(controlFolder/controlFile,'domain_name')
-    #domainFolder = 'domain_' + domainName
+    domainName = read_from_control(controlFolder/controlFile,'domain_name')
+    domainFolder = 'domain_' + domainName
      
     # Specify the forcing path
-    #defaultPath = rootPath / domainFolder / suffix
-    defaultPath = rootPath / suffix
-
+    defaultPath = rootPath / domainFolder / suffix
+     
     return defaultPath
-
-#
-domain_name = read_from_control(controlFolder/controlFile,'domain_name')
-domainFolder = 'domain_' + domain_name
 
 ## Find location of zonal statistics file
 # Zonal statistics file path & name
-lc_zh_path = read_from_control(controlFolder/controlFile,'zonal_stats_path')
-lc_zh_name = read_from_control(controlFolder/controlFile,'zonal_stats_name')
+lc_zh_path = read_from_control(controlFolder/controlFile,'input_lc_zh_path')
+lc_zh_name = read_from_control(controlFolder/controlFile,'input_lc_zh_name')
 
 # Specify default path if needed
 if lc_zh_path == 'default':
-    lc_zh_path = make_default_path('gistool/Output/') # outputs a Path()
+    lc_zh_path = make_default_path('zonalhist/') # outputs a Path()
 else:
     lc_zh_path = Path(lc_zh_path) # make sure a user-specified path is a Path()
 
 ## Find location of network topology file
 # Network topology file path & name
-topo_path = read_from_control(controlFolder/controlFile,'network_topology_path')
-topo_name = read_from_control(controlFolder/controlFile,'network_topology_name')
+topo_path = read_from_control(controlFolder/controlFile,'input_topo_path')
+topo_name = read_from_control(controlFolder/controlFile,'input_topo_name')
 
 # Specify default path if needed
 if topo_path == 'default':
-    topo_path = make_default_path('network_topology/'+domainFolder+'/settings/routing/') # outputs a Path()
+    topo_path = make_default_path('topology/') # outputs a Path()
 else:
     topo_path = Path(topo_path) # make sure a user-specified path is a Path()
 
@@ -120,17 +116,17 @@ merit_name = read_from_control(controlFolder/controlFile,'merit_basin_name')
 
 # Specify default path if needed
 if merit_path == 'default':
-    merit_path = make_default_path('network_topology/'+domainFolder+'/shapefiles/river_basins/') # outputs a Path()
+    merit_path = make_default_path('subbasin/') # outputs a Path()
 else:
     merit_path = Path(merit_path) # make sure a user-specified path is a Path()
 
 ## Find location of output directory
 # output directory path
-outdir = read_from_control(controlFolder/controlFile,'output_directory')
+outdir = read_from_control(controlFolder/controlFile,'DDB_output_dir')
 
 # Specify default path if needed
 if outdir == 'default':
-    outdir = make_default_path('generate_drainage_database/Output/') # outputs a Path()
+    outdir = make_default_path('drainagedatabase/') # outputs a Path()
 else:
     outdir = Path(outdir) # make sure a user-specified path is a Path()
 
@@ -140,6 +136,7 @@ start_time = time.time()
 input_lc_zh              = lc_zh_path/lc_zh_name     
 input_topology           = topo_path/topo_name
 Merit_catchment_shape    = merit_path/merit_name
+domain_name              = read_from_control(controlFolder/controlFile,'domain_name')
 lc_type_prefix           = read_from_control(controlFolder/controlFile,'lc_type_prefix')
 
 #%% Function reindex to extract drainage database variables 

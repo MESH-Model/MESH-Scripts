@@ -15,7 +15,7 @@ import warnings
 controlFolder = Path('../0_control_files')
  
 # Store the name of the 'active' file in a variable
-controlFile = 'control_active.txt'
+controlFile = 'control_unified.txt'
  
 #Function to extract a given setting from the control file
 def read_from_control( file, setting ):
@@ -62,7 +62,7 @@ river_network_name = read_from_control(controlFolder/controlFile,'river_network_
  
 # Specify default path if needed
 if river_network_path == 'default':
-    river_network_path = make_default_path('network_topology/'+domainFolder+'/shapefiles/river_network/') # outputs a Path()
+    river_network_path = make_default_path('river_network/') # outputs a Path()
 else:
     river_network_path = Path(river_network_path) # make sure a user-specified path is a Path()
      
@@ -86,7 +86,7 @@ river_basin_name = read_from_control(controlFolder/controlFile,'river_basin_shp_
  
 #Specify default path if needed
 if river_basin_path == 'default':
-    river_basin_path = make_default_path('network_topology/'+domainFolder+'/shapefiles/river_basins') # outputs a Path()
+    river_basin_path = make_default_path('subbasin/') # outputs a Path()
 else:
     river_basin_path = Path(river_basin_path) # make sure a user-specified path is a Path()
  
@@ -102,7 +102,7 @@ topology_name = read_from_control(controlFolder/controlFile,'settings_routing_to
  
 #Specify default path if needed
 if topology_path == 'default':
-    topology_path = make_default_path('network_topology/'+domainFolder+'/settings/routing') # outputs a Path()
+    topology_path = make_default_path('topology/') # outputs a Path()
 else:
     topology_path = Path(topology_path) # make sure a user-specified path is a Path()
  
