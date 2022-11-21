@@ -5,10 +5,10 @@ import numpy as np
 from pathlib import Path
 #Control file handling
 # Easy access to control file folder
-controlFolder = Path('/mnt/c/Users/5600x/Desktop/GWF/vector_based_workflow_CWARHM/0_control_files')
+controlFolder = Path('/mnt/c/Users/5600x/Desktop/GWF/MESH-Scripts/Model_Workflow/vector_based_workflow/0_control_files')
  
 # Store the name of the 'active' file in a variable
-controlFile = 'control_active.txt'
+controlFile = 'control_unified.txt'
  
 #Function to extract a given setting from the control file
 def read_from_control( file, setting ):
@@ -62,25 +62,25 @@ outdir_river = read_from_control(controlFolder/controlFile,'subset_river_outdir'
 
 # Specify default path if needed
 if input_basin_path == 'default':
-    input_basin_path = make_default_path('subbasin/catchment') # outputs a Path()
+    input_basin_path = make_default_path('subbasin/') # outputs a Path()
 else:
     input_basin_path = Path(input_basin_path) # make sure a user-specified path is a Path()
     
 if input_river_path == 'default':
-    input_river_path = make_default_path('subbasin/river') # outputs a Path()
+    input_river_path = make_default_path('river_network') # outputs a Path()
 else:
     input_river_path = Path(input_river_path) # make sure a user-specified path is a Path()
     
 if outdir_basin == 'default':
-    outdir_basin = make_default_path('subbasin/output/') # outputs a Path()
+    outdir_basin = make_default_path('subbasin/') # outputs a Path()
 else:
     outdir_basin = Path(outdir_basin) # make sure a user-specified path is a Path()
  
 if outdir_river == 'default':
-    outdir_river = make_default_path('subbasin/output/') # outputs a Path()
+    outdir_river = make_default_path('river_network/') # outputs a Path()
 else:
     outdir_river = Path(outdir_river) # make sure a user-specified path is a Path()
- 
+
 #%% initializing easymore object
 esmr = easymore()
 # load the files and calculating the downstream of each segment
@@ -103,5 +103,5 @@ riv_up = riv.loc[riv['COMID'].isin(up_subbasins)]
 cat_up.plot()
 riv_up.plot()
 # save
-cat_up.to_file(str(outdir_basin)+esmr.case_name+'_cat.shp')
-riv_up.to_file(str(outdir_river)+esmr.case_name+'_riv.shp')
+cat_up.to_file(str(outdir_basin)+'/'+esmr.case_name+'_cat.shp')
+riv_up.to_file(str(outdir_river)+'/'+esmr.case_name+'_riv.shp')

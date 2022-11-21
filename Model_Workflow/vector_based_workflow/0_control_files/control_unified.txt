@@ -33,13 +33,13 @@ settings_routing_topology      | network_topology_BowBanff.nc        # Name of t
 
 
 ## Subbasin Selection Settings
-input_basin_path           | default                                      # If 'default', uses 'root_path/domain_[name]/subbasin/catchment
-input_basin_name           | cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp
-input_river_path           | default                                      # If 'default', uses 'root_path/domain_[name]/subbasin/river
-input_river_name           | riv_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp
+input_basin_path           | /mnt/e/GWF_data/shapefiles/catchment/                                      # If 'default', uses 'root_path/domain_[name]/subbasin/catchment
+input_basin_name           | cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp
+input_river_path           | /mnt/e/GWF_data/shapefiles/river_network/                                      # If 'default', uses 'root_path/domain_[name]/subbasin/river
+input_river_name           | rivEndoMERITpfaf_71_WGS84.shp
 subset_basin_outdir        | default                                      # If 'default', uses 'root_path/domain_[name]/subbasin/output
 subset_river_outdir        | default                                      # If 'default', uses 'root_path/domain_[name]/subbasin/output
-target_seg_id              | 05NG001
+target_seg_id              | 71030418
 
 
 ## Drainage Database Settings
