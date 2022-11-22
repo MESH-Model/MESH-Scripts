@@ -6,8 +6,8 @@
  
 
 # Modeling domain settings
-root_path                   | /mnt/c/Users/5600x/Desktop/GWF/MESH-Scripts/Model_Workflow/                                    # Root folder where data will be stored.
-domain_name                 | BowAtBanff                                 # Used as part of the root folder name for the prepared data.
+root_path                   | /path/to/MESH-Scripts/Model_Workflow/                       # Root folder where data will be stored.
+domain_name                 | BowAtBanff                                                  # Used as part of the root folder name for the prepared data.
 
 ## Subbasin Selection Settings
 input_basin_path           | default                                                      # If 'default', uses 'root_path/shape_file/catchment'
