@@ -36,15 +36,17 @@ def make_default_path(suffix):
     rootPath = Path( read_from_control(controlFolder/controlFile,'root_path') )
      
     # Get the domain folder
-    domainName = read_from_control(controlFolder/controlFile,'domain_name')
-    domainFolder = 'domain_' + domainName
+    #domain_name = read_from_control(controlFolder/controlFile,'domain_name')
+    #domainFolder = 'domain_' + domain_name
      
     # Specify the forcing path
-    defaultPath = rootPath / domainFolder / suffix
+    defaultPath = rootPath / suffix
      
     return defaultPath
 
-
+# Get the domain folder
+domain_name = read_from_control(controlFolder/controlFile,'domain_name')
+domainFolder = 'domain_' + domain_name
 
 #%% assigning input files
 # Note : this is an example for the Fraser setup
@@ -62,7 +64,7 @@ outdir_river = read_from_control(controlFolder/controlFile,'subset_river_outdir'
 
 # Specify default path if needed
 if input_basin_path == 'default':
-    input_basin_path = make_default_path('shapefile/catchment/') # outputs a Path()
+    input_basin_path = make_default_path('shape_file/catchment/') # outputs a Path()
 else:
     input_basin_path = Path(input_basin_path) # make sure a user-specified path is a Path()
     
@@ -77,7 +79,7 @@ else:
     outdir_basin = Path(outdir_basin) # make sure a user-specified path is a Path()
  
 if outdir_river == 'default':
-    outdir_river = make_default_path('shapefile/river_network/') # outputs a Path()
+    outdir_river = make_default_path('shape_file/river_network/') # outputs a Path()
 else:
     outdir_river = Path(outdir_river) # make sure a user-specified path is a Path()
 
@@ -92,8 +94,8 @@ down_IDs = np.array(riv.NextDownID)
 NTOPO    = esmr.get_all_downstream (seg_IDs,down_IDs)
  
 #%% identify target segment ID
-esmr.case_name = read_from_control(controlFolder/controlFile,'target_seg_id') #e.g. 05NG001
-target_segment = int(read_from_control(controlFolder/controlFile,'river_network_shp_outlet_id')) # e.g. 78011863
+esmr.case_name = read_from_control(controlFolder/controlFile,'case_name') #e.g. 05NG001
+target_segment = int(read_from_control(controlFolder/controlFile,'target_segment')) # e.g. 78011863
  
 up_subbasins = esmr.get_all_upstream(target_segment,NTOPO) # segment ID
 # subset

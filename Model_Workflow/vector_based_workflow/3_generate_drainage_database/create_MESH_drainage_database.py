@@ -79,13 +79,17 @@ def make_default_path(suffix):
     rootPath = Path( read_from_control(controlFolder/controlFile,'root_path') )
      
     # Get the domain folder
-    domainName = read_from_control(controlFolder/controlFile,'domain_name')
-    domainFolder = 'domain_' + domainName
+    #domainName = read_from_control(controlFolder/controlFile,'domain_name')
+    #domainFolder = 'domain_' + domainName
      
     # Specify the forcing path
-    defaultPath = rootPath / domainFolder / suffix
+    defaultPath = rootPath / suffix
      
     return defaultPath
+
+# Get the domain folder
+domain_name = read_from_control(controlFolder/controlFile,'domain_name')
+domainFolder = 'domain_' + domain_name
 
 ## Find location of zonal statistics file
 # Zonal statistics file path & name
@@ -94,7 +98,7 @@ lc_zh_name = read_from_control(controlFolder/controlFile,'input_lc_zh_name')
 
 # Specify default path if needed
 if lc_zh_path == 'default':
-    lc_zh_path = make_default_path('zonalhist/') # outputs a Path()
+    lc_zh_path = make_default_path('vector_based_workflow/workflow_data/domain_'+domain_name+'/zonalhist/') # outputs a Path()
 else:
     lc_zh_path = Path(lc_zh_path) # make sure a user-specified path is a Path()
 
@@ -105,7 +109,7 @@ topo_name = read_from_control(controlFolder/controlFile,'input_topo_name')
 
 # Specify default path if needed
 if topo_path == 'default':
-    topo_path = make_default_path('topology/') # outputs a Path()
+    topo_path = make_default_path('vector_based_workflow/workflow_data/domain_'+domain_name+'/topology/') # outputs a Path()
 else:
     topo_path = Path(topo_path) # make sure a user-specified path is a Path()
 
@@ -116,7 +120,7 @@ merit_name = read_from_control(controlFolder/controlFile,'merit_basin_name')
 
 # Specify default path if needed
 if merit_path == 'default':
-    merit_path = make_default_path('subbasin/') # outputs a Path()
+    merit_path = make_default_path('shape_file/catchment/') # outputs a Path()
 else:
     merit_path = Path(merit_path) # make sure a user-specified path is a Path()
 
@@ -126,7 +130,7 @@ outdir = read_from_control(controlFolder/controlFile,'DDB_output_dir')
 
 # Specify default path if needed
 if outdir == 'default':
-    outdir = make_default_path('drainagedatabase/') # outputs a Path()
+    outdir = make_default_path('vector_based_workflow/workflow_data/domain_'+domain_name+'/drainagedatabase/') # outputs a Path()
 else:
     outdir = Path(outdir) # make sure a user-specified path is a Path()
 

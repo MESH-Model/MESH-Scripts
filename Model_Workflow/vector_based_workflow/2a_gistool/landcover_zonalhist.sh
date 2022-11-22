@@ -35,10 +35,10 @@
 ./extract-gis.sh --dataset="landsat" \
   --dataset-dir="/project/rpp-kshook/Model_Output/Landsat/" \
   --variable="NA_NALCMS_2010_v2_land_cover_30m" \
-  --shape-file="$(pwd)/cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp" \
+  --shape-file="$(pwd)/../../shape_file/catchment/BowAtBanff_cat.shp" \
   --print-geotiff=true \
-  --output-dir="$HOME/scratch/landsat-test/" \
-  --prefix="landsat_test_" \
+  --output-dir="$(pwd)../workflow_data/domain_BowAtBanff/zonalhist/" \
+  --prefix="landsat_BowAtBanff_" \
   --stat="majority,minority,frac" \
-  --email=cooper.albano@usask.ca \
+  --email=your.email@something.ca \
   -j;

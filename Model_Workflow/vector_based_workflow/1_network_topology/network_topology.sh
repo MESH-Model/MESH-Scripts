@@ -1,25 +1,30 @@
 #!/bin/bash
-#SBATCH --account=<def-someuser>
+#SBATCH --account=rpp-kshook
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=20G
 #SBATCH --time=00:10:00
-#SBATCH --job-name=<job_name>
+#SBATCH --job-name=NT_bow
 #SBATCH --error=errors
-#SBATCH --mail-user=you@some.email.address
+#SBATCH --mail-user=cooper.albano@usask.ca
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
-# load module 
-module load python/3.8
+# load modules
+module load StdEnv/2020 gcc/9.3.0 openmpi/4.0.3
+module load gdal/3.5.1 libspatialindex/1.8.5
+module load python/3.8.10 scipy-stack/2022a mpi4py/3.0.3
 
-# virtual environemnt 
-virtualenv --no-download $SLURM_TMPDIR/env
-source $SLURM_TMPDIR/env/bin/activate
+# # create and activate virtual environment
+rm -rf $HOME/MESH-env
+virtualenv --no-download $HOME/MESH-env 
+source $HOME/MESH-env/bin/activate 
 
 pip install --no-index --upgrade pip
-module load gdal/3.0.4 python/3.8 gcc/9.3.0 qgis/3.10.6 proj/7.0.1 geos/3.8.1 libspatialindex/1.8.5 mpi4py 
-
+pip install --no-index netcdf4
+pip install --no-index h5netcdf
+pip install --no-index xarray
+pip install --no-index geopandas
 pip install --no-index Rtree
 pip install --no-index easymore
 

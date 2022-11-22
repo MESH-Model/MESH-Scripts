@@ -9,10 +9,10 @@ import pandas as pd
 import geopandas as gpd
  
 # %% define input file
-input_forcing  = '../../domain_[name]_remapped_RDRSV2_input_200001_201801.nc'
-input_db       = '../../MESH_drainage_database.nc'
-inut_basin     = '../../MeritHydro_domain_cat.shp'
-output_forcing = '../../domain_[name]_MESH_RDRSV2_input_200001_201801.nc'
+input_forcing  = '../../forcing/BowAtBanff_remapped_1980-01-01-13-00-00.nc'
+input_db       = '../workflow_data/domain_BowAtBanff/drainagedatabase/BowAtBanff_MESH_drainage_database.nc'
+inut_basin     = '../../shape_file/catchment/BowAtBanff_cat.shp'
+output_forcing = '../../forcing/BowAtBanff_MESH_RDRSV2.1_1980-01.nc'
  
 # %% reading input basin
 basin = gpd.read_file(inut_basin)
@@ -44,7 +44,7 @@ ind = np.int32(ind)
 # %% reorder input forcing
 forc_vec = xs.Dataset(
     {
-        "RDRS_v2_A_PR0_SFC": (["subbasin", "time"], forc['RDRS_v2_A_PR0_SFC'].values[:,ind].transpose()),
+        "RDRS_v2.1_A_PR0_SFC": (["subbasin", "time"], forc['RDRS_v2.1_A_PR0_SFC'].values[:,ind].transpose()),
     },
     coords={
         "time": forc['time'].values.copy(),
@@ -53,12 +53,12 @@ forc_vec = xs.Dataset(
     }
     )
  
-forc_vec['RDRS_v2_A_PR0_SFC'].encoding['coordinates'] = 'time lon lat'
-forc_vec['RDRS_v2_A_PR0_SFC'].attrs["units"]          = forc['RDRS_v2_A_PR0_SFC'].units
-forc_vec['RDRS_v2_A_PR0_SFC'].attrs["grid_mapping"]   = 'crs'
+forc_vec['RDRS_v2.1_A_PR0_SFC'].encoding['coordinates'] = 'time lon lat'
+forc_vec['RDRS_v2.1_A_PR0_SFC'].attrs["units"]          = forc['RDRS_v2.1_A_PR0_SFC'].units
+forc_vec['RDRS_v2.1_A_PR0_SFC'].attrs["grid_mapping"]   = 'crs'
  
-for n in ['RDRS_v2_P_FI_SFC','RDRS_v2_P_FB_SFC','RDRS_v2_P_TT_09944',
-          'RDRS_v2_P_UVC_09944','RDRS_v2_P_P0_SFC','RDRS_v2_P_HU_09944']:
+for n in ['RDRS_v2.1_P_FI_SFC','RDRS_v2.1_P_FB_SFC','RDRS_v2.1_P_TT_09944',
+          'RDRS_v2.1_P_UVC_09944','RDRS_v2.1_P_P0_SFC','RDRS_v2.1_P_HU_09944']:
     forc_vec[n] = (("subbasin", "time"), forc[n].values[: , ind].transpose())
     forc_vec[n].coords["time"]          = forc['time'].values.copy()
     forc_vec[n].coords["lon"]           = (["subbasin"], lon)
