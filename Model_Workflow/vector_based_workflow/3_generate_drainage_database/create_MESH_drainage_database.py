@@ -28,6 +28,7 @@ Revision History
              -- 2) added a line to rename prefix_0 to prefix_NOD for the GIS tool .csv zonal hist
              -- 3) removed landcover fraction calculation for GIS tool .csv file
     20221116 -- 1) removed .csv column reordering. No longer necessary due to gistool bug fix
+    20221123 -- 1) added functionality to read I/O from control file.
 See also 
     
 Reference 
