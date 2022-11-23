@@ -1,0 +1,53 @@
+# MESH vector-based workflow setting file based on SUMMA workflow setting file.
+# Characters '|' and '#' are used as separators to find the actual setting values. Any text behind '|' is assumed to be part of the setting value, unless preceded by '#'.
+
+# Note on path specification
+# If deviating from default paths, a full path must be specified. E.g. '/home/user/non-default/path'
+
+
+# Modeling domain settings
+root_path                   | user_running_dir       					  # Root folder where data will be stored.
+domain_name                 | BowAtBanff                                  # Used as part of the root folder name for the prepared data.
+
+# Shapefile settings - river network file
+river_network_shp_path      | default                                     # If 'default', uses 'root_path/domain_[name]/shapefiles/river_network'.
+river_network_shp_name      | bow_river_network_from_merit_hydro.shp      # Name of the river network shapefile. Requires extension '.shp'.
+river_network_shp_segid     | COMID                                       # Name of the segment ID column.
+river_network_shp_downsegid | NextDownID                                  # Name of the downstream segment ID column.
+river_network_shp_slope     | slope                                       # Name of the slope column. Slope must be in in units [length/length].
+river_network_shp_length    | lengthkm                                    # Name of the segment length column. Length must be in units [m].
+river_network_shp_outlet_id | 71028585                                    # ID of the most downstream segment in the river network (river network shapefile). Note that this specifies a single segment ID value. It is not a column in the shapefile.
+
+
+# Shapefile settings - catchment file
+river_basin_shp_path        | default                                     # If 'default', uses 'root_path/domain_[name]/shapefiles/river_basins'. 
+river_basin_shp_name        | bow_distributed.shp                         # Name of the routing subbasins shapefile needed for remapping. Requires extension '.shp'.
+river_basin_shp_rm_hruid    | COMID                                       # Name of the routing basin ID column.
+river_basin_shp_area        | unitarea                                    # Name of the catchment area column. Area must be in units [m^2]
+river_basin_shp_hru_to_seg  | COMID                                  	  # Name of the column that shows which river segment each HRU connects to.
+
+# Experiment settings - routing
+settings_routing_path          | default                                  # If 'default', uses 'root_path/domain_[name]/settings/routing'.
+settings_routing_topology      | network_topology_BowBanff.nc             # Name of the river network topology file.
+
+# Default folder structure
+# Example of the resulting folder structure in "root_path". 
+# New domains will go into their own folder.
+
+- MESHWorkflow_data
+   |
+   |_ domain_[name]
+   |   |
+   |   |_ settings
+   |   |   |_ routing
+   |   |   |
+   |   |
+   |   |_ shapefiles
+   |   |   |_ 
+   |   |   |_ river_basins
+   |   |   |_ river_network    
+   |   |   |   
+   |   |      
+   |_ 0_control_files
+   |   |
+   |   |_ control_domain_[name]
