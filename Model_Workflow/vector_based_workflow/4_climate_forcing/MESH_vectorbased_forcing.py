@@ -12,7 +12,7 @@ import geopandas as gpd
 input_forcing  = '../../forcing/BowAtBanff_remapped_1980-01-01-13-00-00.nc'
 input_db       = '../workflow_data/domain_BowAtBanff/drainagedatabase/BowAtBanff_MESH_drainage_database.nc'
 inut_basin     = '../../shape_file/catchment/BowAtBanff_cat.shp'
-output_forcing = '../../forcing/BowAtBanff_MESH_RDRSV2.1_1980-01.nc'
+output_forcing = '../../forcing/BowAtBanff_remap_reord_RDRSV2.1_1980-01.nc'
  
 # %% reading input basin
 basin = gpd.read_file(inut_basin)
