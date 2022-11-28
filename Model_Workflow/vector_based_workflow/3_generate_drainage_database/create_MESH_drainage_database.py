@@ -289,13 +289,9 @@ rank_id_domain, drainage_db, outlet_number = new_rank_extract(input_topology)
 if str(input_lc_zh).endswith('.shp'):
     lc_zonal_hist = gpd.read_file(input_lc_zh)                        # read QGIS .shp zonal histogram
     lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID'])           # sort by COMID for QGIS zonal histogram
-    lc_zonal_hist.reset_index(drop=True, inplace=True)
-    lc_zonal_hist = lc_zonal_hist.iloc[rank_id_domain , :]
 elif str(input_lc_zh).endswith('.csv'):
     lc_zonal_hist = pd.read_csv(input_lc_zh)                           # read GIS tool .csv zonal histogram
     lc_zonal_hist = lc_zonal_hist.sort_values(by=['p[[1]]'])           # sort by p[[1]] for GIS tool zonal histogram
-    lc_zonal_hist.reset_index(drop=True, inplace=True)
-    lc_zonal_hist = lc_zonal_hist.iloc[rank_id_domain , :]
 else:
     print('Zonal histogram not recognized.')
     exit()
@@ -377,6 +373,7 @@ fid = np.where(lc_type == 'No-data')[0]
 if (fid.size != 0):
     r1 = np.where(lc_type == 'Water')[0]
     r2 = np.where(lc_type == 'No-data')[0]  
+    print(r1,r2)
     # adding the nodata values to the water land cover type and drop it and remove from lc_type 
     lc_frac.values[:,r1] = lc_frac.values[:,r1] + lc_frac.values[:,r2]
     lc_frac = lc_frac.drop(lc_frac.columns[r2], axis=1)
