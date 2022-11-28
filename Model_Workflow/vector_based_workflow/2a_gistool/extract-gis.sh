@@ -65,7 +65,7 @@ Script options:
 					'min';'max';'mean';'majority';'minority';
 					'median';'quantile';'variety';'variance';
 					'stdev';'coefficient_of_variation';'frac';
-					optional
+					'coords'; optional
   -q, --quantile=q1[,q2[...]]		Quantiles of interest to be produced if 'quantile'
   					is included in the '--stat' argument. The values
 					must be comma delimited float numbers between

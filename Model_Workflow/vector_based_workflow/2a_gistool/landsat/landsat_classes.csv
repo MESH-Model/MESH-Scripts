@@ -1,0 +1,20 @@
+value,description,rgb
+1,Temperate or sub-polar needleleaf forest,RGB 0 61 0
+2,Sub-polar taiga needleleaf forest,RGB 148 156 112
+3,Tropical or sub-tropical broadleaf evergreen forest,RGB 0 99 0
+4,Tropical or sub-tropical broadleaf deciduous forest,RGB 30 171 5
+5,Temperate or sub-polar broadleaf deciduous forest,RGB 20 140 61
+6,Mixed forest,RGB 92 117 43
+7,Tropical or sub-tropical shrubland,RGB 179 158 43
+8,Temperate or sub-polar shrubland,RGB 179 138 51
+9,Tropical or sub-tropical grassland,RGB 232 220 94
+10,Temperate or sub-polar grassland,RGB 225 207 138
+11,Sub-polar or polar shrubland-lichen-moss,RGB 156 117 84
+12,Sub-polar or polar grassland-lichen-moss,RGB 186 212 143
+13,Sub-polar or polar barren-lichen-moss,RGB 64 138 112
+14,Wetland,RGB 107 163 138
+15,Cropland,RGB 230 174 102
+16,Barren lands,RGB 168 171 174
+17,Urban,RGB 220 33 38
+18,Water,RGB 76 112 163
+19,Snow and Ice,RGB 255 250 255

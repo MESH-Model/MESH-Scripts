@@ -41,7 +41,9 @@ Sys.getenv("R_LIBS_USER")
 install.packages(renv_source_package, repos=NULL, type="source", quiet=TRUE);
 renv::activate(virtual_env_path);
 renv::restore(lockfile=lockfile_path, prompt=FALSE);
-print('here!')
+
+# load necessary libraries
+library(dplyr, quietly=TRUE)
 
 # produce necessary stats and print a csv file
 if (tools::file_ext(vrt_path) == 'nc') {
@@ -60,8 +62,36 @@ if (is.na(sf::st_crs(p)$epsg)){
   print('Transforming EPSG to 4326');
 }
 
+# extract quantiles
 q <- as.double(unlist(strsplit(quantiles, ",")));
+# extract stats
 s <- unlist(strsplit(stats, ","));
-df <- cbind(p[[1]], exactextractr::exact_extract(r, p, s, quantiles=q)); # assuming first column indicates ID
+# check for coordinate values
+coord_var <- 'coords'
+if (coord_var %in% s) {
+  s <- s[!s %in% c(coord_var)]
+  include_coords = TRUE
+} else {
+  include_coords = FALSE
+}
+# extract ID column name
+id_col <- names(p[1])[1]
+
+# run exactextractr and calculate necessary stats
+df <- exactextractr::exact_extract(r, p, s, quantiles=q, append_cols=id_col); # assuming first column indicates ID
+
+# extract centroid coordinates and prepend to `df`
+if (include_coords == TRUE) {
+  # mutate the `p` sf object to include the coordinates
+  p3 <- p %>%
+    mutate(lon = purrr::map_dbl(geometry, ~sf::st_centroid(.x)[[1]]),
+           lat = purrr::map_dbl(geometry, ~sf::st_centroid(.x)[[2]]))
+  # extract the `lat` and `lon` columns
+  coords <- p3 %>% select(all_of(c(id_col, 'lat', 'lon'))) %>% sf::st_drop_geometry() %>% as.data.frame()
+  # merge `df` with `coords`
+  df <- merge(coords, df, by=id_col)
+}
+
+# print the final .csv file
 write.csv(df, output_path, row.names=FALSE, quote=FALSE)
 

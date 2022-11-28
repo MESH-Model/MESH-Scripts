@@ -113,7 +113,7 @@ shopt -s expand_aliases
 # hard-coded paths
 renvCache="/project/rpp-kshook/Climate_Forcing_Data/assets/r-envs/" # general renv cache path
 exactextractrCache="${renvCache}/exact-extract-env" # exactextractr renv cache path
-renvPackagePath="${renvCache}/renv_0.15.5.tar.gz" # renv_0.15.5 source path
+renvPackagePath="${renvCache}/renv_0.16.0.tar.gz" # renv_0.16.0 source path
 
 
 # ==========================
