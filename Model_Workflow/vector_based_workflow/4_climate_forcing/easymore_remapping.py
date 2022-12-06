@@ -15,15 +15,16 @@ esmr = easymore()
  
 # specifying EASYMORE objects
 # name of the case; the temporary, remapping and remapped file names include case name            
-esmr.case_name                 = 'PFAF78'             
+esmr.case_name                 = 'PFAF72'
+casenum                        = '72'             
 # temporary path that the EASYMORE generated GIS files and remapped file will be saved
-esmr.temp_dir                 = 'temporary78_{}/'.format(sys.argv[1])
+#esmr.temp_dir                 = 'temporary78_{}/'.format(sys.argv[1])
 # name of target shapefile that the source netcdf files should be remapped to
-esmr.target_shp               = '/project/6008034/Model_Output/MESH/NA_workflow/shape_file/catchment/cat_pfaf_78_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
+esmr.target_shp               = '../shape_file/catchment/cat_pfaf_{}_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'.format(casenum)
  
 # name of netCDF file(s); multiple files can be specified with *
 #esmr.source_nc                 =  '/scratch/calbano/rdrs_output/1980/rdrsv2.1_1980_01.nc'
-esmr.source_nc                 =  '/scratch/calbano/rdrs_output/{}/rdrsv2.1_{}.nc'.format(sys.argv[1],sys.argv[1])
+esmr.source_nc                 =  '../forcing/rdrsv2.1_{}.nc'.format(sys.argv[1])
  
 # note : You can include forcing variables together if they are combined in one file or considere them separately
 # name of variables from source netCDF file(s) to be remapped
@@ -45,7 +46,7 @@ esmr.var_lat                  = 'lat'
 # name of variable time in source netCDF file; should be always time
 esmr.var_time                 = 'time'
 # location where the remapped netCDF file will be saved
-esmr.output_dir               = '/scratch/calbano/rdrs_output/{}/'.format(sys.argv[1])
+esmr.output_dir               = '../Output{}/{}/'.format(sys.argv[2],sys.argv[1])
 # format of the variables to be saved in remapped files,
 # if one format provided it will be expanded to other variables
 esmr.format_list              = ['f4']
@@ -55,8 +56,9 @@ esmr.fill_value_list          = ['-9999.00']
 # if required that the remapped values to be saved as csv as well
 esmr.save_csv                 = False
 # if uncommented EASYMORE will use this and skip GIS tasks
-# esmr.remap_csv                = '../temporary/RDRS_Medicine_Hat_remapping.csv'
- 
+#esmr.remap_csv                = '../temporary/RDRS_Medicine_Hat_remapping.csv'
+esmr.remap_csv                = './temporary{}/RDRS_{}_remapping.csv'.format(casenum,casenum)
+
 #%% execute EASYMORE
 # Note:  remapped forcing has the precision of float32
 esmr.nc_remapper()
