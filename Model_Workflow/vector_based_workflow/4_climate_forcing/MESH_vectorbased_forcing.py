@@ -7,19 +7,21 @@ import numpy as np
 import xarray as xs
 import pandas as pd
 import geopandas as gpd
+import sys
  
 # %% define input file
-input_forcing  = '../../forcing/BowAtBanff_remapped_1980-01-01-13-00-00.nc'
-input_db       = '../workflow_data/domain_BowAtBanff/drainagedatabase/BowAtBanff_MESH_drainage_database.nc'
-inut_basin     = '../../shape_file/catchment/BowAtBanff_cat.shp'
-output_forcing = '../../forcing/BowAtBanff_remap_reord_RDRSV2.1_1980-01.nc'
- 
+input_forcing  = '../../easymore_remapping/Output{}/{}/PFAF{}_remapped_{}.nc'.format(sys.argv[2],sys.argv[1],sys.argv[2],sys.argv[1])
+input_db       = '../workflow_data/domain_PFAF{}/drainagedatabase/PFAF{}_MESH_drainage_database.nc'.format(sys.argv[2],sys.argv[2])
+inut_basin     = '../../shape_file/catchment/cat_pfaf_{}_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'.format(sys.argv[2])
+output_forcing = '../../easymore_remapping/Output{}/{}/PFAF{}_rRemapped_RDRSV2.1_{}.nc'.format(sys.argv[2],sys.argv[1],sys.argv[2],sys.argv[1])
+
 # %% reading input basin
 basin = gpd.read_file(inut_basin)
- 
+print('Basin: {}'.format(inut_basin)) 
 # %% reading input netcdf files db
 db = xs.open_dataset(input_db)
 db.close()
+print('DDB: {}'.format(input_db))
 hruid =  db.variables['hruid'].values
 # reading for control check
 lon = db.variables['lon'].values
@@ -28,9 +30,10 @@ lat = db.variables['lat'].values
 # %% reading input forcing
 forc = xs.open_dataset(input_forcing)
 forc.close()
+print('Forcing: {}'.format(input_forcing))
 lon_ease = forc.variables['longitude'].values
 lat_ease = forc.variables['latitude'].values
- 
+
 # %% extract indices of forcing ids based on the drainage database
 n = len(basin)
 ind = []
