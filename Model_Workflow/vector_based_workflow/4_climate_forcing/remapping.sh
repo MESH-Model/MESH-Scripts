@@ -32,6 +32,6 @@ pip install --no-index easymore
 
 #year=$SLURM_ARRAY_TASK_ID
 year=1980
-python easymore_remapping_array.py "$year"
+python easymore_remapping.py "$year"
 rm -rf $HOME/MESH-env$SLURM_ARRAY_TASK_ID
 echo  finished
