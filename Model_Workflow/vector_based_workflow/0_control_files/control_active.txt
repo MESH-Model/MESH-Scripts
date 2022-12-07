@@ -58,22 +58,32 @@ merit_basin_name	         | BowAtBanff_cat.shp 	                                
 # Example of the resulting folder structure in "root_path".
 # New domains will go into their own folder.
  
-- workflow_data
+- shape_file
    |
-   |_ domain_[name]
+   |_ catchment
    |   |
-   |   |_ drainagedatabase
-   |   |   |
+   |   |_ cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp
    |   |
-   |   |_ river_network
-   |   |   |
+   |_ river_network
    |   |
-   |   |_ subbasin   
-   |   |   |  
-   |   |     
-   |   |_ topology
-   |   |   |
+   |   |_ rivEndoMERITpfaf_71_WGS84.shp
    |   |
-   |   |_ zonalhist
-   |   |   |
-   |   |
+- vector_based_workflow
+   |
+   |_ 0_control_files
+   |
+   |_ workflow_data
+      |
+      |_ domain_[name]
+      |   |
+      |   |_ drainagedatabase
+      |   |   |
+      |   |   |_ BowAtBanff_MESH_drainage_database.nc
+      |   |   |
+      |   |_ topology
+      |   |   |
+      |   |   |_ network_topology_BowBanff.nc
+      |   |   |
+      |   |_ zonalhist
+      |   |   |
+      |   |   |_ landsat_bow_stats_NA_NALCMS_2010_v2_land_cover_30m.csv
