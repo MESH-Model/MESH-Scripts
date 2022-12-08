@@ -1,7 +1,0 @@
-
-Lmod is automatically replacing "intel/2020.1.217" with "gcc/9.3.0".
-
-
-Due to MODULEPATH changes, the following have been reloaded:
-  1) openmpi/4.0.3
-

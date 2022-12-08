@@ -1,8 +1,0 @@
-
-Lmod is automatically replacing "intel/2020.1.217" with "gcc/9.3.0".
-
-
-Due to MODULEPATH changes, the following have been reloaded:
-  1) cdo/1.9.8          3) hdf5/1.10.6      5) openmpi/4.0.3
-  2) eccodes/2.15.0     4) netcdf/4.7.4     6) yaxt/0.9.0
-
