@@ -3,13 +3,11 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=20G
-#SBATCH --array=1980-2018
-#SBATCH --time=04:00:00
-#SBATCH --job-name=remap_78_8198
-#SBATCH --error=errors
-#SBATCH --mail-user=cooper.albano@usask.ca
-#SBATCH --mail-type=BEGIN
-#SBATCH --mail-type=END
+#SBATCH --array=<startyear>-<endyear>
+#SBATCH --time=02:00:00
+#SBATCH --job-name=remap_<domainName>
+#SBATCH --error=./slurmout/errors_<domainName>
+#SBATCH --output=./slurmout/%A_%a.out
 
 
 # load modules
@@ -30,8 +28,10 @@ pip install --no-index geopandas
 pip install --no-index Rtree
 pip install --no-index easymore
 
-#year=$SLURM_ARRAY_TASK_ID
-year=1980
-python easymore_remapping.py "$year"
+year=$SLURM_ARRAY_TASK_ID
+PFAF=75
+
+mkdir ./Output"$PFAF"/$year
+python call_easymore_array.py "$year" "$PFAF"
 rm -rf $HOME/MESH-env$SLURM_ARRAY_TASK_ID
 echo  finished
