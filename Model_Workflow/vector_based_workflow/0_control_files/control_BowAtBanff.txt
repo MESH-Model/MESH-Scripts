@@ -54,10 +54,6 @@ merit_basin_path	         | default                                     		      
 merit_basin_name	         | BowAtBanff_cat.shp 	                                       # The parent shapefile used in subbasin selection (irrelevant if subbasin selection is not used)
 
 
-## Forcing Settings
-forcing_timestep           | yearly
-
-
 # Default folder structure
 # Example of the resulting folder structure in "root_path".
 # New domains will go into their own folder.
