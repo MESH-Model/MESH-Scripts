@@ -4,9 +4,9 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=10G
 #SBATCH --time=00:30:00
-#SBATCH --job-name=NA_PFAF78_change_unit
-#SBATCH --error=errors_NA
-#SBATCH --mail-user=cooper.albano@usask.ca
+#SBATCH --job-name=BowAtBanff_change_unity
+#SBATCH --error=errors_BowAtBanff
+#SBATCH --mail-user=example.email@usask.ca
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
@@ -15,7 +15,7 @@ module load cdo/1.9.8
 
 # input folder
 PFAF=78
-infolder=../../forcing # /subbasin_select  
+infolder=OutputBowAtBanff/ # /subbasin_select  
 
 #fl=RDRS_"${PFAF}"_remapped_1980-01-01-13-00-00.nc
 fl=BowAtBanff_remapped_1980-01-01-13-00-00.nc

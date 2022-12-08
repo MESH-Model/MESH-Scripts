@@ -31,10 +31,10 @@ import time
 
 # %% define input file 
 start_time = time.time()
-forcing_dir     = '../../easymore_remapping/Output78/'
-forcing_name    = 'RDRS_78_remapped_1980-0112-13-00-00.nc'
-domain_name     = 'PFAF78' 
-outdir          = '../Output/NA/DDB/'
+forcing_dir     = './OutputBowAtBanff/'
+forcing_name    = 'BowAtBanff_remapped_1980-01=01-13-00-00.nc'
+domain_name     = 'BowAtBanff' 
+outdir          = '../workflow_data/domain_bowAtBanff/drainagedatabase/'
 
 # %% reading input basin 
 # the segids are stored in the remapped forcing, so it is not necessary to read input shape file
