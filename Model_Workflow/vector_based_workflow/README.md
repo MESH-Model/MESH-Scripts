@@ -73,3 +73,4 @@ By default, the drainage database file will be saved under '/vector_based_workfl
 ## References
 Knoben, W.J.M., Clark, M.P., Bales, J., Bennett, A., Gharari, S., Marsh, C.B., Nijssen, B., Pietroniro, A., Spiteri, R.J., Tarboton, D.G., Wood, A.W., 2021. Community workflows to advance reproducibility in hydrologic modeling : separating model-agnostic and model-specific configuration steps in applications of large-domain hydrologic models. Water Resour. Res. 1–52. https://doi.org/10.1029/2021WR031753
 
+CWARHM: https://github.com/CH-Earth/CWARHM
