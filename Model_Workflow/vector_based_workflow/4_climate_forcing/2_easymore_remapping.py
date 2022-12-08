@@ -8,11 +8,11 @@ from easymore.easymore import easymore
 esmr = easymore()
 # specifying EASYMORE objects
 # name of the case; the temporary, remapping and remapped file names include case name
-esmr.case_name                =  'RDRS_78'
+esmr.case_name                =  'RDRS_BowAtBanff'
 # temporary path that the EASYMORE generated GIS files and remapped file will be saved
-esmr.temp_dir                 =  'temporary78/'
+esmr.temp_dir                 =  'temporaryBowAtBanff/'
 # name of target shapefile that the source netcdf files should be remapped to
-esmr.target_shp               =  '../shape_file/catchment/cat_pfaf_78_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
+esmr.target_shp               =  '../shape_file/catchment/BowAtBanff.shp'
                                 #'../shape_file/cat_pfaf_81_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
 esmr.target_shp_ID            =  'COMID'
 # name of netCDF file(s); multiple files can be specified with *
@@ -34,7 +34,7 @@ esmr.var_lat                  = 'lat'
 # name of variable time in source netCDF file; should be always time
 esmr.var_time                 = 'time'
 # location where the remapped netCDF file will be saved
-esmr.output_dir               = 'Output78/'
+esmr.output_dir               = 'OutputBowAtBanff/'
 # format of the variables to be saved in remapped files,
 # if one format provided it will be expanded to other variables
 esmr.format_list              = ['f4']

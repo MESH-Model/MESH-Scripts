@@ -25,7 +25,7 @@ cd datatool
   --lon-lims=-182,0 \
   --variable="RDRS_v2.1_P_P0_SFC,RDRS_v2.1_P_HU_09944,RDRS_v2.1_P_TT_09944,RDRS_v2.1_P_UVC_09944,RDRS_v2.1_A_PR0_SFC,RDRS_v2.1_P_FB_SFC,RDRS_v2.1_P_FI_SFC" \
   --prefix="rdrsv2.1_" \
-  --email="cooper.albano@usask.ca" \
+  --email="example.email@usask.ca" \
   -j;
   
   cd ../scratch
