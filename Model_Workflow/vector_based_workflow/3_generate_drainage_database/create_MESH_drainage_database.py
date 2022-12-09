@@ -134,6 +134,7 @@ if outdir == 'default':
     outdir = make_default_path('vector_based_workflow/workflow_data/domain_'+domain_name+'/drainagedatabase/') # outputs a Path()
 else:
     outdir = Path(outdir) # make sure a user-specified path is a Path()
+outdir.mkdir(parents=True, exist_ok=True)
 
 # %% directory of input files
 # Enter path to a zonal histogram file in either .csv format from GIS tool or in .shp format from QGIS
@@ -291,7 +292,7 @@ if str(input_lc_zh).endswith('.shp'):
     lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID'])           # sort by COMID for QGIS zonal histogram
 elif str(input_lc_zh).endswith('.csv'):
     lc_zonal_hist = pd.read_csv(input_lc_zh)                           # read GIS tool .csv zonal histogram
-    lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID'])           # sort by p[[1]] for GIS tool zonal histogram
+    lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID'])           # sort by COMID for GIS tool zonal histogram
 else:
     print('Zonal histogram not recognized.')
     exit()
