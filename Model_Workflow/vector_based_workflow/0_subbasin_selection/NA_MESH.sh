@@ -6,7 +6,7 @@
 #SBATCH --time=01:00:00
 #SBATCH --job-name=bow_subset
 #SBATCH --error=errors_bow_subset
-#SBATCH --mail-user=cooper.albano@usask.ca
+#SBATCH --mail-user=your.email@example.ca
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
