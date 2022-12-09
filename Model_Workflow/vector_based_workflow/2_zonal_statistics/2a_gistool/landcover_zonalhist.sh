@@ -35,9 +35,9 @@
 ./extract-gis.sh --dataset="landsat" \
   --dataset-dir="/project/rpp-kshook/Model_Output/Landsat/" \
   --variable="NA_NALCMS_2010_v2_land_cover_30m" \
-  --shape-file="$(pwd)/../../shape_file/catchment/BowAtBanff_cat.shp" \
+  --shape-file="$(pwd)/../../../shape_file/catchment/BowAtBanff_cat.shp" \
   --print-geotiff=true \
-  --output-dir="$(pwd)../workflow_data/domain_BowAtBanff/zonalhist/" \
+  --output-dir="$(pwd)/../../workflow_data/domain_BowAtBanff/zonalhist/" \
   --prefix="landsat_BowAtBanff_" \
   --stat="majority,minority,frac" \
   --email=your.email@something.ca \
