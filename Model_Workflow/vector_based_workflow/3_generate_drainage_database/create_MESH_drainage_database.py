@@ -291,7 +291,7 @@ if str(input_lc_zh).endswith('.shp'):
     lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID'])           # sort by COMID for QGIS zonal histogram
 elif str(input_lc_zh).endswith('.csv'):
     lc_zonal_hist = pd.read_csv(input_lc_zh)                           # read GIS tool .csv zonal histogram
-    lc_zonal_hist = lc_zonal_hist.sort_values(by=['p[[1]]'])           # sort by p[[1]] for GIS tool zonal histogram
+    lc_zonal_hist = lc_zonal_hist.sort_values(by=['COMID'])           # sort by p[[1]] for GIS tool zonal histogram
 else:
     print('Zonal histogram not recognized.')
     exit()
