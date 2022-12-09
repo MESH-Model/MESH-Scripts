@@ -6,7 +6,7 @@
 #SBATCH --time=01:00:00
 #SBATCH --job-name=BowAtBanff_drainage_database
 #SBATCH --error=errors_BowAtBanff
-#SBATCH --mail-user=cooper.albano@usask.ca
+#SBATCH --mail-user=your.email@example.ca
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
