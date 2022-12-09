@@ -12,7 +12,7 @@ esmr.case_name                =  'RDRS_BowAtBanff'
 # temporary path that the EASYMORE generated GIS files and remapped file will be saved
 esmr.temp_dir                 =  'temporaryBowAtBanff/'
 # name of target shapefile that the source netcdf files should be remapped to
-esmr.target_shp               =  '../shape_file/catchment/BowAtBanff.shp'
+esmr.target_shp               =  '../../shape_file/catchment/BowAtBanff.shp'
                                 #'../shape_file/cat_pfaf_81_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
 esmr.target_shp_ID            =  'COMID'
 # name of netCDF file(s); multiple files can be specified with *
