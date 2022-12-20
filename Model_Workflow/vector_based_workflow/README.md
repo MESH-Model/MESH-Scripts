@@ -28,7 +28,7 @@ The purpose of this repository is to provide series of code for applied testing 
 
 ## Objectives and Main Tasks
   * Develop codes for setup the MESH model for any domain of interest. 
-  * Adopt CWARHM principles for workflow structure
+  * Adopt Community Workflows to Advance Reproducibility in Hydrologic Modeling (CWARHM : https://github.com/CH-Earth/CWARHM#community-workflows-to-advance-reproducibility-in-hydrologic-modeling-cwarhm) principles for workflow structure
 
 
 ## Progress / Conclusion
