@@ -48,7 +48,7 @@ cbar_tl                  = ['Total water storage [mm]', 'Snow Mass [mm]', 'Liqui
                             'Frozen water storage in the soil [mm]','Frozen water storage in the soil [mm]','Frozen water storage in the soil [mm]',
                             'Liquid water interception in the canopy [mm]', 'Frozen water interception in the canopy [mm]',
                             'Groundwater zone storage [mm]','Total runoff [mm]']
-domain_name              = 'BowBanff'
+domain_name              = 'BowAtBanff'
 outdir                   = 'Output/BowBanff/'
 mode                     = 'monthly'
 Merit_catchment_shape    = 'Input/Shape/bow_distributed.shp'
@@ -107,7 +107,7 @@ for i in range(N):
     mn = np.min(shp ['value'])    
     mx = np.max(shp ['value'])
     
-    tm = datetime.datetime(2000, 10, 1).strftime('%Y-%m') 
+    tm = datetime.datetime(1980, 1, 2).strftime('%Y-%m') 
     if (len(ly) != 0):
         tl = 'BowBanff'+'_MESH_'+var[i]+'_'+ly+'_'+tm
     else:
