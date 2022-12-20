@@ -35,9 +35,9 @@ from pathlib import Path
 # %% define input file 
 start_time = time.time()
 forcing_dir     = './OutputBowAtBanff/'
-forcing_name    = 'BowAtBanff_remapped_1980-01=01-13-00-00.nc'
+forcing_name    = 'RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc'
 domain_name     = 'BowAtBanff' 
-outdir          = '../workflow_data/domain_bowAtBanff/drainagedatabase/'
+outdir          = '../workflow_data/domain_BowAtBanff/drainagedatabase/'
 
 # %% reading input basin 
 # the segids are stored in the remapped forcing, so it is not necessary to read input shape file
@@ -140,7 +140,7 @@ print('--%s seconds--' %(time.time() - start_time))
 # Generates a basic log file in the domain folder and copies the control file and itself there.
  
 # Set the log path and file name
-logPath = forcing_dir
+logPath = Path(forcing_dir)
 log_suffix = '_MESH_vectorbased_forcing.txt'
  
 # Create a log folder
@@ -148,7 +148,7 @@ logFolder = '_workflow_log'
 Path( logPath / logFolder ).mkdir(parents=True, exist_ok=True)
  
 # Copy this script
-thisFile = '4_MESH_vectorbased_forcing.py.py'
+thisFile = '4_MESH_vectorbased_forcing.py'
 copyfile(thisFile, logPath / logFolder / thisFile);
  
 # Get current date and time
