@@ -49,9 +49,12 @@ cdo setattribute,RDRS_v2.1_A_PR0_SFC@units="mm s-1" $infolder/tmp.nc $infolder/'
 rm $infolder/tmp.nc
 
 #merge files 
-cdo -z zip -b F32 merge $infolder/'RDRS_v2.1_P_HU_09944_'$fl $infolder/'RDRS_v2.1_A_PR0_SFC_'$fl $infolder/'RDRS_v2.1_P_P0_SFC_'$fl $infolder/'RDRS_v2.1_P_FB_SFC_'$fl $infolder/'RDRS_v2.1_P_FI_SFC_'$fl $infolder/'RDRS_v2.1_P_TT_09944_'$fl $infolder/'RDRS_v2.1_P_UVC_09944_'$fl $infolder/'latitude_'$fl $infolder/'longitude_'$fl $infolder/$fl
+cdo -z zip -b F32 merge $infolder/'RDRS_v2.1_P_HU_09944_'$fl $infolder/'RDRS_v2.1_A_PR0_SFC_'$fl $infolder/'RDRS_v2.1_P_P0_SFC_'$fl $infolder/'RDRS_v2.1_P_FB_SFC_'$fl $infolder/'RDRS_v2.1_P_FI_SFC_'$fl $infolder/'RDRS_v2.1_P_TT_09944_'$fl $infolder/'RDRS_v2.1_P_UVC_09944_'$fl $infolder/'latitude_'$fl $infolder/'longitude_'$fl $infolder/u$fl
 
 for var in RDRS_v2.1_P_HU_09944 RDRS_v2.1_A_PR0_SFC RDRS_v2.1_P_P0_SFC RDRS_v2.1_P_FB_SFC RDRS_v2.1_P_FI_SFC RDRS_v2.1_P_TT_09944 RDRS_v2.1_P_UVC_09944 latitude longitude
 	do
 		rm $infolder/$var'_'$fl		
 	done 
+
+rm 	$infolder/$fl
+mv $infolder/u$fl $infolder/$fl
