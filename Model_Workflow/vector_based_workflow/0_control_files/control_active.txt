@@ -55,7 +55,8 @@ merit_basin_name	         | BowAtBanff_cat.shp 	                                
 
 
 # Climate forcing settings
-source_nc_path             | default
+remapping_out			   | default
+source_nc_path             | /project/6008034/Model_Output/MESH/NA_workflow/forcing/NA/yearly
 source_nc_name             | rdrsv2.1_1980.nc
 var_lon                    | lon
 var_lat                    | lat
