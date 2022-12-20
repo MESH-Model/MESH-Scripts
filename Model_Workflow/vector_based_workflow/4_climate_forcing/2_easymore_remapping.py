@@ -65,7 +65,7 @@ source_nc     = str(source_nc_path / source_nc_name)
 
 outdir = read_from_control(controlFolder/controlFile,'remapping_out')
 if outdir == 'default':
-    outdir = outdir('forcing/{}'.format(domain_name)) # outputs a Path()
+    outdir = make_default_path('forcing/{}'.format(domain_name)) # outputs a Path()
 else:
     outdir = Path(outdir) # make sure a user-specified path is a Path()
 
