@@ -11,9 +11,9 @@ domain_name                 | BowAtBanff                                        
 
 ## Subbasin Selection Settings
 input_basin_path           | default                                                      # If 'default', uses 'root_path/shape_file/catchment'
-input_basin_name           | cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp     # Name of the catchment shapefile from which to subset. (the basin containing your desired domain)
+input_basin_name           | cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp           # Name of the catchment shapefile from which to subset. (the basin containing your desired domain)
 input_river_path           | default                                                      # If 'default', uses 'root_path/shape_file/river_network'
-input_river_name           | rivEndoMERITpfaf_71_WGS84.shp                                # Name of river network shapefile from which to subset
+input_river_name           | riv_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp           # Name of river network shapefile from which to subset
 subset_basin_outdir        | default                                                      # If 'default', uses 'root_path/shape_file/catchment (the river network containing your desired domain)
 subset_river_outdir        | default                                                      # If 'default', uses 'root_path/shape_file/river_network'
 case_name                  | BowAtBanff                                                   # This will define the name of output files  
@@ -22,41 +22,43 @@ target_segment             | 71028585                                           
 
 ## Network Topology Settings
 # Shapefile settings - river network file
-river_network_shp_path      | default                                     # If 'default', uses 'root_path/shape_file/river_network'.
-river_network_shp_name      | BowAtBanff_riv.shp                          # Name of the river network shapefile. Requires extension '.shp'.
-river_network_shp_segid     | COMID                                       # Name of the segment ID column.
-river_network_shp_downsegid | NextDownID                                  # Name of the downstream segment ID column.
-river_network_shp_slope     | slope                                       # Name of the slope column. Slope must be in in units [length/length].
-river_network_shp_length    | lengthkm                                    # Name of the segment length column. Length must be in units [m].
-river_network_shp_outlet_id | 71028585                                    # ID of the most downstream segment in the river network (river network shapefile) ... 
-                                                                          # ... Note that this specifies a single segment ID value. It is not a column in the shapefile.
+river_network_shp_path      | default                                                     # If 'default', uses 'root_path/shape_file/river_network'.
+river_network_shp_name      | BowAtBanff_riv.shp                                          # Name of the river network shapefile. Requires extension '.shp'.
+river_network_shp_segid     | COMID                                                       # Name of the segment ID column.
+river_network_shp_downsegid | NextDownID                                                  # Name of the downstream segment ID column.
+river_network_shp_slope     | slope                                                       # Name of the slope column. Slope must be in in units [length/length].
+river_network_shp_length    | lengthkm                                                    # Name of the segment length column. Length must be in units [m].
+river_network_shp_outlet_id | 71028585                                                    # ID of the most downstream segment in the river network (river network shapefile) ... 
+                                                                                          # ... Note that this specifies a single segment ID value. It is not a column in the shapefile.
   
 # Shapefile settings - catchment file
-river_basin_shp_path        | default                                     # If 'default', uses 'root_path/shape_file/catchment'.
-river_basin_shp_name        | BowAtBanff_cat.shp                          # Name of the routing subbasins shapefile needed for remapping. Requires extension '.shp'.
-river_basin_shp_rm_hruid    | COMID                                       # Name of the routing basin ID column.
-river_basin_shp_area        | unitarea                                    # Name of the catchment area column. Area must be in units [m^2]
-river_basin_shp_hru_to_seg  | COMID                                       # Name of the column that shows which river segment each HRU connects to.
+river_basin_shp_path        | default                                                     # If 'default', uses 'root_path/shape_file/catchment'.
+river_basin_shp_name        | BowAtBanff_cat.shp                                          # Name of the routing subbasins shapefile needed for remapping. Requires extension '.shp'.
+river_basin_shp_rm_hruid    | COMID                                                       # Name of the routing basin ID column.
+river_basin_shp_area        | unitarea                                                    # Name of the catchment area column. Area must be in units [m^2]
+river_basin_shp_hru_to_seg  | COMID                                                       # Name of the column that shows which river segment each HRU connects to.
 
 # Experiment settings - routing
-settings_routing_path          | default                                  # If 'default', uses 'root_path/domain_[name]/topology'.
-settings_routing_topology      | network_topology_BowBanff.nc             # Name of the river network topology file.
+settings_routing_path          | default                                                  # If 'default', uses 'root_path/domain_[name]/topology'.
+settings_routing_topology      | network_topology_BowBanff.nc                             # Name of the river network topology file.
 
 
 ## Drainage Database Settings
-input_lc_zh_path		      | default                                     		      # If 'default', uses 'root_path/domain_[name]/zonalhist/
-input_lc_zh_name		      | landsat_bow_stats_NA_NALCMS_2010_v2_land_cover_30m.csv # Name of the input zonal staistics file. Can be either a .csv file (produced by GIS Tool) or a .shp file (produced in QGIS)
-input_topo_path		      | default                                     		      # If 'default', uses 'root_path/domain_[name]/topology/
-input_topo_name            | network_topology_BowBanff.nc                           # Name of the network topology file produced previously
-DDB_output_dir			      | default                                     		      # If 'default', uses 'root_path/domain_[name]/drainagedatabase/
-lc_type_prefix			      | frac_ 										  			            # Typically, use frac_ when using zonal statistics generated with GIS Tool (.csv). use NALCMS_ for QGIS zonal histogram (.shp) 
-merit_basin_path	         | default                                     		      # If 'default', uses 'root_path/domain_[name]/subbasin/catchment/
-merit_basin_name	         | BowAtBanff_cat.shp 	                                 # The parent shapefile used in subbasin selection (irrelevant if subbasin selection is not used)
+input_lc_zh_path		      | default                                     		            # If 'default', uses 'root_path/domain_[name]/zonalhist/
+input_lc_zh_name		      | landsat_bow_stats_NA_NALCMS_2010_v2_land_cover_30m.csv       # (GIS Tool example) Name of the input zonal staistics file. Can be either a .csv file (produced by GIS Tool) or a .shp file (produced in QGIS)
+#input_lc_zh_name		      | BowAtBanff_lczh.shp                                          # (QGIS example) Name of the input zonal staistics file. Can be either a .csv file (produced by GIS Tool) or a .shp file (produced in QGIS)
+input_topo_path		      | default                                     		            # If 'default', uses 'root_path/domain_[name]/topology/
+input_topo_name            | network_topology_BowBanff.nc                                 # Name of the network topology file produced previously
+DDB_output_dir			      | default                                     		            # If 'default', uses 'root_path/domain_[name]/drainagedatabase/
+lc_type_prefix			      | frac_ 										  			                  # (GIS Tool Example) Typically, use frac_ when using zonal statistics generated with GIS Tool (.csv). use NALCMS_ for QGIS zonal histogram (.shp) 
+#lc_type_prefix			   | NALCMS_                                                      # (QGIS Example)
+merit_basin_path	         | default                                     		            # If 'default', uses 'root_path/domain_[name]/subbasin/catchment/
+merit_basin_name	         | BowAtBanff_cat.shp 	                                       # The parent shapefile used in subbasin selection (irrelevant if subbasin selection is not used)
 
 
 # Climate forcing settings
-remapping_out			   | default
-source_nc_path             | /project/6008034/Model_Output/MESH/NA_workflow/forcing/NA/yearly
+remapping_out			      | default
+source_nc_path             | /path/to/MESH-Scripts/Model_Workflow/forcing/1980/
 source_nc_name             | rdrsv2.1_1980.nc
 var_lon                    | lon
 var_lat                    | lat
