@@ -5,7 +5,7 @@
 #SBATCH --mem=30G
 #SBATCH --time=02:00:00
 #SBATCH --job-name=BowAtBanff
-#SBATCH --mail-user=cooper.albano@usask.ca
+#SBATCH --mail-user=example.email@usask.ca
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
@@ -17,7 +17,7 @@ module load netcdf-fortran/4.5.2
 #dir_forcing=../../4_climate_forcing/Output71
 #config=../../workflow_data/domain_PFAF71
 #dir_mesh=/project/6008034/baha2501/MESH_code/r1813
-dir_mesh=/project/6008034/calbano/MESH_code/r1773
+dir_mesh=/project/6008034/$User/MESH_code/r1773
 
 # link forcing 
 #ln -sf  $dir_forcing/PFAF71_MESH_RDRS_71_remapped_1980-0112-13-00-00.nc     PFAF71_MESH_RDRS_71.nc
