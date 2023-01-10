@@ -34,8 +34,8 @@ from pathlib import Path
 
 # %% define input file 
 start_time = time.time()
-forcing_dir     = './OutputBowAtBanff/'
-forcing_name    = 'RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc'
+forcing_dir     = '../../forcing/'
+forcing_name    = 'RDRS_BowAtBanff_remapped_1980-01-02-12-00-00.nc'
 domain_name     = 'BowAtBanff' 
 outdir          = '../workflow_data/domain_BowAtBanff/drainagedatabase/'
 
