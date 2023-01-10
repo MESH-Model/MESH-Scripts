@@ -65,9 +65,9 @@ source_nc     = str(source_nc_path / source_nc_name)
 
 outdir = read_from_control(controlFolder/controlFile,'remapping_out')
 if outdir == 'default':
-    outdir = make_default_path('forcing/{}'.format(domain_name)) # outputs a Path()
+    outdir = str(make_default_path('forcing/'))+'/' # outputs a Path()
 else:
-    outdir = Path(outdir) # make sure a user-specified path is a Path()
+    outdir = outdir # make sure a user-specified path is a Path()
 
 
 # %% Get the list of variable neames
@@ -134,7 +134,6 @@ if (esmr.case == 1 or esmr.case == 2)  and (esmr.source_shp == ''):
     print(esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
 
 shp = gpd.read_file(esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
-print(shp)
 shp = shp [shp['lon_s']>-179]
 shp.to_file(esmr.temp_dir+esmr.case_name+'_source_shapefile.shp')
 
@@ -152,7 +151,7 @@ esmr.nc_remapper()
 # Generates a basic log file in the domain folder and copies the control file and itself there.
  
 # Set the log path and file name
-logPath = outdir
+logPath = Path(outdir)
 log_suffix = '_easymore_remapping.txt'
  
 # Create a log folder
