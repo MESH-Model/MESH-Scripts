@@ -14,7 +14,7 @@
 module load cdo/1.9.8
 
 # cd to datatool.sh output directory
-cd /scratch/$User/rdrs_output/1980
+cd ../../forcing/1980
 # merge into monthly files
 #for i in 01 02 03 04 05 06 07 08 09 10 11 12
 #do
