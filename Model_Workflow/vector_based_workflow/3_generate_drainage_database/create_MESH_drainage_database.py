@@ -466,7 +466,7 @@ logFolder = '_workflow_log'
 Path( logPath / logFolder ).mkdir(parents=True, exist_ok=True)
  
 # Copy this script
-thisFile = 'easymore_basinsubset.py'
+thisFile = 'create_MESH_drainage_database.py'
 copyfile(thisFile, logPath / logFolder / thisFile);
  
 # Get current date and time
