@@ -15,10 +15,10 @@ module load cdo/1.9.8
 
 # input folder
 PFAF=78
-infolder=OutputBowAtBanff/ # /subbasin_select  
+infolder=../../forcing # /subbasin_select  
 
 #fl=RDRS_"${PFAF}"_remapped_1980-01-01-13-00-00.nc
-fl=BowAtBanff_remapped_1980-01-01-13-00-00.nc
+fl=RDRS_BowAtBanff_remapped_1980-01-02-12-00-00.nc
 echo $fl
 
 for var in RDRS_v2.1_P_HU_09944 RDRS_v2.1_A_PR0_SFC RDRS_v2.1_P_P0_SFC RDRS_v2.1_P_FB_SFC RDRS_v2.1_P_FI_SFC RDRS_v2.1_P_TT_09944 RDRS_v2.1_P_UVC_09944 latitude longitude 
