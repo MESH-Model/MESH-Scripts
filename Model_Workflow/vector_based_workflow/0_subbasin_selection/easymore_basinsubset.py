@@ -103,6 +103,9 @@ up_subbasins = esmr.get_all_upstream(target_segment,NTOPO) # segment ID
 # subset
 cat_up = cat.loc[cat['COMID'].isin(up_subbasins)]
 riv_up = riv.loc[riv['COMID'].isin(up_subbasins)]
+# Set CRS to EPSG:4326
+cat_up = cat_up.set_crs(4326)
+riv_up = riv_up.set_crs(4326)
 # plot
 cat_up.plot()
 riv_up.plot()
