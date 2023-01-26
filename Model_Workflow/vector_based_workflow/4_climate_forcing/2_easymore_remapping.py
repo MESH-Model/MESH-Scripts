@@ -45,7 +45,7 @@ domainFolder = 'domain_' + domain_name
 target_shp_path = read_from_control(controlFolder/controlFile,'river_basin_shp_path')
 # Specify default path if needed
 if target_shp_path == 'default':
-    target_shp_path = make_default_path('shape_file/catchment/') # outputs a Path()
+    target_shp_path = make_default_path('shapefiles/catchment/') # outputs a Path()
 else:
     target_shp_path = Path(target_shp_path) # make sure a user-specified path is a Path()
 target_shp_name = read_from_control(controlFolder/controlFile,'river_basin_shp_name')
@@ -56,7 +56,7 @@ target_shp_ID   = read_from_control(controlFolder/controlFile,'river_basin_shp_r
 source_nc_path  = read_from_control(controlFolder/controlFile,'source_nc_path')
 # Specify default path if needed
 if source_nc_path == 'default':
-    source_nc_path = make_default_path('forcing/NA/yearly/') # outputs a Path()
+    source_nc_path = make_default_path('forcing') # outputs a Path()
 else:
     source_nc_path = Path(source_nc_path) # make sure a user-specified path is a Path()
 source_nc_name  = read_from_control(controlFolder/controlFile,'source_nc_name')

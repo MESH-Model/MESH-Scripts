@@ -6,13 +6,13 @@
  
 
 # Modeling domain settings
-root_path                   | /path/to/MESH-Scripts/Model_Workflow/                       # Root folder where data will be stored.
+root_path                   | C:/Users/5600x/Desktop/GWF/MESH-Scripts/Model_Workflow                      # Root folder where data will be stored.
 domain_name                 | BowAtBanff                                                  # Used as part of the root folder name for the prepared data.
 
 ## Subbasin Selection Settings
-input_basin_path           | default                                                      # If 'default', uses 'root_path/shape_file/catchment'
+input_basin_path           | E:\GWF_data\shapefiles\cat_pfaf_7\                                                     # If 'default', uses 'root_path/shape_file/catchment'
 input_basin_name           | cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp           # Name of the catchment shapefile from which to subset. (the basin containing your desired domain)
-input_river_path           | default                                                      # If 'default', uses 'root_path/shape_file/river_network'
+input_river_path           | E:\GWF_data\shapefiles\riv_pfaf_7\                                                      # If 'default', uses 'root_path/shape_file/river_network'
 input_river_name           | riv_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp           # Name of river network shapefile from which to subset
 subset_basin_outdir        | default                                                      # If 'default', uses 'root_path/shape_file/catchment (the river network containing your desired domain)
 subset_river_outdir        | default                                                      # If 'default', uses 'root_path/shape_file/river_network'
@@ -40,7 +40,7 @@ river_basin_shp_hru_to_seg  | COMID                                             
 
 # Experiment settings - routing
 settings_routing_path          | default                                                  # If 'default', uses 'root_path/domain_[name]/topology'.
-settings_routing_topology      | network_topology_BowBanff.nc                             # Name of the river network topology file.
+settings_routing_topology      | network_topology_BowAtBanff.nc                             # Name of the river network topology file.
 
 
 ## Drainage Database Settings
@@ -48,7 +48,7 @@ input_lc_zh_path		      | default                                     		        
 input_lc_zh_name		      | landsat_bow_stats_NA_NALCMS_2010_v2_land_cover_30m.csv       # (GIS Tool example) Name of the input zonal staistics file. Can be either a .csv file (produced by GIS Tool) or a .shp file (produced in QGIS)
 #input_lc_zh_name		      | BowAtBanff_lczh.shp                                          # (QGIS example) Name of the input zonal staistics file. Can be either a .csv file (produced by GIS Tool) or a .shp file (produced in QGIS)
 input_topo_path		      | default                                     		            # If 'default', uses 'root_path/domain_[name]/topology/
-input_topo_name            | network_topology_BowBanff.nc                                 # Name of the network topology file produced previously
+input_topo_name            | network_topology_BowAtBanff.nc                                 # Name of the network topology file produced previously
 DDB_output_dir			      | default                                     		            # If 'default', uses 'root_path/domain_[name]/drainagedatabase/
 lc_type_prefix			      | frac_ 										  			                  # (GIS Tool Example) Typically, use frac_ when using zonal statistics generated with GIS Tool (.csv). use NALCMS_ for QGIS zonal histogram (.shp) 
 #lc_type_prefix			   | NALCMS_                                                      # (QGIS Example)
@@ -58,8 +58,8 @@ merit_basin_name	         | BowAtBanff_cat.shp 	                                
 
 # Climate forcing settings
 remapping_out			      | default
-source_nc_path             | /path/to/MESH-Scripts/Model_Workflow/forcing/1980/
-source_nc_name             | rdrsv2.1_1980.nc
+source_nc_path             | default
+source_nc_name             | rdrsv2.1_1980-01-0107.nc
 var_lon                    | lon
 var_lat                    | lat
 var_time                   | time
@@ -67,6 +67,16 @@ format_list                | f4
 fill_value_list            | -9999.00
 var_names                  | RDRS_v2.1_A_PR0_SFC, RDRS_v2.1_P_FI_SFC, RDRS_v2.1_P_FB_SFC, RDRS_v2.1_P_TT_09944, RDRS_v2.1_P_UVC_09944, RDRS_v2.1_P_P0_SFC, RDRS_v2.1_P_HU_09944 # variables must be on 1 line and separated by a comma and a space.
 
+
+# Install settings
+github_MESH                 | https://wiki.usask.ca/download/attachments/983105591/r1813.zip?version=2&modificationDate=1633583308100&api=v2               # Replace this with the path to your own fork if you forked the repo.
+github_mizuroute            | https://github.com/ncar/mizuroute           # Replace this with the path to your own fork if you forked the repo.
+install_path_MESH           | default                                     # If 'default', clones source code into 'root_path/installs/MESH'.
+exe_name_MESH               | sa_mesh                                   # Name of the compiled executable.
+
+# Postprocessing settings
+visualization_folder        | default                                     # If 'default', uses 'root_path/domain_[name]/visualization'.
+simulation_path            | default
 
 # Default folder structure
 # Example of the resulting folder structure in "root_path".
@@ -96,7 +106,7 @@ var_names                  | RDRS_v2.1_A_PR0_SFC, RDRS_v2.1_P_FI_SFC, RDRS_v2.1_
       |   |   |
       |   |_ topology
       |   |   |
-      |   |   |_ network_topology_BowBanff.nc
+      |   |   |_ network_topology_BowAtBanff.nc
       |   |   |
       |   |_ zonalhist
       |   |   |

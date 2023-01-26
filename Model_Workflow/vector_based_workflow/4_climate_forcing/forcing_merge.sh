@@ -14,7 +14,7 @@
 module load cdo/1.9.8
 
 # cd to datatool.sh output directory
-cd ../../forcing/1980
+cd ../../forcing/
 
 # merge into monthly files
 #for i in 01 02 03 04 05 06 07 08 09 10 11 12
@@ -23,4 +23,4 @@ cd ../../forcing/1980
 #done
 
 # merge into yearly files
-cdo -z zip -b F32 mergetime rdrsv2.1_1980*.nc rdrsv2.1_1980.nc
+cdo -z zip -b F32 mergetime 1980*.nc rdrsv2.1_1980-01-0107.nc
