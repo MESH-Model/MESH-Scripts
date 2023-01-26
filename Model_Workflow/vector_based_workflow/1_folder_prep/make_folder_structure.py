@@ -14,7 +14,7 @@ The destination folders are referred to as "domain folders".
 '''
 
 # Specify the control file to use
-sourceFile  = 'control_MilkRiver.txt'
+sourceFile  = 'control_BowAtBanff.txt'
 
 # --- Do not change below this line.
 

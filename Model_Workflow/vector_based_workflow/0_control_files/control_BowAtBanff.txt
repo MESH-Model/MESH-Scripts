@@ -77,7 +77,8 @@ exe_name_MESH               | sa_mesh                                   # Name o
 
 # Postprocessing settings
 visualization_folder        | default                                     # If 'default', uses 'root_path/domain_[name]/visualization'.
-simulation_path            | default
+simulation_path             | default
+vis_mode                    | daily
 
 # Default folder structure
 # Example of the resulting folder structure in "root_path".

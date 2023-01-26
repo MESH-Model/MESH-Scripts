@@ -1,0 +1,11 @@
+--2023-01-26 15:01:32--  https://wiki.usask.ca/download/attachments/983105591/r1813.zip?version=2
+Resolving wiki.usask.ca (wiki.usask.ca)... 128.233.198.169, 10.10.10.10, 10.10.11.11, ...
+Connecting to wiki.usask.ca (wiki.usask.ca)|128.233.198.169|:443... connected.
+HTTP request sent, awaiting response... 200 200
+Length: 2494857 (2.4M) [application/zip]
+Saving to: ‘../../installs/r1813.zip’
+
+../../installs/r1813.zip                                0%[                                                                                                                       ]       0  --.-KB/s               ../../installs/r1813.zip                               51%[============================================================>                                                          ]   1.22M  5.98MB/s               ../../installs/r1813.zip                              100%[======================================================================================================================>]   2.38M  6.95MB/s    in 0.3s    
+
+2023-01-26 15:01:32 (6.95 MB/s) - ‘../../installs/r1813.zip’ saved [2494857/2494857]
+
