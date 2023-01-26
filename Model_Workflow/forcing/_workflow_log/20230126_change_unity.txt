@@ -1,0 +1,1 @@
+changed Pressure from 'mb' to 'Pa', Temperature from 'deg_C' to 'K', Wind speed from 'knts' to 'm/s', and Precipitation from 'm' over the hour to a rate 'mm/s' = 'kg m-2 s-1'

@@ -73,14 +73,16 @@ else:
 # %% Get the list of variable neames
 var_names       = read_from_control(controlFolder/controlFile,'var_names').split(', ')
 
+# Get the forcing dataset name
+forcing_dataset = read_from_control(controlFolder/controlFile,'forcing_dataset')
 
 # %% initializing EASYMORE object
 esmr = easymore()
 # specifying EASYMORE objects
 # name of the case; the temporary, remapping and remapped file names include case name
-esmr.case_name                = 'RDRS_{}'.format(domain_name)
+esmr.case_name                = '{}_{}'.format(forcing_dataset,domain_name)
 # temporary path that the EASYMORE generated GIS files and remapped file will be saved
-esmr.temp_dir                 = 'temporary{}/'.format(domain_name)
+esmr.temp_dir                 = '{}/temporary{}/'.format(source_nc_path,domain_name)
 # name of target shapefile that the source netcdf files should be remapped to
 esmr.target_shp               = target_shp
                                 #'../shape_file/cat_pfaf_81_MERIT_Hydro_v07_Basins_v01_bugfix1_WGS84.shp'
