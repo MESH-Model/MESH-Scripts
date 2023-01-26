@@ -21,6 +21,7 @@ PROGRAMMER(S)
     
 REVISION HISTORY
     20221004 -- Initial version created and posted online
+    20230126 -- Jupyter notebook created
                 
 REFERENCES
 
@@ -34,19 +35,23 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 #%% reading the input file 
-MESH_state_dir           = 'Input/MESH_state/' 
-Merit_catchment_shape    = 'Input/Shape/bow_distributed.shp'
-Merit_river_shape        = 'Input/Shape/bow_river_network_from_merit_hydro.shp'
-WSC_stations             = 'Input/Shape/BowBanff_WSC_Stations.shp'
-outdir                   = 'Output/BowBanff/'
+MESH_state_dir           = '../6_model_runs/results/' 
+Merit_catchment_shape    = '../../shapefiles/catchment/BowAtBanff_cat.shp'
+Merit_river_shape        = '../../shapefiles/river_network/BowAtBanff_riv.shp'
+WSC_stations             = '../../shapefiles/BowBanff_WSC_Stations.shp'
+outdir                   = '../workflow_data/domain_BowAtBanff/visualizations/'
 state_name               = 'MESH_output_streamflow.csv'
+
+#%% reading input shape files 
+catchment   = gpd.read_file(Merit_catchment_shape)
+wsc         = gpd.read_file(WSC_stations)
+river       = gpd.read_file(Merit_river_shape)
 
 #%% plot style 
 font = {'family' : 'Times New Roman',
          'weight' : 'bold',
          'size'   : 20}
 matplotlib.rc('font', **font)
- 
 cl =('b','r')
 lsty  =  ['-','--']
 
@@ -57,7 +62,7 @@ river       = gpd.read_file(Merit_river_shape)
 
 #%% setting input paramters 
 station = ['05BB001','05BA001']
-names =  ["observation","simulation"] 
+names   = ["observation","simulation"]  
 
 #%% convert Julian date to standard date 
 def julian_todate (jdate):
@@ -72,7 +77,7 @@ def time_construct(data,time_step):
     ts = '%d'%data['month'][0]+'/'+'%d'%data['day'][0]+'/'+'%d'%data['YEAR'][0]
     te = '%d'%data['month'][nn-1]+'/'+'%d'%data['day'][nn-1]+'/'+'%d'%data['YEAR'][nn-1]
     tm = pd.date_range(start=ts, end=te, freq=time_step)
-    return(tm)    
+    return(tm)
 
 #%% reading the input file 
 stflo = pd.read_csv(MESH_state_dir+state_name, skipinitialspace=True)

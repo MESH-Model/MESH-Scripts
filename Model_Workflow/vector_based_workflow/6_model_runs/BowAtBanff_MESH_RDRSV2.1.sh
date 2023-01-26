@@ -14,6 +14,6 @@ module load openmpi/4.0.3
 module load netcdf-fortran/4.5.2
 
 # foring, config and run dirs
-dir_mesh=../../installs/r1813
+dir_mesh=../../installs/MESH/r1813
 
 $dir_mesh/sa_mesh     

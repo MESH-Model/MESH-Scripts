@@ -6,13 +6,13 @@
  
 
 # Modeling domain settings
-root_path                   | C:/Users/5600x/Desktop/GWF/MESH-Scripts/Model_Workflow                      # Root folder where data will be stored.
+root_path                   | /mnt/c/Users/5600x/Desktop/GWF/MESH-Scripts/Model_Workflow                      # Root folder where data will be stored.
 domain_name                 | BowAtBanff                                                  # Used as part of the root folder name for the prepared data.
 
 ## Subbasin Selection Settings
-input_basin_path           | E:\GWF_data\shapefiles\cat_pfaf_7\                                                     # If 'default', uses 'root_path/shape_file/catchment'
+input_basin_path           | /mnt/e/GWF_data/shapefiles/cat_pfaf_7/                                                     # If 'default', uses 'root_path/shape_file/catchment'
 input_basin_name           | cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp           # Name of the catchment shapefile from which to subset. (the basin containing your desired domain)
-input_river_path           | E:\GWF_data\shapefiles\riv_pfaf_7\                                                      # If 'default', uses 'root_path/shape_file/river_network'
+input_river_path           | /mnt/e/GWF_data/shapefiles/riv_pfaf_7/                                                      # If 'default', uses 'root_path/shape_file/river_network'
 input_river_name           | riv_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp           # Name of river network shapefile from which to subset
 subset_basin_outdir        | default                                                      # If 'default', uses 'root_path/shape_file/catchment (the river network containing your desired domain)
 subset_river_outdir        | default                                                      # If 'default', uses 'root_path/shape_file/river_network'
