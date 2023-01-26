@@ -28,12 +28,12 @@ from datetime import datetime
 
 # %% input files 
 start_time = time.time()
-input_topology     = '../network_topology/domain_PFAF81/settings/routing/network_topology_PFAF81.nc'
-domain_name        = 'PFAF81' 
-outdir             = '../Output/NA/'
+input_topology     = '../workflow_data/domain_BowAtBanff/topology/network_topology_BowAtBanff.nc'
+domain_name        = 'BowAtBanff' 
+outdir             = '../workflow_data/domain_BowAtBanff/drainagedatabase/'
 start_sim          = '1/2/1980'
-end_sim            = '12/31/1980'
-input_rff          = '../../MESH_run/'
+end_sim            = '1/6/1980'
+input_rff          = '../6_model_runs/'
 
 # %% Reading both network topology and drainage database
 network_topo = xs.open_dataset(input_topology)
@@ -57,7 +57,7 @@ for i in range(n):
 ind = np.int32(ind)  
 
 # %% reading daily MESH runoff 
-rff  = xs.open_dataset(input_rff+domain_name+'/results/RFF_D_GRD.nc')
+rff  = xs.open_dataset(input_rff+'results/RFF_D_GRD.nc')
 rff.close()
 
 rff_reorder = rff['RFF'].values[:,ind,0]
@@ -93,6 +93,6 @@ rff_ds.attrs['featureType'] = 'timeSeries'
 # save the output 
 comp = dict(zlib=True, complevel=6)
 encoding = {var: comp for var in rff_ds}
-rff_ds.to_netcdf(outdir+'MESH_state/MizuRoute/'+domain_name+'/'+domain_name+'_distributed_default_timestep.nc', encoding=encoding)
+rff_ds.to_netcdf(input_rff+'results/'+domain_name+'_distributed_default_timestep.nc', encoding=encoding)
 print('--%s seconds--' %(time.time() - start_time))
 
