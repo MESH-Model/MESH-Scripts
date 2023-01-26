@@ -1,0 +1,358 @@
+###########################################
+###########################################
+Use of the land surface schemes
+SVS1 and SVS2 in MESH
+###########################################
+###########################################
+
+## list of files-directories required in an experiment  /  description of file
+# for more info, consult https://wiki.usask.ca/display/MESH/MESH+Input+Files
+
+- BASINAVG1                        output directory which will contain the MESH_output_streamflow.csv file for 
+all stations in MESH_input_streamflow.txt file
+
+- MESH_drainage_database.r2c       MESH drainage file which contains all fileds required for WATROUTE 
+as well as the Grid box fractions for each of up to 5 vegetation classes.
+
+- MESH_input_reservoir.tb0         file containing the list and specificities of each reservoir in the watershed 
+(required even if no reservoirs in the catchment)
+
+- MESH_input_run_options.ini       file containing the simulation configuration details (dates, options, flags etc.)
+
+- MESH_input_soil_levels.txt	   file describing the thickness of each soil layer (used to determine the number of soil layers
+to be used in the simulation)
+
+- MESH_input_streamflow.txt	   file containing the list of stations with observed flows, 
+their coordinates and the associated observed flows. Can be used to define a location where flows are to be reported in 
+MESH_output_streamflow.csv file even if no observed flows are available.
+
+- MESH_parameters.r2c 	           file containing the spatially-varying values for different fields; if present and if 
+the corresponding flag is set to on in the MESH_input_run_options.ini file, these varying fields will overwrite the
+constant field values prescribed in MESH_parameters_CLASS.ini.
+
+- MESH_parameters_CLASS.ini 	   file containing the fixed values for different fields. Most of this file is only used by 
+CLASS, because SVS re-computes all vegetation parameters itself, based on lookup tables.
+
+- MESH_parameters_hydrology.ini    file containing the parameter values for the hydrology (WATROUTE) section.
+
+- basin_?????.r2c	           file containing the ????? forcings for the domain, e.g. humidity
+
+- minmax_parameters.txt		   file containing the min-max values for each parameter.
+
+- sa_mesh	                   sa_mesh executable.
+
+# to launch the executable, type "./sa_mesh" when in the experiment folder.
+# for SVS, the above files are generally converted into txt format from a GEM-Hydro experiment using .fst files,
+# using conversion scripts that are detailed below.
+
+###########################################
+###########################################
+
+## descripition of main changes to bring to the SA-MESH code when customizing a SA-MESH experiment
+## for a given watershed. How to compile SA-MESH code.
+
+The SVS code is available in a SA-MESH code directory at this location:
+${PATH_TO_SA_MESH_CODE_DIRECTORY}/LSS_Model/SVS/r531  
+note: r531 could be outdated at the time of reading (for example r582 is available now, which contains the code for SVS2.0.
+In this folder, the main directories are:
+
+- sa_mesh_process_svs1     # directory containing the code the assign the input parameters to the SVS code,
+and to assign the meteorological forcings to SVS.
+
+- sa_mesh_process_svs2     # the same but for SVS2.0
+
+- svs_GEM_v5.8.rc2 	   # code for SVS1.0
+
+- svs_2.0_GEM_v5.8 	   # code for SVS2.0 
+
+
+# In sa_mesh_process_svs1, you may have to update the two following routines (the same applies for sa_mesh_process_svs2):
+
+- RUNSVS113_config.f90     # assignment of input parameters to SVS code and initial conditions to SVS code.
+
+- RUNSVS113_module.f90     # assignment of input forcings to SVS and launching of SVS code for each time-step.
+
+In RUNSVS113_config.f90, the code between lines 102 and 115 may have to be updated depending on your domain.
+this part of the code (see below) assigns the 5 canopy types of  MESH_parameters_CLASS.ini to the SVS vegetation types.
+for more info on svs vegetation types, see the file inicover_svs.F90 in SVS code.
+
+            !> Parameters.
+            !* vegf+   3*NG: Needleleaf evergreen.
+            !* vegf+   6*NG: Broadleaf deciduous.
+            !* vegf+  14*NG: Crops.
+            !* vegf+  13*NG: Grass.
+            !* vegf+  24*NG: MIXED FORESTS.
+            !* slop: Subgrid-scale slope.
+            !* draindens: Drainage density (km/km2 converted to m/m2 but provided already by CLASS in m/m2).
+            !* rootdp: Max depth of root zone.
+            bus(vegf + 3*NG + k) = pm%cp%fcan(k + 1, 1)
+            bus(vegf + 6*NG + k) = pm%cp%fcan(k + 1, 2)
+            bus(vegf + 14*NG + k) = pm%cp%fcan(k + 1, 3)
+            bus(vegf + 13*NG + k) = pm%cp%fcan(k + 1, 4)
+            bus(vegf + 24*NG + k) = pm%cp%fcan(k + 1, 5)
+
+In RUNSVS113_config.f90, the code between lines 146 and 168 may have to be updated.
+This part of the code (see below) assigns the input soil texture contained in 
+MESH_parameters.r2c (spatially-varying values) or in MESH_parameters_CLASS.r2c (fixed values for each grid point)
+to the SVS soil layers. Pay attention to the number of soil layers defined in MESH_input_soil_levels.txt
+as it will determine the if -else statement below.
+
+            !> For soil texture we ignore negative numbers
+            !> which signal special soils (organic/impermeable/glaciers).
+            bus(sand + k) = max(pm%slp%sand(k + 1, 1), 0.0)
+            bus(sand + NG + k) = max(pm%slp%sand(k + 1, 2), 0.0)
+            bus(sand + 2*NG + k) = max(pm%slp%sand(k + 1, 3), 0.0)
+            bus(clay + k) = max(pm%slp%clay(k + 1, 1), 0.0)
+            bus(clay + NG + k) = max(pm%slp%clay(k + 1, 2), 0.0)
+            bus(clay + 2*NG + k) = max(pm%slp%clay(k + 1, 3), 0.0)
+            if (shd%lc%IGND >= 5) then
+                bus(sand + 3*NG + k) = max(pm%slp%sand(k + 1, 4), 0.0)
+                bus(sand + 4*NG + k) = max(pm%slp%sand(k + 1, 5), 0.0)
+                bus(sand + 5*NG + k) = max(pm%slp%sand(k + 1, 6), 0.0)
+                bus(sand + 6*NG + k) = max(pm%slp%sand(k + 1, 7), 0.0)
+                bus(clay + 3*NG + k) = max(pm%slp%clay(k + 1, 4), 0.0)
+                bus(clay + 4*NG + k) = max(pm%slp%clay(k + 1, 5), 0.0)
+                bus(clay + 5*NG + k) = max(pm%slp%clay(k + 1, 6), 0.0)
+                bus(clay + 6*NG + k) = max(pm%slp%clay(k + 1, 7), 0.0)
+            else
+                do j = 3, 6
+                    bus(sand + j*NG + k) = max(pm%slp%sand(k + 1, 3), 0.0)
+                    bus(clay + j*NG + k) = max(pm%slp%clay(k + 1, 3), 0.0)
+                end do
+            end if 
+
+
+In RUNSVS113_config.f90, the code between lines 170 and 211 may have to be updated
+in order to change the way the initial conditions contained in MESH_parameters_CLASS.ini
+are affected to SVS internal variables (the user is referred to the code itself. As it is only related
+to initial conditions, no further info is given here. However, keep in mind that the soil moisture
+for the deep and thick soil layers may take a long time to warm-up, i.e. not depend on the initial condition values.
+
+#######
+Height of the atmospheric forcing (wind and temperature)
+#######
+    - Atmospheric forcing from GEM
+If MESH is driven gy GEM files the key observed_forcing must be set to False in RUNSVS113_config.f90
+The height of the levels is then computed by surflayerheight() in RUNSVS113_module.f90
+
+    - Observed atmospheric forcing at a prescribed height (data from a met station or an atmopheric reanalysis such as ERA-I)
+observed_forcing must be set to True in RUNSVS113_config.f90 
+The heights of the wind speed and temperature/humidity forcing are taken from MESH_parameters_CLASS.ini. 
+
+#######
+Precipitation partitioning between rain and snow (l 78-98 in RUNSVS113_module)
+#######
+2 options exist to determine the phase of precipitation when SVS is used in MESH: 
+
+   - Option 1:  rainfall and snowfall rate are read separetely in the atmospheric forcing
+
+This option can be used if SA-MESH is applied in point mode. In this case, rainfall and snowfall rates are directly read from the csv file 
+basin_forcing.met. They correspond to additional colomns in the file basin_forcing compared to the standard version of MESH: 
+the 11th column is the rainfall rate and the 12th column is the snowfall rate. 
+
+   - Option 2 Rainfall and snowfall rate are derived from total precipitation rate assuming a separation at 0 degC (as in GEM-Hydro)
+
+
+#####################
+# SVS1.0 code:
+in ${PATH_TO_SA_MESH_CODE_DIRECTORY}/LSS_Model/SVS/r531/svs_GEM_v5.8.rc2 is located the SVS1.0 code.
+in this folder, the two main scripts a user may want to modify are (the same applies for SVS2.0):
+
+- svs_configs.F90              # contains some SVS configuration details
+
+- sfc_options.F90              # contains some SVS configuration details too.
+
+
+
+- in svs_configs.F90, you may want to modify the depths of the 7 SVS soil interfaces.
+currently, the code is made to run with 7 soil layers. This could be modified, but no information is given 
+here in this regard. However, you can change the depth (i.e., thickness) of the soil layers; 
+this is defined at line 25:
+      real, parameter, dimension(nl_svs) :: dl_svs =  (/ 0.05, 0.1, 0.17, 0.28, 0.5, 0.8, 1.4 /)
+the depth of each layers is given in m relatively to the surface. Here the total soil depth is 1.4m
+(this will be used for all grid points, SVS does not use spatially-varying soil depth yet). 
+If you change these depths, make sure to be consistent with the changes you make in RUNSVS113_config.f90
+where the input soil texture is assigned to the different SVS soil layers.
+don't pay attention to the fact that by default the "soiltext" variable is set to "GSDE",
+as the RUNSVS113_config.f90 routine will anyway use inisoili_svs.F90, i.e., not use the gsde soil depths. 
+ 
+- in sfc_options.F90, at line 188, you can choose the option for the photosynthesis code to use:
+     !# OPTION TO USE PHOTOSYNTHESIS CODE FOR STOMATAL RESISTANCE in SVS
+     logical           :: use_photo = .true.
+     namelist /surface_cfgs/ use_photo
+ if set to true, it will use the photosynthesis code. If set to false, 
+ it will use the JARVIS formulation to compute evapotranspiration. 
+ Most tests done with GEM-Hydro clearly indicate that JARVIS gives better results, 
+ i.e. set the option to .false. is advised. If you want to use photosynthesis, it is recommended 
+ to multiply all the resistances of the code by 2 to decrease evaporation, despite it can lead 
+ to overestimation of streamflow for some vegetation types such as evergreen and agricultural covers.
+ the routines that contain resistances are: drag_svs.F90 (search for resavg(I) and resagr(I)),
+ vegi_svs.F90 (search for RS(I)), svs.F90 (search for stom_rs(I)), snow_alone.F90 (resa(I)), and 
+ snow_veg.F90 (resa(I)).
+ Note that even with JARVIS formulation, it is still recommended to multiply the snow resistances by 2 (in
+snow_alone.F90 and snow_veg.F90).
+
+   do not pay attention to the other keys in the sfc_options.F90 routine as most are actually not used by SVS.
+
+
+##########################################
+##########################################
+
+
+# description of the utility scripts to compare experiments, compute scores and plot graphs.
+The scritps are located in an experiment directory.
+
+- cmpr_SAMESH_GEMHYDRO.py  
+script to compare SA-MESH and GEM-Hydro simulations. To do that, simply specify to the GEM-Hydro 
+spl_rpn_cms folder (in WAtroute experiment / output directory) in the script's arguments at the end of it.
+And also specify the SA-MESH folder. Note that the GEM-Hydro and SA-MESH need not necessarily to contain 
+the same number of gauges and/or in the same order and/or over the same time period. The script will make the 
+corresponding stations and time period match for the specified time period.
+
+- cmpre_HG.py
+script to compare two SA-MESH experiments. It will plot the graphs and compute the scores over
+the period specified by the script arguments. The first SA-MESH output folder specified as the first 
+script argument (end of script) will correspond to the "new" experiment on the graph. 
+The graph will be stored in the "new" experiment folder.
+In this case, both SA-MESH output folders need to contain the exact same number of gauges,
+and the "former" output folder needs to contain a time period greater or equal to the one
+of the "new" output folder. This script will skip the first 100 days of simulation, considered as
+the "warm-up" period, to not include it neither on the graph or in the score computation.
+
+- cmpre_HG_full.py
+exactly the same as the script cmpre_HG.py, but in this case the whole period is used to plot the graphs
+and compute the scores (no warm-up or spin-up period considered).
+
+- create_yyyymmdd_list.py
+utility used by some python scripts of an SA-MESH experiment folder to generate a list of daily dates
+between two specified dates.
+
+- draw_HG.py
+script to plot a SA_MESH output folder streamflows on a graph, versus observed flows, 
+and to compute scores. The script needs only the name of the SA-MESH output folder.
+It will skip the first 100 days of the simulation period. The graph will be stored in 
+the specified experiment folder.
+
+- draw_HG_full.py
+exactly the same as before but without skipping any day of simulation.
+
+
+##################################
+##################################
+
+# descripiton of scripts located in a SA-MESH experiment folder
+and used to convert GEM-Hydro .fst files into ascii files to run SA-MESH.
+Here only info. re. the conversion scripts is given. It is assumed that all 
+GEM-Hydro .fst files are ready. To create the GEM-Hydro .fst files,
+please refer to the ECCC wiki page:
+https://wiki.cmc.ec.gc.ca/wiki/Hydrology#SPS_2
+
+# converting the geophys. file
+MESH can only use 5 different canopy types, the 5th one being generally reserved for bare ground / impervious surfaces
+(with no vegetation). But when using SVS, you can use the 5th canopy type for any vegetation type 
+as the vegetation parameters will be defined in the SVS code itself. Morevoer, each vegetation type in SVS
+contains a fraction of bare ground, so there is less relevance in using a separate canopy type for bare ground only with SVS,
+unless it represents a significant portion of the watershed.
+
+- the first step consists in doing as if the GEM-Hydro geophy file contained only the 5 main vegetation types.
+For that, open the geophy file with SPI, identify the main types among the 26 VF classes, and modify the 
+script class_sum.py accordingly. The script class_sum.py will grab some vegetation types in the geophy file (can be more than 5 as
+some can be aggregated afterwards in the same script), and recompute their fraction assuming they are the only vegetation types.
+The script can then aggregate some classes together to end up with a maximum of 5 different vegetation covers, and 
+will add them into the geophy .fst file to be used by next script.
+
+- the script createIAK_CLEN2_BKF2.py will add some variables in the Watroute shed file that are needed by SA-MESH.
+You will have to update the script as the size of the matrices containing the records' values is hard-coded.
+
+- the script build_r2cshed.sh will then create the mesh_drainage_database.r2c file using the 
+WAtroute .fst shed file and the modified geophy .fst file. update the script to adapt it to the 5 main vegetation types
+created by class_sum.py. You also need the header.r2c file and the fst2r2c_geo and fst2r2c_int executables.
+the header file contains the grid coordinates info. the executables are used to convert from .fst to r2c (ascii) format.
+update the header file with your domain coordinates (can be different from the geophy .fst file coordinates, but must 
+be contained by it and by the watroute shed file). You can use the script nbpointcount.py to count the number 
+of points located in your watershed (info needed in some MESH input files).
+
+once the output file is created (named drain_dbase.r2c), you will have to open it,
+erase the header, and erase all lines different than lines with numbers.
+then add the header from another MESH_drainage_database.r2c file and rename it as "MESH_drainage_database.r2c".
+Make sure that the grid info and the variable list in the header matches the grid info in the file header.r2c
+and the variable list corresponds to the variables created by the script build_r2cshed.sh.
+
+# creating the MESH_input_reservoir.tb0 file.
+simply copy the Watroute reservoir.tb0 file located in $WATROUTE_EXPERIMENT/input/templates
+
+# creating the MESH_input_soil_levels.txt
+make sure the number of levels specified in this file matches the number of layers in the MESH_parameters.r2c file and in the
+MESH_parameters_CLASS.ini file (see below). Note that CLASS can only use a maximum of 5 soil layers for now.
+
+# creating the MESH_input_streamflow.txt file
+see the documentation at https://wiki.usask.ca/display/MESH/MESH+Input+Files
+
+# creating the MESH_parameters.r2c file
+use the script build_r2cparams.sh and adapt it if you want to change the number of soil layers.
+This script will grab some variables in the geophy.fst file like roughness and soil texture and put them
+into the file MESH_distrib_params.r2c. Then as for the MESH_drainage_database.r2c file, remove the header 
+and all non-number lines, and add the header from a correct MESH_drainage_database.r2c file by updating 
+the grid info and variablem list, then rename it as MESH_drainage_database.r2c.
+
+# for the other files setup or if you want to run CLASS instead of SVS, consult the documentation 
+at https://wiki.usask.ca/display/MESH/MESH+Input+Files 
+Remember that CLASS can use the varying values specified in the file MESH_parameters.r2c,
+but that it has to use the vegetation parameters defined in MESH_parameters_CLASS.ini.
+
+##########################################
+##########################################
+
+#### list of flags required for or having an impact on SVS:
+
+for flags in official SA-MESH documentation, see this page:
+https://wiki.usask.ca/display/MESH/MESH_input_run_options.ini
+for others, values typically used are specified
+
+HOURLYFLAG    (in doc)
+BASIN*FLAG    (in doc)
+SHDFILEFLAG   (in doc)
+SOILINIFLAG   (in doc)
+INTERPOLATIONFLAG (in doc)
+LOCATIONFLAG  (doc here: https://wiki.usask.ca/display/MESH/MESH_input_streamflow.txt)
+RESERVOIRFILEFLAG (doc here: https://wiki.usask.ca/display/MESH/MESH_input_reservoir.tb0)
+RUNMODE       (doc here: https://wiki.usask.ca/display/MESH/RUNMODE) 
+INPUTPARAMSFORMFLAG (doc here: https://wiki.usask.ca/display/MESH/Interim+releases) 
+                    # this is to use a gridded input file for spatially varying fields 
+		    # such as soil texture, roughness, 
+TIMESTEPFLAG   5  # (for 5 min., recommended for SVS; could be 30 min or any value between 0.5 and HOURLYFLAG)
+BASEFLOWFLAG   2  # (doc here: https://wiki.usask.ca/display/MESH/BASEFLOWFLAG)
+NRSOILAYEREADFLAG 1 (doc here: https://wiki.usask.ca/display/MESH/MESH_parameters_CLASS.ini)
+	         # if set to 1 the number of input values related to soil in MESH_parameters_CLASS.ini
+		 # must be the same as the number of soil layers in MESH_input_soil_levels.txt.
+		 # if set to X>3, the model will read in X soil layer parameter values in MESH_parameters_CLASS.ini,
+	         # but will use Y soil layers where Y is the number of layers in MESH_input_soil_levels.txt
+		 # however, any soil texture value read in MESH_parameters_CLASS.ini is overwritten by the values 
+		 # found in mesh_parameters.r2c (doc here: https://wiki.usask.ca/display/MESH/Interim+releases).
+		 # for SVS, the user should use NRSOILAYEREADFLAG  =  1 and give as many soil parameter values 
+		 # in MESH_parameters_CLASS.ini as the number of soil layers in MESH_input_soil_levels.txt for coherence.
+
+#### list of flags unused by SVS (in MESH_input_run_options.ini):
+IDISP
+IZREF
+ISFLD
+IPCP
+ITC
+ITCG
+ITG
+IWF
+IPAI
+IHGT
+IALC
+IALS
+IALG
+FROZENSOILINFILFLAG
+
+#### list of flags which have default values and need not be specified in MESH_input_run_options.ini:
+RELFLG
+STREAMFLOWFLAG
+SUBBASINFLAG
+ 
+
+
+

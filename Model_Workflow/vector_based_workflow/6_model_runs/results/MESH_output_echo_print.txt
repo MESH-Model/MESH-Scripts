@@ -1,253 +1,272 @@
- MESH 1.4 ---  (1773)
+ MESH 1.4 ---  (1813)
  
  READING: MESH_drainage_database.nc
-   WARNING: The variable 'ChnlSlope' being read from file as 'double' is being transferred to a variable of lower precision ('float'). Truncation may occur.
-   WARNING: The variable 'lon' being read from file as 'double' is being transferred to a variable of lower precision ('float'). Truncation may occur.
-   WARNING: The variable 'lat' being read from file as 'double' is being transferred to a variable of lower precision ('float'). Truncation may occur.
-   WARNING: The variable 'ChnlLength' being read from file as 'double' is being transferred to a variable of lower precision ('float'). Truncation may occur.
-   WARNING: The variable 'GridArea' being read from file as 'double' is being transferred to a variable of lower precision ('float'). Truncation may occur.
-   WARNING: The variable 'GRU' being read from file as 'double' is being transferred to a variable of lower precision ('float'). Truncation may occur.
-   REMARK: 'IAK' is missing in the file. A single river class is assumed.
-   Active variables in the file: 17
+   ERROR: An error occurred reading information about the 'calendar' attribute (Code: -43).
+   WARNING: The reference calendar for the 'time' variable is not set or is not equal to 'gregorian' or 'standard'. Errors may occur with deriving time-stamps from the file.
+   WARNING: The variable 'LandUse' is an unknown or unsupported data format (Code: 1).
+   REMARK: At least one river class is required when channel routing is enabled. The number of river classes is not defined or the 'IAK' or 'IRVR' map is missing in the file. Assuming one river class.
+   REMARK: No drainage area 'DA' variable found. Accumulating areas from surface area 'GridArea' by flow direction 'Next'.
+   REMARK: No 'Reach' or 'IREACH' variable found. Assuming no reservoirs or routed lakes exist inside the basin.
+   REMARK: No 'Bankfull' variable found. Setting the background field to zero.
+   REMARK: No 'Chnl' or 'ICHNL' variable found. Assuming a single channel class.
    Total number of grids: 51
    Total number of grids inside the basin: 50
-   Side length of grid: 1.000000 m
+   Side length of grid: 1.00000000 m
    Number of GRUs: 13
    Number of land-based tiles: 530
    Number of river classes: 1
  READING: MESH_input_soil_levels.txt
    Number of soil layers: 3
- 
- READING: Resume run configuration
-   RESUMEFLAG is not active: RESUMEFLAG off
-   SAVERESUMEFLAG is not active: SAVERESUMEFLAG off
  READING: MESH_parameters_CLASS.ini
  READING: MESH_parameters_hydrology.ini
  READING: MESH_parameters.txt
    Active parameters in file: 1
+ 
+ READING: Resume run configuration
+   RESUMEFLAG is not active: RESUMEFLAG off
+   SAVERESUMEFLAG is not active: SAVERESUMEFLAG off
  READING: MESH_input_streamflow.txt
    Number of streamflow gauges: 2
              GAUGE              IY              JX            RANK        DA (km2)
-          05BB001               51               1              51    2216.040
-          05BA001               16               1              16    731.1786
- READING: Climate forcing variables
-   OPENING: BowAtBanff_MESH_RDRSV2.1_1980-0112.nc
-     Skipping 17 records.
-   OPENING: BowAtBanff_MESH_RDRSV2.1_1980-0112.nc
-     Skipping 17 records.
-   OPENING: BowAtBanff_MESH_RDRSV2.1_1980-0112.nc
-     Skipping 17 records.
-   OPENING: BowAtBanff_MESH_RDRSV2.1_1980-0112.nc
-     Skipping 17 records.
-   OPENING: BowAtBanff_MESH_RDRSV2.1_1980-0112.nc
-     Skipping 17 records.
-   OPENING: BowAtBanff_MESH_RDRSV2.1_1980-0112.nc
-     Skipping 17 records.
-   OPENING: BowAtBanff_MESH_RDRSV2.1_1980-0112.nc
-     Skipping 17 records.
+          05BB001                1              51              51    2216.040
+          05BA001                1              16              16    731.1786
+ READING: MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc
+   Checking the spatial reference of the file.
+   INFO: The projection of the file is 'LATLONG'.
+   WARNING: An error occurred reading the units of the 'crs' variable (Code: -43).
+   WARNING: An error occurred reading the units of the 'subbasin' variable (Code: -43).
+   REMARK: Mapping the field 'RDRS_v2.1_P_FB_SFC' to the 'FSIN' variable.
+ READING: MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc
+   Checking the spatial reference of the file.
+   INFO: The projection of the file is 'LATLONG'.
+   WARNING: An error occurred reading the units of the 'crs' variable (Code: -43).
+   WARNING: An error occurred reading the units of the 'subbasin' variable (Code: -43).
+   REMARK: Mapping the field 'RDRS_v2.1_P_FI_SFC' to the 'FLIN' variable.
+ READING: MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc
+   Checking the spatial reference of the file.
+   INFO: The projection of the file is 'LATLONG'.
+   WARNING: An error occurred reading the units of the 'crs' variable (Code: -43).
+   WARNING: An error occurred reading the units of the 'subbasin' variable (Code: -43).
+   REMARK: Mapping the field 'RDRS_v2.1_A_PR0_SFC' to the 'PRE' variable.
+ READING: MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc
+   Checking the spatial reference of the file.
+   INFO: The projection of the file is 'LATLONG'.
+   WARNING: An error occurred reading the units of the 'crs' variable (Code: -43).
+   WARNING: An error occurred reading the units of the 'subbasin' variable (Code: -43).
+   REMARK: Mapping the field 'RDRS_v2.1_P_TT_09944' to the 'TA' variable.
+ READING: MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc
+   Checking the spatial reference of the file.
+   INFO: The projection of the file is 'LATLONG'.
+   WARNING: An error occurred reading the units of the 'crs' variable (Code: -43).
+   WARNING: An error occurred reading the units of the 'subbasin' variable (Code: -43).
+   REMARK: Mapping the field 'RDRS_v2.1_P_UVC_09944' to the 'UV' variable.
+ READING: MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc
+   Checking the spatial reference of the file.
+   INFO: The projection of the file is 'LATLONG'.
+   WARNING: An error occurred reading the units of the 'crs' variable (Code: -43).
+   WARNING: An error occurred reading the units of the 'subbasin' variable (Code: -43).
+   REMARK: Mapping the field 'RDRS_v2.1_P_P0_SFC' to the 'PRES' variable.
+ READING: MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc
+   Checking the spatial reference of the file.
+   INFO: The projection of the file is 'LATLONG'.
+   WARNING: An error occurred reading the units of the 'crs' variable (Code: -43).
+   WARNING: An error occurred reading the units of the 'subbasin' variable (Code: -43).
+   REMARK: Mapping the field 'RDRS_v2.1_P_HU_09944' to the 'QA' variable.
+ 
+ 
+ The simulation starts at: 1980/01/02 00:00:00.000000
+ Checking the start dates of the input files...
+   Skipping 17 records in 'MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc'.
+   Skipping 17 records in 'MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc'.
+   Skipping 17 records in 'MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc'.
+   Skipping 17 records in 'MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc'.
+   Skipping 17 records in 'MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc'.
+   Skipping 17 records in 'MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc'.
+   Skipping 17 records in 'MESH_RDRS_BowAtBanff_remapped_1980-01-01-13-00-00.nc'.
+ 
+ RUNCLASS36 is active.
    BASEFLOW component is ACTIVE.
  READING: outputs_balance.txt
    Output variables: 10
- 
-MESH_input_run_options.ini
- 
-Configuration flags - specified by user or default values
- BASINSHORTWAVEFLAG   =            8
- BASINLONGWAVEFLAG    =            8
- BASINRAINFLAG        =            8
- BASINTEMPERATUREFLAG =            8
- BASINWINDFLAG        =            8
- BASINPRESFLAG        =            8
- BASINHUMIDITYFLAG    =            8
- SHDFILEFLAG          =            5
- SOILINIFLAG          =            0
- PREEMPTIONFLAG       =            0
- SUBBASINFLAG         =            0
- R2COUTPUTFLAG        =            0
- OBJFNFLAG            =            0
- AUTOCALIBRATIONFLAG  =            1
- WINDOWSIZEFLAG       =            1
- WINDOWSPACINGFLAG    =            1
- FROZENSOILINFILFLAG  =            0
  Reached simulation end date.
  
-End of run prognostic states
-   Number of GRUs:   13
+ End of run prognostic states
+    Number of GRUs:   13
  
-Average values
-   GRU   1:
-    -3.490    -2.425     0.569   -27.629    -4.955     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.160     0.176     0.124     0.026     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     2.651   140.284     0.839   231.265     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   2:
-    -3.424    -2.365     0.581   -27.549    -4.886     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.160     0.176     0.124     0.026     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     2.648   139.296     0.839   231.127     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   3:
-    -2.452    -1.520     1.249   -22.035    -3.752     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.144     0.182     0.113     0.004     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     2.557   136.150     0.839   232.091     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   4:
-    -3.906    -2.858     0.180   -13.357    -5.250     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.150     0.174     0.128     0.054     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     3.078   145.378     0.839   234.715     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   5:
-    -4.792    -3.690     0.570   -30.531    -6.211     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.142     0.342     0.152     0.043     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     1.431   148.305     0.838   234.159     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   6:
-    -3.623    -2.568     0.509   -23.888    -5.093     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.176     0.353     0.162     0.031     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.031   150.221     0.804   237.086     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   7:
-    -2.974    -1.920     0.900   -30.283    -4.429     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.198     0.357     0.151     0.010     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.019   152.062     0.803   239.373     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   8:
-    -3.186    -2.120     0.895   -29.844    -4.641     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.197     0.352     0.151     0.012     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.019   150.447     0.805   238.751     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   9:
-    -2.115    -1.196     1.686   -30.034    -3.651     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.044     0.253     0.400     0.396     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     2.695   141.673     0.839   232.771     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  10:
-    -3.501    -2.409     0.652     0.000    -4.955     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.190     0.113     0.180     0.021     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   159.323     0.799   241.893     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  11:
-    -4.326    -3.467     0.000     0.000    -5.676     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.260     0.375     0.434     0.028     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   166.262     0.797   241.904     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  12:
-    -1.557    -0.339     3.399     0.000    -3.192     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.062     0.357     0.186     0.106     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   156.190     0.799   242.619     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  13:
-    -6.902    -6.343    -5.650     0.000    -7.866     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.000     0.000     0.000     0.000     0.000     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   162.271     0.801   241.396     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+ Average values
+    GRU   1:
+     -7.548     0.000     1.033   -24.552   -15.752     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.165     0.251     0.310     0.046     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     1.560     1.910     0.823   110.374    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   2:
+     -7.538     0.000     1.032   -24.449   -15.711     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.165     0.251     0.310     0.046     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     1.500     1.817     0.822   110.115    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   3:
+     -8.452    -1.942     1.014   -23.203   -13.247     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.118     0.228     0.291     0.102     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     2.133     0.944     0.833   107.193    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   4:
+     -7.551     0.000     1.025   -23.723   -13.850     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.165     0.251     0.309     0.047     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     1.775     1.705     0.825   111.455    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   5:
+     -8.111     0.000     1.069   -24.359   -12.700     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.184     0.260     0.364     0.050     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     1.200     2.085     0.818   138.528    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   6:
+     -7.789     0.000     1.062   -24.726   -15.151     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.188     0.268     0.364     0.050     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     1.742     1.604     0.812   112.576    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   7:
+     -6.875     0.309     1.089   -26.120   -23.409     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.205     0.268     0.366     0.023     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     1.090     1.818     0.814   106.551    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   8:
+     -7.161     0.111     1.082   -26.104   -23.607     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.202     0.267     0.366     0.028     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     1.045     1.717     0.814   104.879    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   9:
+     -7.371     0.023     1.042   -25.591   -20.326     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.217     0.293     0.372     0.025     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     1.659     1.598     0.821   103.320    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  10:
+     -7.793     0.000     1.061     0.000   -18.756     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.177     0.235     0.298     0.030     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     3.625     0.799   118.422     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  11:
+     -9.636     0.000     1.004     0.000   -14.810     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.154     0.299     0.230     0.118     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     4.608     0.797   141.828     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  12:
+     -7.877     0.000     1.061     0.000   -17.751     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.092     0.308     0.223     0.040     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     3.627     0.799   119.005     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  13:
+    -13.148    -8.428    -2.363     0.000   -26.164     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.000     0.000     0.000     0.000     0.000     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     3.252     0.800   114.534     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
  
-Minimum values
-   GRU   1:
-    -4.972    -3.689     0.121   -31.010    -6.717     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.148     0.139     0.110     0.016     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     2.432   120.381     0.839   224.711     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   2:
-    -4.967    -3.686     0.121   -30.841    -6.699     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.148     0.139     0.110     0.016     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     2.434   120.381     0.839   224.711     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   3:
-    -4.088    -2.957     0.669   -25.196    -5.614     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.129     0.149     0.107     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     2.335   120.743     0.839   224.832     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   4:
-    -5.172    -3.915     0.010   -15.896    -6.710     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.125     0.116     0.112     0.034     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     2.032   126.464     0.839   226.980     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   5:
-    -6.338    -5.098     0.047   -33.971    -7.979     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.123     0.282     0.137     0.030     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     1.139   125.695     0.837   228.248     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   6:
-    -5.180    -3.952     0.072   -32.024    -6.880     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.162     0.290     0.131     0.020     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.009   128.518     0.793   230.973     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   7:
-    -4.310    -3.109     0.542   -33.431    -5.892     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.190     0.327     0.132     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.016   136.490     0.797   233.138     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   8:
-    -4.948    -3.779     0.194   -33.657    -6.493     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.170     0.314     0.132     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.016   134.789     0.796   233.138     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   9:
-    -5.402    -4.424     0.386   -33.701    -6.901     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.226     0.396     0.354     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     2.067   120.659     0.838   225.268     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  10:
-    -5.314    -4.059     0.061     0.000    -6.952     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.163     0.064     0.166     0.006     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   137.717     0.790   234.868     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  11:
-    -5.056    -4.160    -0.000     0.000    -6.542     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.239     0.154     0.420     0.011     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   141.979     0.791   235.051     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  12:
-    -3.721    -2.467     1.036     0.000    -5.468     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.354     0.084     0.035     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   131.407     0.790   235.106     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  13:
-    -8.603    -7.949    -6.499     0.000    -9.595     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.000     0.000     0.000     0.000     0.000     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   141.411     0.790   235.330     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+ Minimum values
+    GRU   1:
+     -8.028    -0.000     0.994   -27.493   -16.813     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.104     0.250     0.269     0.016     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.458     0.199     0.798    92.089    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   2:
+     -8.028    -0.000     0.994   -27.493   -16.813     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.104     0.250     0.269     0.016     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.458     0.199     0.798    92.089    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   3:
+    -11.231    -6.339     0.994   -25.924   -14.035     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.040     0.227     0.259     0.028     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.675     0.000     0.760   103.955    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   4:
+     -8.005    -0.000     0.992   -25.955   -14.824     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.100     0.250     0.266     0.020     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.522     0.205     0.802    93.155    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   5:
+     -8.776    -0.000     1.010   -26.734   -13.803     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.137     0.258     0.357     0.014     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.380     0.234     0.796   109.692    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   6:
+     -8.357    -0.000     1.008   -27.635   -16.176     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.130     0.266     0.358     0.019     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.544     0.129     0.796    90.411    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   7:
+     -8.528    -0.000     1.006   -32.078   -25.961     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.142     0.265     0.357     0.000     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.410     0.234     0.797    89.818    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   8:
+     -8.528    -0.000     1.006   -31.850   -25.961     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.142     0.265     0.357     0.000     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.410     0.234     0.796    89.615    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   9:
+     -8.195    -0.000     1.010   -29.728   -22.580     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.162     0.291     0.343     0.000     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.540     0.128     0.797    84.957    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  10:
+     -9.016    -0.000     1.015     0.000   -20.126     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.165     0.235     0.286     0.008     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     0.805     0.792   107.140     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  11:
+    -10.034    -0.000     1.000     0.000   -15.631     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.137     0.299     0.229     0.092     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     0.955     0.792   127.317     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  12:
+     -9.102    -0.000     1.005     0.000   -19.003     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.082     0.306     0.200     0.026     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     0.677     0.792   104.985     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  13:
+    -15.587    -9.566    -2.426     0.000   -28.574     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.000     0.000     0.000     0.000     0.000     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     0.790     0.792   105.741     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
  
-Maximum values
-   GRU   1:
-    -1.665    -0.698     0.890   -18.250    -3.163     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.170     0.250     0.145     0.050     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     3.099   181.209     0.839   242.339     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   2:
-    -1.665    -0.698     0.890   -18.250    -3.163     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.170     0.250     0.145     0.050     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     3.099   181.209     0.839   242.339     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   3:
-    -0.988     0.000     1.611   -15.221    -2.378     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.041     0.151     0.240     0.124     0.019     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     2.976   178.459     0.839   263.519     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   4:
-    -2.574    -1.613     0.441   -10.178    -3.922     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.161     0.280     0.143     0.111     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     3.759   190.260     0.839   259.990     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   5:
-    -2.948    -1.963     0.959   -20.954    -4.396     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.152     0.362     0.181     0.072     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     1.617   193.256     0.838   245.936     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   6:
-    -1.895    -0.932     0.786   -19.893    -3.417     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.186     0.369     0.211     0.056     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.423   195.790     0.834   247.933     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   7:
-    -1.634    -0.665     1.435   -22.002    -3.115     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.205     0.365     0.179     0.021     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.022   203.187     0.817   250.059     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   8:
-    -1.634    -0.665     1.435   -22.002    -3.115     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.206     0.365     0.187     0.045     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.021   181.783     0.817   250.261     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU   9:
-    -0.852     0.000     2.314   -21.047    -2.262     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.082     0.283     0.404     0.404     0.005     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     3.072   189.938     0.839   247.388     0.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  10:
-    -1.861    -0.863     1.154     0.000    -3.318     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.204     0.185     0.192     0.056     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   205.740     0.816   258.231     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  11:
-    -3.101    -2.361     0.000     0.000    -4.361     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.040     0.281     0.428     0.439     0.051     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   205.146     0.816   251.513     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  12:
-    -1.000     0.000     4.804     0.000    -2.428     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.040     0.087     0.360     0.328     0.169     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   204.399     0.816   260.729     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
-   GRU  13:
-    -5.608    -5.123    -5.100     0.000    -6.538     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
-     0.000     0.000     0.000     0.000     0.000     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
-     0.000     0.000   233.754     0.816   259.262     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+ Maximum values
+    GRU   1:
+     -7.124     0.000     1.087   -22.257   -14.909     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.186     0.251     0.330     0.138     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     2.991     4.587     0.839   115.843    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   2:
+     -7.124     0.000     1.087   -22.257   -14.909     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.186     0.251     0.330     0.138     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     2.991     4.587     0.839   115.843    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   3:
+     -6.999     0.000     1.031   -21.036   -12.580     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.176     0.228     0.313     0.204     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     4.879     2.905     0.839   109.425    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   4:
+     -7.222     0.000     1.079   -21.917   -13.148     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.183     0.251     0.328     0.144     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     3.761     4.073     0.839   116.252    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   5:
+     -7.530     0.000     1.105   -22.396   -10.818     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.210     0.261     0.371     0.126     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     2.241     5.132     0.838   149.268    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   6:
+     -7.233     0.000     1.112   -22.295   -14.310     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.211     0.269     0.370     0.134     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     3.330     4.130     0.839   121.796    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   7:
+     -2.479     2.825     1.118   -23.371   -21.731     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.222     0.268     0.371     0.109     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     2.069     5.554     0.838   111.763    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   8:
+     -5.224     1.220     1.119   -23.371   -21.437     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.222     0.268     0.371     0.109     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     2.026     4.995     0.838   111.777    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU   9:
+     -6.718     0.605     1.079   -22.818   -19.042     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.233     0.294     0.393     0.109     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     3.368     4.209     0.839   109.284    -0.917  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  10:
+     -6.513     0.000     1.102     0.000   -17.601     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.193     0.235     0.317     0.048     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     7.924     0.806   123.084     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  11:
+     -9.033     0.000     1.017     0.000   -13.882     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.175     0.299     0.231     0.138     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     8.071     0.806   146.739     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  12:
+     -7.003     0.000     1.078     0.000   -16.611     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.040     0.098     0.309     0.255     0.075     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     7.792     0.806   124.030     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
+    GRU  13:
+    -10.030    -6.794    -2.293     0.000   -23.984     0.000  !> TBAR(1:3)/TCAN/TSNO/TPND
+      0.000     0.000     0.000     0.000     0.000     0.000     0.000  !> THLQ(1:3)/THIC(1:3)/ZPND
+      0.000     0.000     7.977     0.806   118.028     1.000  !> RCAN/SNCAN/SNO/ALBS/RHOS/GRO
  
  Basin water balance end of run totals (mm)
-   Total precipitation              =   590.2531
-   Total evapotranspiration         =   295.9311
-   Total runoff                     =   404.3337
-     Overland         =   132.7812
-     Lateral          =   232.7355
-     Drainage (soil)  =   38.81632
-   Change in storage                =  -84.62909
-     Initial          =   619.7923
-     Final            =   535.1632
+   Total precipitation              =   4.222679
+   Total evapotranspiration         =  0.7091505
+   Total runoff                     =   61.74377
+     Overland         =  0.1211708E-01
+     Lateral          =   61.61081
+     Drainage (soil)  =  0.1208475
+   Change in storage                =  -67.56305
+     Initial          =   619.7924
+     Final            =   552.2294
  
  
  Program has terminated normally.
  
- Time = 8.530563 seconds (averaging 4.265282 seconds per simulation year).
+ Time = 0.5641190 seconds.

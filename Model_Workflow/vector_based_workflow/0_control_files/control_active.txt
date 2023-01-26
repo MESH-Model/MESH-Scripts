@@ -69,7 +69,6 @@ format_list                | f4
 fill_value_list            | -9999.00
 var_names                  | RDRS_v2.1_A_PR0_SFC, RDRS_v2.1_P_FI_SFC, RDRS_v2.1_P_FB_SFC, RDRS_v2.1_P_TT_09944, RDRS_v2.1_P_UVC_09944, RDRS_v2.1_P_P0_SFC, RDRS_v2.1_P_HU_09944 # variables must be on 1 line and separated by a comma and a space.
 
-
 # Install settings
 github_MESH                 | https://wiki.usask.ca/download/attachments/983105591/r1813.zip?version=2&modificationDate=1633583308100&api=v2               # Replace this with the path to your own fork if you forked the repo.
 github_mizuroute            | https://github.com/ncar/mizuroute           # Replace this with the path to your own fork if you forked the repo.

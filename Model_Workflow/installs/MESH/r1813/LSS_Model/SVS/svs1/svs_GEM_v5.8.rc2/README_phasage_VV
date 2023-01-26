@@ -1,0 +1,11 @@
+Phasage de SVS 1.0 (revision svn 672) dans MESH
+
+Vincent Vionnet (2017 09 22)
+
+1. Integration des sources de la revision svn 672 dans la version stand alone MESH
+2. Une partie du code est classe dans : Code_not_needed_by_mesh (toutes les routines qui ne concernent pas svs)
+
+3. Modification du Makefile
+3. Modification du code pour compatibilite avec MESH :
+        - commentaire des lignes 
+

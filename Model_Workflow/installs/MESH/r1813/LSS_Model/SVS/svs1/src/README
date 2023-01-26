@@ -1,0 +1,27 @@
+This directory contains the source code for the runsvs driver,
+as well as source code that was modified from the official svs code.
+
+These two subroutines were modified to use lookup tables for LAI:
+inicover_svs.ftn90
+inisoili_svs.ftn90
+
+This is the main program which includes the time loop:
+runsvs.ftn90
+
+This function is used to initialize state variables that are not set elsewhere.
+It needs to be adapted to fit your need, depending on what gets done in runsvs_io.ftn90:
+runsvs_init.ftn90
+
+This module contains I/O functions to read configuration and forcing files, as well as write outputs.
+It should be adapted to fit your needs. The vanilla version works with CLASS-style benchmark files.
+runsvs_io.ftn90
+
+This module contains the definition of all of the bus variables used by SVS.
+It is normally generated automatically by the scripts located in the bin directory,
+and needs to be updated when the bus variables used by SVS change.
+runsvs_mod.ftn90
+
+This module contains a few simple utility functions that are used by the driver.
+It also defines the variables that are part of the namelist 
+runsvs_utils.ftn90
+
