@@ -22,8 +22,8 @@ cd datatool
 #sudo apt install nco
 
 ./extract-dataset.sh  --dataset=RDRS \
-  --dataset-dir="/mnt/c/Users/<user>/path/to/MESH-Scripts/Model_Workflow/forcing" \
-  --output-dir="/mnt/c/Users/<user>/path/to/MESH-Scripts/Model_Workflow/forcing" \
+  --dataset-dir="/path/to/MESH-Scripts/Model_Workflow/forcing" \
+  --output-dir="/path/to/MESH-Scripts/Model_Workflow/forcing" \
   --start-date="1980-01-01 00:00:00" \
   --end-date="1980-12-31 00:00:00" \
   --lat-lims=0,89  \

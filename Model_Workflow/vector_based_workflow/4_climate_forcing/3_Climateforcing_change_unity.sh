@@ -10,14 +10,11 @@
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
-# laod modules 
+# load modules 
 module load cdo/1.9.8
 
 # input folder
-PFAF=78
 infolder=../../forcing # /subbasin_select  
-
-#fl=RDRS_"${PFAF}"_remapped_1980-01-01-13-00-00.nc
 fl=RDRS_BowAtBanff_remapped_1980-01-02-12-00-00.nc
 echo $fl
 
