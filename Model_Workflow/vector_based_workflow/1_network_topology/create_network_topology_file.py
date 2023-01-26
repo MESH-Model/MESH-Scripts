@@ -62,7 +62,7 @@ river_network_name = read_from_control(controlFolder/controlFile,'river_network_
  
 # Specify default path if needed
 if river_network_path == 'default':
-    river_network_path = make_default_path('shape_file/river_network/') # outputs a Path()
+    river_network_path = make_default_path('shapefiles/river_network/') # outputs a Path()
 else:
     river_network_path = Path(river_network_path) # make sure a user-specified path is a Path()
      
@@ -86,7 +86,7 @@ river_basin_name = read_from_control(controlFolder/controlFile,'river_basin_shp_
  
 #Specify default path if needed
 if river_basin_path == 'default':
-    river_basin_path = make_default_path('shape_file/catchment/') # outputs a Path()
+    river_basin_path = make_default_path('shapefiles/catchment/') # outputs a Path()
 else:
     river_basin_path = Path(river_basin_path) # make sure a user-specified path is a Path()
  
