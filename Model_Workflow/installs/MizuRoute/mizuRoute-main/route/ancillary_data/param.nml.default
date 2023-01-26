@@ -3,10 +3,11 @@
   tscale = 86400
 /
 &IRF_UH
-  velo   = 1.5
-  diff   = 800.0
+  velo   = 1
+  diff   = 1000.0
 /
 &KWT
-  mann_n = 0.01
+  mann_n = 0.025
   wscale = 0.001
 /
+
