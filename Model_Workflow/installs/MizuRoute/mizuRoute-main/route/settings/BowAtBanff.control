@@ -6,16 +6,17 @@
 !    lines starting with <xxx> are read till "!"
 !
 ! *************************************************************************************************************************
-! DEFINE DIRECTORIES
 ! --------------------------
-<ancil_dir>           ./ancillary_data/! directory containing ancillary data (river network, remapping netCDF)
-<input_dir>           ./input/! directory containing input data (runoff netCDF)
-<output_dir>          ./output/! directory containing output data
+! DEFINE DIRECTORIES
+<ancil_dir>           ../ancillary_data/! directory containing ancillary data (river network, remapping netCDF)
+<input_dir>           ../input/! directory containing input data (runoff netCDF)
+<output_dir>          ../output/! directory containing output data
 ! *************************************************************************************************************************
 ! DEFINE TIME PERIOD OF THE SIMULATION
 ! --------------------------------------------
 <sim_start>         1980-01-02 00:00:00             ! time of simulation start (year-month-day hh:mm:ss)
 <sim_end>           1980-01-07 00:00:00             ! time of simulation end (year-month-day hh:mm:ss)
+<newFileFrequency>      daily                     ! frequency for new output options (case-insensitive): daily, monthly, yearly, or single
 ! **************************************************************************************************************************
 ! DEFINE FINE NAME AND DIMENSIONS
 ! ---------------------------------------
@@ -29,7 +30,7 @@
 ! **************************************************************************************************************************
 ! DEFINE RUNOFF FILE
 ! ----------------------------------
-<fname_qsim>        BowAtBanff_distributed_default_timestep.nc! name of netCDF constaining the runoff
+<fname_qsim>        BowAtBanff_distributed_default_timestep.nc ! name of netCDF constaining the runoff
 <vname_qsim>        RUNOFF                                 ! variable name of HRU runoff
 <vname_time>        time                                   ! variable name of time in the runoff file
 <vname_hruid>       hru                                    ! variable name of runoff HRU ID
