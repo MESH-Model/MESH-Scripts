@@ -333,12 +333,19 @@ if str(input_lc_zh).endswith('.csv'):
 
 # %% land class types 
 # NB: the NOD here represent the No-data. The NALCMS data has no-data category which its values is zero 
-lc_type = np.array(['Temperate/sub-polar needleleaf forest','Sub-polar taiga needleleaf forest','Tropical/sub-tropical broadleaf evergreen forest','Tropical/sub-tropical broadleaf deciduous forest',
-           'Temperate/sub-polar broadleaf deciduous forest','Mixed Forest','Tropical/sub-tropical shrubland', 'Temperate/sub-polar shrubland',
-           'Tropical/sub-tropical grassland','Temperate/sub-polar grassland','Sub-polar/polar shrubland-lichen-moss','Sub-polar/polar grassland-lichen-moss',
-           'Sub-polar/polar barren-lichen-moss','Wetland','Cropland','Barren Lands',
-           'Urban-Built-up','Water','Snow-Ice','No-data'])
- 
+# lc_type = np.array(['Temperate/sub-polar needleleaf forest','Sub-polar taiga needleleaf forest','Tropical/sub-tropical broadleaf evergreen forest','Tropical/sub-tropical broadleaf deciduous forest',
+#            'Temperate/sub-polar broadleaf deciduous forest','Mixed Forest','Tropical/sub-tropical shrubland', 'Temperate/sub-polar shrubland',
+#            'Tropical/sub-tropical grassland','Temperate/sub-polar grassland','Sub-polar/polar shrubland-lichen-moss','Sub-polar/polar grassland-lichen-moss',
+#            'Sub-polar/polar barren-lichen-moss','Wetland','Cropland','Barren Lands',
+#            'Urban-Built-up','Water','Snow-Ice','No-data'])
+
+# MODIS Land Class Types.
+lc_type = np.array(['Evergreen Needleleaf Forests','Evergreen Broadleaf Forests','Deciduous Needleleaf Forests','Deciduous Broadleaf Forests',
+           'Mixed Forests','Closed Shrublands','Open Shrublands', 'Woody Savannas',
+           'Savannas','Grasslands','Permanent Wetlands','Croplands',
+           'Urban and Built-up Lands','Cropland/Natural Vegetation Mosaics','Permanent Snow and Ice','Barren',
+           'Water Bodies','No-data'])
+
 # %% verify list of lc types
 m = len(lc_type) + 1
 st = [];
