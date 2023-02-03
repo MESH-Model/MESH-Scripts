@@ -6,23 +6,23 @@
  
 
 # Modeling domain settings
-root_path                   | /mnt/c/Users/5600x/Desktop/GWF/MESH-Scripts/Model_Workflow                      # Root folder where data will be stored.
+root_path                   | /path/to/GWF/MESH-Scripts/Model_Workflow                      # Root folder where data will be stored.
 domain_name                 | BowAtBanff                                                  # Used as part of the root folder name for the prepared data.
 
 ## Subbasin Selection Settings
-input_basin_path           | /mnt/e/GWF_data/shapefiles/cat_pfaf_7/                                                     # If 'default', uses 'root_path/shape_file/catchment'
+input_basin_path           | default                                                     # If 'default', uses 'root_path/shape_file/catchment'
 input_basin_name           | cat_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp           # Name of the catchment shapefile from which to subset. (the basin containing your desired domain)
-input_river_path           | /mnt/e/GWF_data/shapefiles/riv_pfaf_7/                                                      # If 'default', uses 'root_path/shape_file/river_network'
+input_river_path           | default                                                      # If 'default', uses 'root_path/shape_file/river_network'
 input_river_name           | riv_pfaf_71_MERIT_Hydro_v07_Basins_v01_bugfix1.shp           # Name of river network shapefile from which to subset
-subset_basin_outdir        | default                                                      # If 'default', uses 'root_path/shape_file/catchment (the river network containing your desired domain)
-subset_river_outdir        | default                                                      # If 'default', uses 'root_path/shape_file/river_network'
+subset_basin_outdir        | default                                                      # If 'default', uses 'root_path/shapefiles/catchment (the river network containing your desired domain)
+subset_river_outdir        | default                                                      # If 'default', uses 'root_path/shapefiles/river_network'
 case_name                  | BowAtBanff                                                   # This will define the name of output files  
 target_segment             | 71028585                                                     # The location of the outlet for the basin of interest. You may need to open the shapefile in QGIS or ArcGIS to identify this value from the attribute table.
                                                                                           # See: https://wiki.usask.ca/display/MESH/MESH+vector-based+workflow#MESHvectorbasedworkflow-2.1.MERITHydrosubset
 
 ## Network Topology Settings
 # Shapefile settings - river network file
-river_network_shp_path      | default                                                     # If 'default', uses 'root_path/shape_file/river_network'.
+river_network_shp_path      | default                                                     # If 'default', uses 'root_path/shapefiles/river_network'.
 river_network_shp_name      | BowAtBanff_riv.shp                                          # Name of the river network shapefile. Requires extension '.shp'.
 river_network_shp_segid     | COMID                                                       # Name of the segment ID column.
 river_network_shp_downsegid | NextDownID                                                  # Name of the downstream segment ID column.
@@ -32,7 +32,7 @@ river_network_shp_outlet_id | 71028585                                          
                                                                                           # ... Note that this specifies a single segment ID value. It is not a column in the shapefile.
   
 # Shapefile settings - catchment file
-river_basin_shp_path        | default                                                     # If 'default', uses 'root_path/shape_file/catchment'.
+river_basin_shp_path        | default                                                     # If 'default', uses 'root_path/shapefiles/catchment'.
 river_basin_shp_name        | BowAtBanff_cat.shp                                          # Name of the routing subbasins shapefile needed for remapping. Requires extension '.shp'.
 river_basin_shp_rm_hruid    | COMID                                                       # Name of the routing basin ID column.
 river_basin_shp_area        | unitarea                                                    # Name of the catchment area column. Area must be in units [m^2]
@@ -54,14 +54,14 @@ lc_type_prefix			      | frac_ 										  			                  # (GIS Tool Exam
 #lc_type_prefix			   | NALCMS_                                                      # (QGIS Example)
 merit_basin_path	         | default                                     		            # If 'default', uses 'root_path/domain_[name]/subbasin/catchment/
 merit_basin_name	         | BowAtBanff_cat.shp 	                                       # The parent shapefile used in subbasin selection (irrelevant if subbasin selection is not used)
-
+tosegment_fill_value       | -9999                                                        # The value used to represent a river segment having no downstream segment. 
 
 # Climate forcing settings 
 remapping_out			      | default                     # If 'default' uses 'root_path/forcing'
 source_nc_path             | default                     # If 'default' uses 'root_path/forcing'
 source_nc_name             | rdrsv2.1_1980-01-0107.nc    # name of the file to be remapped onto the basin shapefile
 forcing_dataset            | RDRS                        # Name of the forcing dataset
-forcing_start              | 1980-01-01-13-00-00         # Date and time of first record in forcing dataset
+forcing_start              | 1980-01-01-13-00-00         # Date (yyyy-mm-dd-hh-mm-ss) of first record in forcing dataset
 var_lon                    | lon                         # name of the longitude variable in the forcing file
 var_lat                    | lat                         # name of the latitude variable in the forcing file
 var_time                   | time                        # name of the time variable in the forcing file
@@ -84,7 +84,7 @@ vis_mode                    | daily
 # Example of the resulting folder structure in "root_path".
 # New domains will go into their own folder.
  
-- shape_file
+- shapefiles
    |
    |_ catchment
    |   |
