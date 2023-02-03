@@ -30,7 +30,7 @@ isOpenMP =
 # Define core directory below which everything resides
 # parent directory of the 'build' directory
 # do not put space at the end of path
-F_MASTER =/mnt/c/Users/5600x/Desktop/GWF/MESH-Scripts/Model_Workflow/installs/MizuRoute/mizuRoute-main/route/
+F_MASTER =/mnt/c/Users/jnw378/GWF/MESH-Scripts/Model_Workflow/installs/MizuRoute/mizuRoute-main/route/
 
 # Define the NetCDF libraries and path to include files
 ifeq "$(FC)" "gnu"
