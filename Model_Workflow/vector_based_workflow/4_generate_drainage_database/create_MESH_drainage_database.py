@@ -29,6 +29,7 @@ Revision History
              -- 3) removed landcover fraction calculation for GIS tool .csv file
     20221116 -- 1) removed .csv column reordering. No longer necessary due to gistool bug fix
     20221123 -- 1) added functionality to read I/O from control file.
+    20230202 -- 1) added lines to convert the tosegment fill value to 0.
 See also 
     
 Reference 
@@ -145,6 +146,7 @@ input_topology           = topo_path/topo_name
 Merit_catchment_shape    = merit_path/merit_name
 domain_name              = read_from_control(controlFolder/controlFile,'domain_name')
 lc_type_prefix           = read_from_control(controlFolder/controlFile,'lc_type_prefix')
+tosegment_fill           = read_from_control(controlFolder/controlFile,'tosegment_fill_value')
 
 #%% Function reindex to extract drainage database variables 
 def new_rank_extract(input_topology): 
@@ -154,6 +156,10 @@ def new_rank_extract(input_topology):
 
         segid = drainage_db['seg_id'].values
         tosegment = drainage_db['tosegment'].values
+
+        for i in range(0,len(tosegment)):
+            if tosegment[i] == tosegment_fill:
+                tosegment[i]=0
 
         # Count the number of outlets
         outlets = np.where(tosegment == 0)[0]
@@ -466,7 +472,7 @@ print('--%s seconds--' %(time.time() - start_time))
  
 # Set the log path and file name
 logPath = outdir
-log_suffix = '_basin_subset.txt'
+log_suffix = '_create_MESH_drainage_database.txt'
  
 # Create a log folder
 logFolder = '_workflow_log'
