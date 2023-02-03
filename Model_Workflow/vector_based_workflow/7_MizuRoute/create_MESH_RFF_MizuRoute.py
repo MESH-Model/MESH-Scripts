@@ -31,8 +31,8 @@ start_time = time.time()
 input_topology     = '../workflow_data/domain_BowAtBanff/topology/network_topology_BowAtBanff.nc'
 domain_name        = 'BowAtBanff' 
 outdir             = '../workflow_data/domain_BowAtBanff/drainagedatabase/'
-start_sim          = '1/2/1980'
-end_sim            = '1/6/1980'
+start_sim          = '1/1/1980'
+end_sim            = '1/7/1980'
 input_rff          = '../6_model_runs/'
 
 # %% Reading both network topology and drainage database
