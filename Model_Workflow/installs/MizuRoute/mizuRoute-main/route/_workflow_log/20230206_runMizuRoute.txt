@@ -1,0 +1,1 @@
+Copied param.nml.default into topology folder. ran mizuroute.
