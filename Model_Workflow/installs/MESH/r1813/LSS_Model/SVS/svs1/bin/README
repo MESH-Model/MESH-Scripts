@@ -1,0 +1,17 @@
+This directory contains four scripts:
+
+create_source_code_for_runsvs.sh
+create_list_of_bus_variables_used_by_svs.sh
+create_runsvs_mod.sh
+#create_phy_debu_data.sh
+
+The first one calls the other three in the right order, but they can all be called independently as well.
+
+create_list_of_bus_variables_used_by_svs.sh parses SPS source code to extract the bus variables needed to run SVS
+It creates a file called "list_of_bus_variables_svs.txt"
+
+This file is combined with "list_of_additional_bus_variables.txt" which contains additional variables needed by RUNSVS. 
+
+create_runsvs_mod.sh creates the module runsvs_mod_sa_mesh that is used as a replacement for the physics and surface buses from the resulting file which is named "list_of_bus_variables.txt"
+
+#create_phy_debu_data.sh extracts from phydebu.ftn90 the lines of code that we need for runsvs.

@@ -1,0 +1,18 @@
+ tmoins ; PW_TT:M      ;T8  ;temperature at t-dt                            ;1    
+ umoins ; PW_UU:M      ;U8  ;wind speed along-x at t-dt		            ;1
+ vmoins ; PW_VV:M      ;V8  ;wind speed along-y at t-dt                     ;1
+ pmoins ; PW_PM:M      ;P8  ;surface pressure at t-dt 			    ;1
+ humoins; TR/hu:M,w    ;H8  ; specific humidity at t-dt			    ;1
+ rainrate;rainrate     ;U1  ; liquid precip. rate			    ;1
+ snowrate;snowrate     ;U3  ; solid precip. rate			    ;1
+ fdsi   ; fdsi         ;FI  ; IR energy flux towards ground                 ;1
+ flusolis;flusolis     ;FB  ; VIS flux towards ground                       ;1 
+ thetaa ; thetaa       ;N1  ;first-level pot. temp.                         ;1    
+ ztsl ; ztsl         ;ZH  ;temperature level at top of surface layer      ;1                    
+ zusl ; zusl         ;ZU  ;wind level at top of surface layer             ;1      
+ z0   ; z0           ;Z0  ; momentum roughness length                     ;5
+ dlon ; dlon         ;LO  ; longitude					  ;1
+ dlat ; dlat         ;LA  ; latitude					  ;1
+ fcor ; fcor         ;WC  ; Coriolis factor				  ;1
+ tsurf; tsurf        ;J8  ; area-averaged surf. temperature		  ;1
+ tsrad; tsrad	     ;TG  ; radiative surface temperature		  ;1

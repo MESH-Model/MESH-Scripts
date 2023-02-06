@@ -1,0 +1,78 @@
+# Include definition file
+# ======================================================================
+include makefile.def
+
+# ======================================================================
+# Declaring variables
+# ======================================================================
+
+# The Compiler
+FC=s.compile    # new profile
+#FC=r.compile   # old profile
+
+# Flag for compiling and debugging - comment as necessary
+LFLAG = -O=3 #-O=0  -debug=DEBUG -options_comp=Mbounds
+
+.SECONDARY:
+
+# ======================================================================
+# Build SA_MESH executable and print message
+# ======================================================================
+watroute: ${MODULES} ${OBJECTS} ${FST_OBJECTS}
+	$(FC) -o bin/watroute  -obj $(OBJECTS) ${FST_OBJECTS} -librmn rmn_015.2 ##>& /dev/null    # for ubuntu 12.04
+	@echo ---*---
+	@echo ---*---
+	@echo watroute is now up to date...
+	@echo ---*---
+	@echo ---*---
+# ======================================================================
+# General rules
+# ======================================================================
+.PHONY: EF_ParseUtilities.o area_watflood.o EF_Module.o
+%.mod : %.f 
+	$(FC) $(LFLAG) -src $<   #>& /dev/null
+
+%.mod : %.f90 area_watflood.mod
+	$(FC) $(LFLAG) -src $<  #>& /dev/null
+
+%.o : %.f $(MODULES) fst_io.mod
+	$(FC) $(LFLAG) -src $<  #>& /dev/null
+
+%.o: %.f90 area_watflood.mod
+	$(FC) $(LFLAG) -src $< #>& /dev/null
+
+# ======================================================================
+# Dependencies that can't be captured by the above general rules
+# ======================================================================
+EF_Module.mod : EF_ParseUtilities.mod
+
+ef_parseutilities.mod : EF_ParseUtilities.mod
+
+ef_module.mod : EF_Module.mod
+
+fst_io.mod : read_fst_mod.mod write_fst_mod.mod read_flowinit_fst_mod.mod write_flowinit_fst_mod.mod read_shed_fst_mod.mod
+
+# The flowinit read/write routines depend on the base read/write fst
+read_flowinit_fst_mod.mod : read_fst_mod.mod
+write_flowinit_fst_mod.mod : write_fst_mod.mod
+
+# The fst_io objects are only conditionally built (see makefile.gfortran for when
+# they aren't), so they need to be separately included here.
+
+FST_OBJECTS = read_fst_mod.o write_fst_mod.o read_flowinit_fst_mod.o write_flowinit_fst_mod.o read_shed_fst_mod.o
+
+
+
+
+
+# ======================================================================
+# Cleaning object files
+# ======================================================================
+clean:
+	rm -f *.mod *.o
+
+# ======================================================================
+# Cleaning everything including the previously built executable
+# ======================================================================
+veryclean:
+	rm -f *.mod *.o bin/watroute

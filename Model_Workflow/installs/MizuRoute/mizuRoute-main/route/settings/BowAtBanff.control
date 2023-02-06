@@ -1,0 +1,70 @@
+! *************************************************************************************************************************
+! ***** DEFINITION OF MODEL CONTROL INFORMATION ***************************************************************************
+! *************************************************************************************************************************
+! *************************************************************************************************************************
+! Note: lines starting with "!" are treated as comment lines -- there is no limit on the number of comment lines.
+!    lines starting with <xxx> are read till "!"
+!
+! *************************************************************************************************************************
+! DEFINE DIRECTORIES
+! --------------------------
+<ancil_dir>            /mnt/c/Users/jnw378/GWF/MESH-Scripts/Model_Workflow/vector_based_workflow/workflow_data/domain_BowAtBanff/topology/                   ! directory containing ancillary data (runoff mapping data, river network data)
+<input_dir>            /mnt/c/Users/jnw378/GWF/MESH-Scripts/Model_Workflow/vector_based_workflow/6_model_runs/results/                   ! directory containing input data (runoff data)
+<output_dir>           /mnt/c/Users/jnw378/GWF/MESH-Scripts/Model_Workflow/vector_based_workflow/6_model_runs/results/                  ! directory containing output data
+! ****************************************************************************************************************************
+! DEFINE TIME PERIOD OF THE SIMULATION
+! --------------------------------------------
+<sim_start>             1980-01-01 07:00:00        ! time of simulation start (00:00:00 if hh:mm:ss is not included) 
+<sim_end>               1980-01-07 23:59:00        ! time of simulation end (00:00:00 if hh:mm:ss is not included) 
+<newFileFrequency>      single                     ! frequency for new output options (case-insensitive): daily, monthly, yearly, or single
+! **************************************************************************************************************************
+! DEFINE FINE NAME AND DIMENSIONS
+! ---------------------------------------
+<fname_ntopOld>         network_topology_BowAtBanff.nc                   ! netCDF name for River Network
+<dname_sseg>            n                ! dimension name of the stream segments
+<dname_nhru>            n                ! dimension name of the HRUs
+! ****************************************************************************************************************************
+! DEFINE DESIRED VARIABLES FOR THE NETWORK TOPOLOGY
+! ---------------------------------------------------------
+<seg_outlet>            -9999                      ! seg_id of outlet streamflow segment. -9999 for all segments 
+! ****************************************************************************************************************************
+! DEFINE RUNOFF DATA 
+! ----------------------------------
+<fname_qsim>        BowAtBanff_distributed_default_timestep.nc                  ! name of file containing the HRU runoff
+<vname_qsim>        RUNOFF! variable name of HRU runoff
+<vname_time>        time                                   ! variable name of time in the runoff file
+<vname_hruid>       hru                                    ! variable name of runoff HRU ID
+<dname_time>        time                                   ! dimension name of time
+<dname_hruid>       hru                                    ! dimension name of HM_HRU
+<units_qsim>        mm/s                                   ! units of runoff
+<dt_qsim>           86400                                  ! time interval of the runoff
+<ro_fillvalue>     -9999                                   ! assigned fill value in case it is not defined in netcdf file
+<calendar>         standard                                ! calendar of the nc file if not provided in the time varibale of nc file
+! **************************************************************************************************************************
+! DEFINE RUN CONTROL
+! ---------------------------
+<route_opt>          0                               ! option for routing schemes 0-> both, 1->IRF, 2->KWT otherwise error
+!<restart_opt>       F                               ! option to use saved flow states T->yes, F->No
+! **************************************************************************************************************************
+! DEFINE OUTPUT FILE
+! ---------------------------
+<case_name>         BowAtBanff_MizuRouted!
+! **************************************************************************************************************************
+! Namelist file name
+! ---------------------------
+<param_nml>         param.nml.default               ! spatially constant model parameters
+! ***************************************************************************************************************************
+! MISCELLANEOUS
+! ---------------------------
+!<desireId>         95                              ! turn off checks or speficy reach ID if necessary to print on screen
+<doesBasinRoute>    0                               ! basin (hillslope) routing? 0-> no, 1-> basin UH
+! **************************************************************************************************************************
+! Dictionary to map variable names
+! ---------------------------
+<varname_area>      basin_area                      ! name of variable holding hru area
+<varname_length>    length                          ! name of variable holding segment length
+<varname_slope>     slope                           ! name of variable holding segment slope
+<varname_HRUid>     hruid                           ! name of variable holding HRU id
+<varname_hruSegId>  seg_hr_id                       ! name of variable holding the stream segment below each HRU
+<varname_downSegId> tosegment                       ! name of variable holding the ID of the next downstream segment
+<varname_segId>     seg_id                          ! name of variable holding the ID of each stream segment

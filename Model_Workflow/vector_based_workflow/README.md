@@ -68,9 +68,11 @@ There is a sanity check inluded in the drainage database Python script for those
 
 By default, the drainage database file will be saved under '/vector_based_workflow/workflow_data/domain_[Name]/drainagedatabase/'
 
-
+## The Model-Agnostic Framework
+The model-agnostic framework is an earth systems modelling framework that prepares input data sets in a way that makes them useable across a wide range of models, with the goal of each model requiring only minimal model-specific setup. A 
 
 ## References
 Knoben, W.J.M., Clark, M.P., Bales, J., Bennett, A., Gharari, S., Marsh, C.B., Nijssen, B., Pietroniro, A., Spiteri, R.J., Tarboton, D.G., Wood, A.W., 2021. Community workflows to advance reproducibility in hydrologic modeling : separating model-agnostic and model-specific configuration steps in applications of large-domain hydrologic models. Water Resour. Res. 1–52. https://doi.org/10.1029/2021WR031753
 
 CWARHM: https://github.com/CH-Earth/CWARHM
+

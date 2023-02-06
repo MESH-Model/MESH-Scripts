@@ -1,0 +1,79 @@
+# ======================================================================
+# Include definition file
+# ======================================================================
+include makefile.def
+
+# ======================================================================
+# Declaring variables
+# ======================================================================
+
+# The Compiler
+FC=gfortran
+
+# Flag for compiling and debugging (-g) - comment as necessary
+#LFLAG = -g -ffixed-line-length-none -fd-lines-as-comments -fno-range-check
+#LFLAG = -O2 -static -ffixed-line-length-none -fd-lines-as-comments -fno-range-check
+LFLAG = -O2 -ffixed-line-length-none -fd-lines-as-comments -fno-range-check
+
+.SECONDARY:
+
+# ======================================================================
+# Build watroute executable and print message
+# ======================================================================
+watroute: ${FST_OBJECTS} ${MODULES} ${OBJECTS}
+	$(FC) -o watroute  ${FST_OBJECTS} $(OBJECTS)
+	@echo ---*---
+	@echo ---*---
+	@echo watroute is now up to date...
+	@echo ---*---
+	@echo ---*---
+
+# ======================================================================
+# General rules
+# ======================================================================
+
+.PHONY: EF_ParseUtilities.o area_watflood.o EF_Module.o
+%.mod : %.f 
+	$(FC) $(LFLAG) -c $< 
+
+%.mod : %.f90 area_watflood.mod
+	$(FC) $(LFLAG) -c $< 
+
+%.o : %.f $(MODULES) fst_io.mod
+	$(FC) $(LFLAG) -c $< 
+
+%.o: %.f90 area_watflood.mod
+	$(FC) $(LFLAG) -c $< 
+
+# ======================================================================
+# Dependencies that can't be captured by the above general rules
+# ======================================================================
+EF_Module.mod : EF_ParseUtilities.mod
+
+ef_parseutilities.mod : EF_ParseUtilities.mod
+
+ef_module.mod : EF_Module.mod
+
+# Because the module is implemented from a differently-named file, we
+# need a specific build rule.
+fst_io.mod : fst_io_stub.f90
+	$(FC) $(LFLAG) -c $<
+
+# The fst_io objects are only conditionally built.
+FST_OBJECTS = fst_io_stub.o
+
+# ======================================================================
+# Cleaning object files
+# ======================================================================
+clean:
+# 'rm' for Cygwin, 'del' for MinGW - comment as necessary
+	rm *.mod *.o
+#	del *.mod *.o
+
+# ======================================================================
+# Cleaning everything including the previously built executable
+# ======================================================================
+veryclean:
+# 'rm' for Cygwin, 'del' for MinGW - comment as necessary
+	rm *.mod *.o watroute
+#	del *.mod *.o watroute

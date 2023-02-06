@@ -1,0 +1,23 @@
+# ======================================================================
+#		Include or header file for watroute makefile
+#               Compile on Linux gfortran compiler
+# ======================================================================
+
+# ======================================================================
+# Object files needed to build watroute
+# ======================================================================
+
+# Note that the files and modules necessary for FST-based I/O are not
+# included on this list, since the associated library is not generally
+# available on gfortran systems.  Compilation of those files (or
+# alternately a set of stubs) is conditional, and the logic is included
+# in the makefile proper.
+
+#Modules
+MODULES= area_watflood.mod ef_module.mod ef_parseutilities.mod fst_io.mod 
+#watroute
+OBJECTS= area_watflood.o EF_Module.o EF_ParseUtilities.o
+OBJECTS+=	baseflow.o rdevt.o read_flow_ef.o read_flowinit_ef.o \
+		read_r2c.o read_resv_ef.o read_div_ef.o read_shed_ef.o rerout.o \
+		route.o rte.o rte_sub.o timer.o \
+		write_flowinit.o write_r2c.o 

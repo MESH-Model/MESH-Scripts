@@ -1,0 +1,185 @@
+# ======================================================================
+# Include or header file for SA_MESH makefile
+
+# ======================================================================
+# Directory of source code
+
+# Update the DIR_REPO variable as appropriate.
+#
+# Current directory (default): DIR_REPO=.
+# Cygwin: DIR_REPO=/cygdrive/c/sample_path
+# MinGW on Windows: C:\sample_path
+# Linux: DIR_REPO=/home/sample_path
+
+DIR_REPO=.
+
+# Defaults.
+VPATH=
+INC_DIRS=
+OBJECTS=
+
+# ======================================================================
+# Primitives for SA_MESH.
+# Paths.
+VPATH+=	$(DIR_REPO)/Driver/MESH_Driver: \
+		$(DIR_REPO)/Modules/strings: \
+		$(DIR_REPO)/Modules/mpi_module: \
+		$(DIR_REPO)/Modules/climate_forcing_module: \
+		$(DIR_REPO)/Modules/simulation_statistics: \
+		$(DIR_REPO)/Modules/irrigation_demand: \
+		$(DIR_REPO)/Modules/permafrost_outputs: \
+		$(DIR_REPO)/Blowing_Snow: \
+		$(DIR_REPO)/Routing_Model/baseflow_module: \
+		$(DIR_REPO)/Modules/io_modules:
+# MPI modules.
+OBJECTS+=	mpi_flags.o mpi_shared_variables.o mpi_utilities.o \
+			mpi_module.o
+# String parsing primitives.
+OBJECTS+=	precmod.o stringmod.o
+# Common.
+OBJECTS+=	print_routines.o program_end.o program_abort.o \
+			module_files_variabletypes.o module_files_variables.o \
+			module_dates.o FLAGS.o \
+			mesh_io_options.o mesh_io_variables.o \
+			parse_utilities.o field_utilities.o date_utilities.o \
+			txt_io.o ensim_io.o nc_io.o \
+			climate_forcing_module_constants.o climate_forcing_module_variabletypes.o \
+			control_variables.o \
+			variable_names.o parameter_names.o \
+			projection_variables.o shd_variables.o fm_variables.o input_parameters.o model_variables.o \
+			mesh_io.o \
+			output_variables.o \
+			sa_mesh_common.o \
+			climate_forcing_module_config.o \
+			input_forcing.o climate_forcing_module_io.o climate_forcing_module.o \
+			basin_utilities.o \
+			tile_connector.o
+# Process modules.
+OBJECTS+=	baseFlow_luo2012.o baseflow_wfqlz.o baseflow_module.o
+OBJECTS+=	permafrost_alt.o permafrost_dzaa.o permafrost_outputs_module.o
+OBJECTS+=	cropland_irrigation_variables.o \
+			cropland_irrigation_init.o \
+			cropland_irrigation_within_tile.o cropland_irrigation_between_grid.o \
+			calc_ET0.o
+OBJECTS+=	irrigation_demand_module.o
+OBJECTS+=	SIMSTATS_config.o \
+			KGE.o NSE.o SAE.o SORT.o SAESRT.o calc_drms.o calc_abserr.o \
+			SIMSTATS.o
+#todo: fix dependency on RUNCLASS36_constants;
+OBJECTS+=	RUNCLASS36_constants.o
+OBJECTS+=	PBSMrates.o PBSMrun.o ProbabilityThreshold.o REDISTRIB_SNOW.o SUM.o \
+			PBSM_module.o
+
+#mountain_mesh
+VPATH+=	$(DIR_REPO)/Modules/mountain_module:
+OBJECTS+=	forcing_adjust.o mountain_module.o
+
+# ======================================================================
+# CLASS (3.6).
+# Paths.
+VPATH+=	$(DIR_REPO)/LSS_Model/CLASS/3.6/sa_mesh_process: \
+		$(DIR_REPO)/LSS_Model/CLASS/3.6/src:
+# Core routines.
+OBJECTS+=	CLASSBD.o CLASSD.o CLASSBG.o CLASSI.o \
+			APREP.o SNOALBA.o GRALB.o CANALB.o \
+			CLASSA.o \
+			DRCOEF.o FLXSURFZ.o SLDIAG.o DIASURFZ.o \
+			SCREENRH.o \
+			TPREP.o CWCALC.o TNPREP.o TSPREP.o TSOLVC.o TSOLVE.o \
+			TSPOST.o TNPOST.o CLASST.o \
+			WPREP.o CANVAP.o CANADD.o SUBCAN.o TWCALC.o \
+			SNOVAP.o TFREEZ.o TMELT.o SNOADD.o SNINFL.o \
+			FROZEN.o SNINFLM.o \
+			ICEADD.o ICEBAL.o \
+			GRINFL.o WFILL.o WFLOW.o WEND.o GRDRAN.o \
+			WATDRN.o WATROF.o LATFLOW.o PDMROF.o \
+			TMCALC.o CHKWAT.o SNOALBW.o CGROW.o CLASSW.o \
+			XIT.o CLASSZ.o
+# SA_MESH modules.
+OBJECTS+=	RUNCLASS36_variables.o RUNCLASS36_save_output.o \
+			RUNCLASS36_config.o RUNCLASS36_module.o \
+			read_init_prog_variables_class.o save_init_prog_variables_class.o
+
+# ======================================================================
+# SVS 1.
+# Paths.
+PHY=$(DIR_REPO)/LSS_Model/SVS/svs1/rpnphy_5.8.3_all
+CHANGES2PHY=$(DIR_REPO)/LSS_Model/SVS/svs1/changes_to_rpnphy
+SVS=$(DIR_REPO)/LSS_Model/SVS/svs1/svs_GEM_v5.8.rc2
+VPATH+=	$(PHY): $(CHANGES2PHY): $(SVS) \
+		$(DIR_REPO)/LSS_Model/SVS/svs1/src:
+# Includes.
+INC_DIRS+=-I$(CHANGES2PHY) -I$(PHY) -I$(SVS)
+# Variables.
+DFLAG=-DRUNSVS
+# RMNLIB
+VPATH+=	$(DIR_REPO)/Modules/librmn/19.7.0/base: \
+		$(DIR_REPO)/Modules/librmn/19.7.0/primitives:
+INC_DIRS+=-I./Modules/librmn/19.7.0/CUSTOM_INCLUDES/
+OBJECTS+=	datec.o moduledate.o set_user_lock.o \
+			up2low.o getenvc.o
+# Core routines.
+OBJECTS+=	runsvs_mod_sa_mesh.o runsvs_utils.o \
+			runsvs_init_mesh.o \
+			sfclayer_mod.o sfc_options.o svs_configs.o \
+			inicover_svs.o \
+			svs.o soili_svs.o soil_fluxes.o \
+			aggveghigh.o aggveglow.o veglowhigh.o vegi_svs.o drag_svs.o \
+			snow_alone.o snow_veg.o ebudget_svs.o \
+			runsvsdrn.o \
+			hydro_svs.o phtsyn_svs.o update_svs.o \
+			phy_options.o \
+			vscos.o vssin.o vslog.o \
+			aggcovernat.o juliand.o suncos1.o interpveg.o \
+			compz0.o difuvd2.o
+# For now, must manually specify one of following:
+OBJECTS+=	inisoili_svs.o
+# SA_MESH modules.
+OBJECTS+=	runsvs_mesh.o
+
+
+# ======================================================================
+#reservoir_update (reservoirs)
+# Paths.
+VPATH+=	$(DIR_REPO)/Routing_Model/reservoir_update:
+# Files.
+OBJECTS+=	module_reservoir.o zonebased_reservoir_release.o
+
+# ======================================================================
+# WF_ROUTE.
+# Paths.
+VPATH+=	$(DIR_REPO)/Routing_Model/WatRoute_old:
+# Files.
+OBJECTS+=	WF_ROUTE_config.o WF_ROUTE.o WF_ROUTE_module.o
+
+# ======================================================================
+# RTE.
+# Paths.
+VPATH+=	$(DIR_REPO)/Routing_Model/RPN_watroute/sa_mesh_process: \
+		$(DIR_REPO)/Routing_Model/RPN_watroute/code:
+# Files.
+OBJECTS+=	area_watflood.o rerout.o route.o flowinit.o \
+			rte_module.o
+
+# ======================================================================
+# SA_MESH routines.
+# Input routines.
+OBJECTS+=	read_initial_inputs.o \
+			read_shed_r2c.o read_shed_nc.o read_shed_csv.o read_soil_levels.o read_shed_nc_subbasin.o \
+			read_parameters.o \
+			read_parameters_class.o read_parameters_hydrology.o read_parameters_r2c.o read_parameters_nc.o read_parameters_csv.o \
+			check_parameters.o \
+			read_basin_structures.o \
+			read_streamflow_txt.o read_streamflow_tb0.o read_reservoir_txt.o read_reservoir_tb0.o \
+			read_abstractionpoint_tb0.o read_abstractionpoint_txt.o \
+			read_soil_ini.o \
+			read_initial_values_r2c.o read_initial_values_nc.o \
+			module_files.o
+# Output routines.
+OBJECTS+=	save_initial_values_nc.o \
+			output_files.o save_basin_output.o
+# MESH driver.
+OBJECTS+=	read_run_options.o read_fews_runinfo_nc.o \
+			sa_mesh_run_within_tile.o sa_mesh_run_within_grid.o sa_mesh_run_between_grid.o \
+			resumerun_config.o resumerun_read.o resumerun_save.o \
+			MESH_driver.o

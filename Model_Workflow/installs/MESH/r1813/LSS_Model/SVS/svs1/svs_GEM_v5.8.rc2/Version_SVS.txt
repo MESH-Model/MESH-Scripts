@@ -1,0 +1,14 @@
+#############
+## SVS Version in MESH
+############
+
+Author: V. Vionnet 
+Initial Creation 20180202
+
+Update
+   Person E. Gaborit   Date 20190104
+
+############
+
+The present version of SVS in MESH corresponds to the following version of SVS on the SVS official svn repository at ECCC : svn://mrbsvn/mesh/sps/branches/
+    - SVS 1:  svn://mrbsvn/mesh/sps/branches/svs_GEM_v5.8.rc2 ; Revision 720

@@ -1,0 +1,43 @@
+
+
+List of changes
+---------------
+
+1. The reservoir release table is now read from the reservoir release file when
+   'Coeff1' of Lake Nipigon  (b1(6) in the code) is zero in the same file. 
+
+   S/R: read_resv_ef.f  (March 11, 2010)
+
+
+2. Fixed bug in 'read_resv_ef.f'. Line 
+
+       if(qrel(k,ktr).lt.0.0)qrel(k,ktr)=0.001
+
+   was replaced by
+
+       if(qrel(k,1).lt.0.0) qrel(k,1)=0.001
+
+
+3. Currently, WATROUTE is run daily and it reads the same monthly reservoir 
+   release file every day of a given month. A change has been made so that 
+   WATROUTE can now select the release corresponding to the current hour and 
+   day of the month from the hourly reservoir release array (qrel), which is 
+   set using daily releases from the monthly file.
+
+   S/R: rerout.f  (March 12, 2010)
+
+
+4. Corrected initial lake level for lake Ontario, which is hard-coded in 
+   rerout.f (January 2011)
+
+
+5. Added code for streamflow insertion. (March 2011)
+
+6. Added support for RPN-standard-format (.fst) input/output for recharge,
+   runoff, watershed/parameter (shed/par), grid_flow, and flowinit files.
+   This support is enabled by using an event-file of version 9.8 or greater
+   and setting 'fstflg' to 'y'.  (Using a 9.7-version event file or having
+   'fstflg' set to anything other than 'y' will disable fst-I/O and fall
+   back to the existing codebase.)
+
+   This change is untested with (and probably breaks) wetland routing.
