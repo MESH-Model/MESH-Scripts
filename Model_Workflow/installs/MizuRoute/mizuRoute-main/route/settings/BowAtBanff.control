@@ -15,7 +15,7 @@
 ! DEFINE TIME PERIOD OF THE SIMULATION
 ! --------------------------------------------
 <sim_start>             1980-01-01 07:00:00        ! time of simulation start (00:00:00 if hh:mm:ss is not included) 
-<sim_end>               1980-01-07 23:59:00        ! time of simulation end (00:00:00 if hh:mm:ss is not included) 
+<sim_end>               1980-12-31 23:59:00        ! time of simulation end (00:00:00 if hh:mm:ss is not included) 
 <newFileFrequency>      single                     ! frequency for new output options (case-insensitive): daily, monthly, yearly, or single
 ! **************************************************************************************************************************
 ! DEFINE FINE NAME AND DIMENSIONS
