@@ -342,6 +342,13 @@ if str(input_lc_zh).endswith('.csv'):
 # NB: the NOD here represent the No-data. The NALCMS data has no-data category which its values is zero 
 lc_type = np.array(types)
 
+# MODIS Land Class Types.
+# lc_type = np.array(['Evergreen Needleleaf Forests','Evergreen Broadleaf Forests','Deciduous Needleleaf Forests','Deciduous Broadleaf Forests',
+#            'Mixed Forests','Closed Shrublands','Open Shrublands', 'Woody Savannas',
+#            'Savannas','Grasslands','Permanent Wetlands','Croplands',
+#            'Urban and Built-up Lands','Cropland/Natural Vegetation Mosaics','Permanent Snow and Ice','Barren',
+#            'Water Bodies','No-data'])
+
 # %% verify list of lc types
 m = len(lc_type) + 1
 st = [];
@@ -355,7 +362,7 @@ for i in (range(1,m)):
     st = np.append(st, st1)
     fid = np.where(lc_zonal_hist.columns == st1)[0]
     if (fid.size == 0):
-        print ('land cover %s is not presented in the list of land cover for this PFAF' % lc_type[i-1])
+        print ('land cover %s is not presented in the list of NALCMS land cover for this PFAF' % lc_type[i-1])
         p = np.int32(np.append(p, i-1))
         
 # add dummy land cover type required by MESH 
