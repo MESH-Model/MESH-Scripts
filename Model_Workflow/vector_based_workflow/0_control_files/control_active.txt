@@ -6,7 +6,7 @@
  
 
 # Modeling domain settings
-root_path                   | /path/to/GWF/MESH-Scripts/Model_Workflow                      # Root folder where data will be stored.
+root_path                   | /path/to/MESH-Scripts/Model_Workflow                      # Root folder where data will be stored.
 domain_name                 | BowAtBanff                                                  # Used as part of the root folder name for the prepared data.
 
 ## Subbasin Selection Settings
@@ -28,6 +28,8 @@ river_network_shp_segid     | COMID                                             
 river_network_shp_downsegid | NextDownID                                                  # Name of the downstream segment ID column.
 river_network_shp_slope     | slope                                                       # Name of the slope column. Slope must be in in units [length/length].
 river_network_shp_length    | lengthkm                                                    # Name of the segment length column. Length must be in units [m].
+river_order                 | order                                                       # Name of the river order column in river network shapefile                                                                                        
+include_IAK                 | True                                                        # Set to True if you want to include IAK in the drainage Database, otherwise set to False. (Case sensitive)
 river_network_shp_outlet_id | 71028585                                                    # ID of the most downstream segment in the river network (river network shapefile) ... 
                                                                                           # ... Note that this specifies a single segment ID value. It is not a column in the shapefile.
   
@@ -56,12 +58,28 @@ merit_basin_path	         | default                                     		      
 merit_basin_name	         | BowAtBanff_cat.shp 	                                       # The parent shapefile used in subbasin selection (irrelevant if subbasin selection is not used)
 tosegment_fill_value       | -9999                                                        # The value used to represent a river segment having no downstream segment. 
 
+
+# **IMPORTANT** *************************************************************************************************************************************************************
+# ************* The 'lc_type' setting defines the names for land cover types (GRUs) in the drainage database. The default setting uses the 19 NALCMS land cover classes.
+# ************* If you have created custom GRUs or intend to use a different land cover product, you can specify your list of classes in 'lc_type'. 
+# ************* The list of land cover types must be provided on a single line and each class name must be separated by a comma and a single space. The order of classes
+# ************* in 'lc_type' must correspond to the order of classes in the specified zonal histogram.
+# *************
+# ************* EXAMPlE: You have a zonal histogram with columns "HISTO_1", "HISTO_2", and "HISTO_4" which correspond to "Forest-Pine", "Forest-Fir", and "Water" respectively.
+# *************          The 'lc_type' setting should read: Forest-Pine, Forest-Fir, Cropland, Water. "Forest-Pine" will represent HISTO_1, "Forest-Fir" will represent HISTO_2, "Cropland"
+# *************          will be exluded from the drainage database, and "Water" will represent HISTO_4. If 'lc_type' were to read: Forest, Grassland, Water, Cropland then 
+# *************          "Water" would mistakenly be excluded and "Cropland" would be assigned to represent HISTO_4.
+# ****************************************************************************************************************************************************************************
+
+land_cover_types                    | Temperate/sub-polar needleleaf forest, Sub-polar taiga needleleaf forest, Tropical/sub-tropical broadleaf evergreen forest, Tropical/sub-tropical broadleaf deciduous forest, Temperate/sub-polar broadleaf deciduous forest, Mixed Forest, Tropical/sub-tropical shrubland,  Temperate/sub-polar shrubland, Tropical/sub-tropical grassland, Temperate/sub-polar grassland, Sub-polar/polar shrubland-lichen-moss, Sub-polar/polar grassland-lichen-moss, Sub-polar/polar barren-lichen-moss, Wetland, Cropland, Barren Lands, Urban-Built-up, Water, Snow-Ice, No-data
+
+
 # Climate forcing settings 
 remapping_out			      | default                     # If 'default' uses 'root_path/forcing'
 source_nc_path             | default                     # If 'default' uses 'root_path/forcing'
 source_nc_name             | rdrsv2.1_1980-01-0107.nc    # name of the file to be remapped onto the basin shapefile
 forcing_dataset            | RDRS                        # Name of the forcing dataset
-forcing_start              | 1980-01-01-13-00-00         # Date (yyyy-mm-dd-hh-mm-ss) of first record in forcing dataset
+forcing_start              | 1980-01-01-13-00-00         # Date and time of first record in forcing dataset
 var_lon                    | lon                         # name of the longitude variable in the forcing file
 var_lat                    | lat                         # name of the latitude variable in the forcing file
 var_time                   | time                        # name of the time variable in the forcing file
