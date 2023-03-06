@@ -60,14 +60,14 @@ tosegment_fill_value       | -9999                                              
 
 
 # **IMPORTANT** *************************************************************************************************************************************************************
-# ************* The 'lc_type' setting defines the names for land cover types (GRUs) in the drainage database. The default setting uses the 19 NALCMS land cover classes.
-# ************* If you have created custom GRUs or intend to use a different land cover product, you can specify your list of classes in 'lc_type'. 
+# ************* The 'land_cover_types' setting defines the names for land cover types (GRUs) in the drainage database. The default setting uses the 19 NALCMS land cover classes.
+# ************* If you have created custom GRUs or intend to use a different land cover product, you can specify your list of classes in 'land_cover_types'. 
 # ************* The list of land cover types must be provided on a single line and each class name must be separated by a comma and a single space. The order of classes
-# ************* in 'lc_type' must correspond to the order of classes in the specified zonal histogram.
+# ************* in 'land_cover_types' must correspond to the order of classes in the specified zonal histogram.
 # *************
 # ************* EXAMPlE: You have a zonal histogram with columns "HISTO_1", "HISTO_2", and "HISTO_4" which correspond to "Forest-Pine", "Forest-Fir", and "Water" respectively.
-# *************          The 'lc_type' setting should read: Forest-Pine, Forest-Fir, Cropland, Water. "Forest-Pine" will represent HISTO_1, "Forest-Fir" will represent HISTO_2, "Cropland"
-# *************          will be exluded from the drainage database, and "Water" will represent HISTO_4. If 'lc_type' were to read: Forest, Grassland, Water, Cropland then 
+# *************          The 'land_cover_types' setting should read: Forest-Pine, Forest-Fir, Cropland, Water. "Forest-Pine" will represent HISTO_1, "Forest-Fir" will represent HISTO_2, "Cropland"
+# *************          will be exluded from the drainage database, and "Water" will represent HISTO_4. If 'land_cover_types' were to read: Forest, Grassland, Water, Cropland then 
 # *************          "Water" would mistakenly be excluded and "Cropland" would be assigned to represent HISTO_4.
 # ****************************************************************************************************************************************************************************
 
