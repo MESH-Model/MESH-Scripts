@@ -10,7 +10,7 @@
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
-mizufolder=/path/to/MESH-Scripts/Model_Workflow/installs/MizuRoute/mizuRoute-main/route
+mizufolder=/home/cooper/MESH/VectorWorkflow/MESH-Scripts/Model_Workflow/installs/MizuRoute/mizuRoute-main/route
 
 # copy data into topology folder
 cp $mizufolder/ancillary_data/param.nml.default ../workflow_data/domain_BowAtBanff/topology

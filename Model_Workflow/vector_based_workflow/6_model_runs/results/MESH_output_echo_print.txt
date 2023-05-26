@@ -4,7 +4,7 @@
    ERROR: An error occurred reading information about the 'calendar' attribute (Code: -43).
    WARNING: The reference calendar for the 'time' variable is not set or is not equal to 'gregorian' or 'standard'. Errors may occur with deriving time-stamps from the file.
    WARNING: The variable 'LandUse' is an unknown or unsupported data format (Code: 1).
-   REMARK: At least one river class is required when channel routing is enabled. The number of river classes is not defined or the 'IAK' or 'IRVR' map is missing in the file. Assuming one river class.
+   REMARK: The number of river classes is adjusted to the maximum 'IAK' or 'IRVR' value. Consider adjusting the input files.
    REMARK: No drainage area 'DA' variable found. Accumulating areas from surface area 'GridArea' by flow direction 'Next'.
    REMARK: No 'Reach' or 'IREACH' variable found. Assuming no reservoirs or routed lakes exist inside the basin.
    REMARK: No 'Bankfull' variable found. Setting the background field to zero.
@@ -14,7 +14,7 @@
    Side length of grid: 1.00000000 m
    Number of GRUs: 13
    Number of land-based tiles: 530
-   Number of river classes: 1
+   Number of river classes: 3
  READING: MESH_input_soil_levels.txt
    Number of soil layers: 3
  READING: MESH_parameters_CLASS.ini
@@ -263,4 +263,4 @@
  
  Program has terminated normally.
  
- Time = 32.84826 seconds (averaging 16.42413 seconds per simulation year).
+ Time = 27.21964 seconds (averaging 13.60982 seconds per simulation year).
