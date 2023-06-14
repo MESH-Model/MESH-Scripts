@@ -6,9 +6,14 @@ import numpy as np
 from pathlib import Path
 from shutil import copyfile
 from datetime import datetime
+import networkx as nx
+from typing import (
+    Union,
+)
 
 ######################################### Control file handling #########################################
 # Easy access to control file folder
+print("Reading control file...")
 controlFolder = Path('../0_control_files')
  
 # Store the name of the 'active' file in a variable
@@ -94,11 +99,6 @@ case_name = read_from_control(controlFolder/controlFile,'case_name') #e.g. 05NG0
 
 
 # Kasra's Fix
-import networkx as nx
-from typing import (
-    Union,
-)
-
 def find_upstream(
     gdf: gpd.GeoDataFrame,
     target_id: Union[str, int],
@@ -139,16 +139,19 @@ def find_upstream(
 
     return nodes
 
+print("loading source shapefiles...")
 # load the files and calculating the downstream of each segment
 riv  = gpd.read_file(input_river_path/input_river_name)
 cat  = gpd.read_file(input_basin_path/input_basin_name)
 
+print("calculating upstream river segments...")
 upstream_segments   = find_upstream(riv, target_segment, segid, downid)
 
 riv_up = riv.loc[riv[segid].isin(upstream_segments)]
 riv_up = riv_up.set_crs(4326)
 
-cat_up = cat.loc[cat[hruid].isin(upstream_segments)]
+print("getting upstream catchments...")
+cat_up = cat.loc[cat[hruid].isin(riv_up[hruid])]
 cat_up = cat_up.set_crs(4326)
 
 # plot
@@ -157,7 +160,7 @@ riv_up.plot()
 # save
 cat_up.to_file(str(outdir_basin)+'/'+case_name+'_cat.shp')
 riv_up.to_file(str(outdir_river)+'/'+case_name+'_riv.shp')
-
+print("Done! outputs saved to the specified folder")
 # --- Code provenance
 # Generates a basic log file in the domain folder and copies the control file and itself there.
  
