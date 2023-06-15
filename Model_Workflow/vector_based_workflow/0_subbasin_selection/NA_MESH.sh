@@ -24,6 +24,6 @@ pip install --no-index --upgrade pip
 pip install --no-index geopandas
 pip install --no-index easymore
 
-python easymore_basinsubset.py 
+python basin_subset.py 
 
 echo "finished"

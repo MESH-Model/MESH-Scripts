@@ -4,13 +4,13 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=30G
 #SBATCH --time=01:00:00
-#SBATCH --job-name=SaintMaryMilk_Mizu
+#SBATCH --job-name=BowAtBanff
 #SBATCH --error=errors
-#SBATCH --mail-user=cooper.albano@usask.ca
+#SBATCH --mail-user=your.email@example.ca
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 
-mizufolder=/mnt/c/Users/jnw378/GWF/MESH-Scripts/Model_Workflow/installs/MizuRoute/mizuRoute-main/route
+mizufolder=/home/cooper/MESH/VectorWorkflow/MESH-Scripts/Model_Workflow/installs/MizuRoute/mizuRoute-main/route
 
 # copy data into topology folder
 cp $mizufolder/ancillary_data/param.nml.default ../workflow_data/domain_BowAtBanff/topology

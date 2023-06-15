@@ -8,9 +8,9 @@
 ! *************************************************************************************************************************
 ! DEFINE DIRECTORIES
 ! --------------------------
-<ancil_dir>            /mnt/c/Users/jnw378/GWF/MESH-Scripts/Model_Workflow/vector_based_workflow/workflow_data/domain_BowAtBanff/topology/                   ! directory containing ancillary data (runoff mapping data, river network data)
-<input_dir>            /mnt/c/Users/jnw378/GWF/MESH-Scripts/Model_Workflow/vector_based_workflow/6_model_runs/results/                   ! directory containing input data (runoff data)
-<output_dir>           /mnt/c/Users/jnw378/GWF/MESH-Scripts/Model_Workflow/vector_based_workflow/6_model_runs/results/                  ! directory containing output data
+<ancil_dir>            /home/cooper/MESH/VectorWorkflow/MESH-Scripts/Model_Workflow/vector_based_workflow/workflow_data/domain_BowAtBanff/topology/                   ! directory containing ancillary data (runoff mapping data, river network data)
+<input_dir>            /home/cooper/MESH/VectorWorkflow/MESH-Scripts/Model_Workflow/vector_based_workflow/6_model_runs/results/                   ! directory containing input data (runoff data)
+<output_dir>           /home/cooper/MESH/VectorWorkflow/MESH-Scripts/Model_Workflow/vector_based_workflow/6_model_runs/results/                  ! directory containing output data
 ! ****************************************************************************************************************************
 ! DEFINE TIME PERIOD OF THE SIMULATION
 ! --------------------------------------------
