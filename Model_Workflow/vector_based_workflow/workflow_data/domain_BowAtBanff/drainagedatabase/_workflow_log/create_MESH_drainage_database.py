@@ -398,8 +398,8 @@ tt = drainage_db['time'].values
 
 lc_ds =  xs.Dataset(
     {
-        "GRU": (["subbasin", "gru"], lc_frac.values),
-        "LandUse": (["gru"], lc_type),
+        "gru": (["subbasin", "GRU"], lc_frac.values),
+        "LandUse": (["GRU"], lc_type),
     },
     coords={
         "lon": (["subbasin"], lon),
@@ -436,13 +436,13 @@ lc_ds['crs'] = drainage_db['crs'].copy()
 #lc_ds['GRU'].values = lc_ds['GRU'].values[reorder,:]
 
 # %% Append land cover information to existing drainage database 
-drainage_db["GRU"] = (["subbasin", "gru"], lc_frac.values)
-drainage_db['GRU'].attrs['standard_name'] = 'GRU'
-drainage_db['GRU'].attrs['long_name'] = 'Group Response Unit'
-drainage_db['GRU'].attrs['units'] = '-'
-drainage_db['GRU'].attrs['_FillValue'] = -1
+drainage_db["gru"] = (["subbasin", "GRU"], lc_frac.values)
+drainage_db['gru'].attrs['standard_name'] = 'gru'
+drainage_db['gru'].attrs['long_name'] = 'Group Response Unit'
+drainage_db['gru'].attrs['units'] = '-'
+drainage_db['gru'].attrs['_FillValue'] = -1
 
-drainage_db["LandUse"] = (["gru"], lc_type)
+drainage_db["LandUse"] = (["GRU"], lc_type)
 
 # Set the 'coords' of the dataset to the new axes.
 drainage_db = drainage_db.set_coords(['time', 'lon', 'lat'])
