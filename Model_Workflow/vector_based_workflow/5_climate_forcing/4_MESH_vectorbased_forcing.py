@@ -92,6 +92,20 @@ if ddb_folder == 'default':
 else:
     ddb_folder = ddb_folder # make sure a user-specified path is a Path()
 
+# Read the forcing variable names
+pcpn = read_from_control(controlFolder/controlFile,'pcpn_var')
+wind = read_from_control(controlFolder/controlFile,'wind_var')
+lnwv = read_from_control(controlFolder/controlFile,'lnwv_var')
+shwv = read_from_control(controlFolder/controlFile,'shwv_var')
+temp = read_from_control(controlFolder/controlFile,'temp_var')
+humi = read_from_control(controlFolder/controlFile,'humi_var')
+pres = read_from_control(controlFolder/controlFile,'pres_var')
+
+var_lon = read_from_control(controlFolder/controlFile,'var_lon')
+var_lat = read_from_control(controlFolder/controlFile,'var_lat')
+var_time = read_from_control(controlFolder/controlFile,'var_time')
+
+
 # %% reading input basin 
 # the segids are stored in the remapped forcing, so it is not necessary to read input shape file
 #basin = gpd.read_file(inut_basin)
@@ -102,8 +116,8 @@ db = xs.open_dataset(ddb_folder / '{}_MESH_drainage_database.nc'.format(domain_n
 db.close()
 segid =  db.variables['seg_id'].values
 # reading for control check 
-lon = db.variables['lon'].values
-lat = db.variables['lat'].values
+lon = db.variables[var_lon].values
+lat = db.variables[var_lat].values
 
 # %% reading input forcing 
 forc = xs.open_dataset(forcing_dir / forcing_name)
@@ -117,11 +131,9 @@ lat_ease = forc.variables['latitude'].values
 
 n = len(segid)
 ind = []
-
 for i in range(n):
     fid = np.where(np.int32(forc['ID'].values) == segid[i])[0]
     ind = np.append(ind, fid)
-
 ind = np.int32(ind)  
 
 # %% reorder input forcing 
@@ -131,25 +143,25 @@ ind = np.int32(ind)
 
 forc_vec = xs.Dataset(
     {
-        "RDRS_v2.1_A_PR0_SFC": (["subbasin", "time"], forc['RDRS_v2.1_A_PR0_SFC'].values[:,ind].transpose()),
+        pcpn: (["subbasin", var_time], forc[pcpn].values[:,ind].transpose()),
     },
     coords={
-        "time": forc['time'].values.copy(),
-        "lon": (["subbasin"], lon),
-        "lat": (["subbasin"], lat),
+        var_time: forc['time'].values.copy(),
+        var_lon: (["subbasin"], lon),
+        var_lat: (["subbasin"], lat),
     }
     )
 
-forc_vec['RDRS_v2.1_A_PR0_SFC'].encoding['coordinates'] = 'time lon lat'
-forc_vec['RDRS_v2.1_A_PR0_SFC'].attrs["units"]          = forc['RDRS_v2.1_A_PR0_SFC'].units
-forc_vec['RDRS_v2.1_A_PR0_SFC'].attrs["grid_mapping"]   = 'crs'
+forc_vec[pcpn].encoding['coordinates'] = 'time lon lat'
+forc_vec[pcpn].attrs["units"]          = forc[pcpn].units
+forc_vec[pcpn].attrs["grid_mapping"]   = 'crs'
 
-for n in ['RDRS_v2.1_P_FI_SFC','RDRS_v2.1_P_FB_SFC','RDRS_v2.1_P_TT_09944',
-          'RDRS_v2.1_P_UVC_09944','RDRS_v2.1_P_P0_SFC','RDRS_v2.1_P_HU_09944']:
-    forc_vec[n] = (("subbasin", "time"), forc[n].values[: , ind].transpose()) 
-    forc_vec[n].coords["time"]          = forc['time'].values.copy()
-    forc_vec[n].coords["lon"]           = (["subbasin"], lon)
-    forc_vec[n].coords["lat"]           = (["subbasin"], lat)
+for n in [lnwv,shwv,temp,
+          wind,pres,humi]:
+    forc_vec[n] = (("subbasin", var_time), forc[n].values[: , ind].transpose()) 
+    forc_vec[n].coords[var_time]          = forc[var_time].values.copy()
+    forc_vec[n].coords[var_lon]           = (["subbasin"], lon)
+    forc_vec[n].coords[var_lat]           = (["subbasin"], lat)
     forc_vec[n].attrs["units"]          = forc[n].units
     forc_vec[n].attrs["grid_mapping"]   = 'crs'
     forc_vec[n].encoding['coordinates'] = 'time lon lat'

@@ -70,8 +70,16 @@ else:
     outdir = outdir # make sure a user-specified path is a Path()
 
 
-# %% Get the list of variable neames
-var_names       = read_from_control(controlFolder/controlFile,'var_names').split(', ')
+# Read the forcing variable names
+pcpn = read_from_control(controlFolder/controlFile,'pcpn_var')
+wind = read_from_control(controlFolder/controlFile,'wind_var')
+lnwv = read_from_control(controlFolder/controlFile,'lnwv_var')
+shwv = read_from_control(controlFolder/controlFile,'shwv_var')
+temp = read_from_control(controlFolder/controlFile,'temp_var')
+humi = read_from_control(controlFolder/controlFile,'humi_var')
+pres = read_from_control(controlFolder/controlFile,'pres_var')
+
+var_names       = [pcpn,wind,lnwv,shwv,humi,temp,pres]
 
 # Get the forcing dataset name
 forcing_dataset = read_from_control(controlFolder/controlFile,'forcing_dataset')
